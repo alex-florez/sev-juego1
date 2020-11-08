@@ -7,12 +7,17 @@ Enemy::Enemy(float x, float y, Game* game)
 	vxIntelligence = -1;
 	vx = vxIntelligence;
 
+	vy = 0;
+
 	aMoving = new Animation("res/enemigo_movimiento.png", width, height,
 								108, 40, 6, 3, true, game);
 	aDying = new Animation("res/enemigo_morir.png", width, height, 280, 40, 6, 8, false, game);
 	animation = aMoving;
 
 	state = game->stateMoving;
+
+	this->nextPoint = new Point(15, 5);
+	this->lastPoint = nullptr;
 }
 
 
@@ -58,10 +63,62 @@ void Enemy::update() {
 		}
 	}
 
+	// Seguir la trayectoria
+	Point* actualPoint = getPointPos(); // Posición actual en la matriz.
+
+	if (this->nextPoint == nullptr) {
+		this->x += this->vx;
+	}
+	else {
+		if (!this->nextPoint->equals(actualPoint, 0)) {
+			int horizontal = nextPoint->getX() - actualPoint->getX();
+			int vertical = nextPoint->getY() - actualPoint->getY();
+			
+			if (horizontal < 0) {
+				this->vx = -1 * ENEMY_SPEED;
+			}
+
+			if (horizontal > 0) {
+				this->vx = ENEMY_SPEED;
+			}
+
+			if (horizontal == 0) {
+				this->vx = 0;
+			}
+
+			if (vertical < 0) {
+				this->vy = -1 * ENEMY_SPEED;
+			}
+
+			if (vertical > 0) {
+				this->vy = ENEMY_SPEED;
+			}
+
+			if (vertical == 0) {
+				this->vy = 0;
+			}
+		}
+		else {
+			this->nextPoint = this->path->getNextPoint(actualPoint, lastPoint);
+			this->lastPoint = new Point(actualPoint->getX(), actualPoint->getY());
+		}
+
+		this->x += this->vx;
+		this->y += this->vy;
+	}
+
 }
 
-void Enemy::draw(float scrollX, float scrollY) {
-	animation->draw(x - scrollX, y - scrollY);
+
+Point* Enemy::getPointPos() {
+	int j = (int)(this->x / 40);
+	int i = (int)(this->y / 40);
+
+	return new Point(j, i);
+}
+
+void Enemy::draw() {
+	animation->draw(x, y);
 }
 
 void Enemy::impacted() {

@@ -7,9 +7,11 @@ class Actor
 public:
 	Actor(string filename, float x, float y, int width, int height, Game* game);
 	~Actor();
-	virtual void draw(float scrollX = 0, float scrollY = 0);
+	virtual void draw();
 	bool isOverlap(Actor* actor);
-	bool isInRender(float scrollX = 0, float scrollY = 0);
+	bool isInRender();
+	
+
 
 	// Control con el ratón
 	bool containsPoint(int pointX, int pointY); // Contiene punto?

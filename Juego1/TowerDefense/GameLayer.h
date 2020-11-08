@@ -8,11 +8,8 @@
 #include "Text.h"
 #include "Audio.h"
 #include "Tile.h"
-#include "CrushableTile.h"
-#include "DestroyableTile.h"
 #include "Space.h"
-#include "Pad.h"
-#include "DoorTeleports.h"
+#include "Path.h"
 
 #include <list>
 #include <fstream> // Leer ficheros
@@ -35,13 +32,16 @@ public:
 
 	// Métodos para cargar el mapa y los objetos del mismo
 	void loadMap(string name);
-	void loadMapObject(char character, float x, float y);
+	void loadMapObject(char character, int i, int j);
 
-	// Scroll
-	void calculateScroll();
+	list<Tile*> pathTiles;
+	Path* path;
 
-	float scrollX;
-	float scrollY;
+
+
+
+
+
 
 	int mapWidth; // Ancho del mapa
 	int mapHeight; // Alto del mapa
@@ -67,8 +67,6 @@ public:
 	int newEnemyTime = 0;
 	int killedEnemies = 0;
 
-	// Teletransportes
-	DoorTeleports* doorTeleports;
 
 	// Puntuación
 	Text* textPoints;
@@ -79,11 +77,6 @@ public:
 
 	// Copa de final de nivel
 	Tile* cup;
-
-	// Elementos de la interfaz
-	Pad* pad;
-	Actor* buttonJump;
-	Actor* buttonShoot;
 
 	// Pausa y mensajes
 	Actor* message;

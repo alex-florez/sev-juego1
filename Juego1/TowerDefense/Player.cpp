@@ -135,12 +135,12 @@ Projectile* Player::shoot() {
 	return NULL;
 }
 
-void Player::draw(float scrollX, float scrollY) {
+void Player::draw() {
 	if(invulnerableTime == 0)
-		animation->draw(x - scrollX, y - scrollY);
+		animation->draw(x, y);
 	else {
 		if (invulnerableTime % 10 >= 0 && invulnerableTime % 10 <= 5) {
-			animation->draw(x - scrollX, y - scrollY);
+			animation->draw(x, y);
 		}
 	}
 }
