@@ -96,7 +96,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			enemy->pathId = 1;
 			enemies.push_back(enemy);
 			//space->addDynamicActor(enemy);
-			enemy->nextPoint = new Point(19, 5);
+			enemy->nextPoint = new Point(15, 5);
 			enemy->lastPoint = nullptr;
 			break;
 		}

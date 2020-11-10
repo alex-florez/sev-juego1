@@ -14,8 +14,6 @@
 #include "MapManager.h"
 
 #include <list>
-#include <fstream> // Leer ficheros
-#include <sstream> // Leer líneas / strings
 
 #define ENEMY_SPAWN_TIME 110
 #define ENEMY_SPAWN_FREQUENCY 5		

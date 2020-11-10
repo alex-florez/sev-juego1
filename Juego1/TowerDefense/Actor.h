@@ -12,6 +12,7 @@ public:
 	bool isOverlap(Actor* actor);
 	bool isInRender();
 	Point* getMatrixPoint();
+	bool isInPoint(Point* point);
 
 
 	// Control con el ratón

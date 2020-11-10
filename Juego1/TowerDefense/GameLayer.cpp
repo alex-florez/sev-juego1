@@ -69,15 +69,6 @@ void GameLayer::init() {
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
 
-
-	// cargamos el mapa a partir del fichero
-	//loadMap("res/mapa-1.txt");
-
-	// Asignar trayectorias a los enemigos
-	//for (auto const& enemy : enemies) {
-	//	enemy->path = path;
-	//}
-
 	Projectile* p = new Projectile(100, 60, game);
 	p->moveTo(460, 150);
 	projectiles.push_back(p);
@@ -444,93 +435,6 @@ void GameLayer::draw() {
 
 	SDL_RenderPresent(game->renderer); // Renderiza el juego
 }
-
-/*
-	Método para cargar el mapa a partir del fichero
-	de nombre pasado como parámetro.
-*/
-void GameLayer::loadMap(string name) {
-	char character;
-	int totalLines = 0;
-	string line;
-	ifstream streamFile(name.c_str()); // No es una función, es el constructor de ifstream
-	if (!streamFile.is_open()) {
-		cout << "Falla abrir el fichero de mapa" << endl;
-		return;
-	}
-	else {
-		// Por línea
-		for (int i = 0; getline(streamFile, line); i++) {
-			totalLines++;
-			istringstream streamLine(line);
-			mapWidth = line.length() * 40; // Ancho del mapa en pixels
-			// Por carácter (en cada línea)
-			for (int j = 0; !streamLine.eof(); j++) {
-				streamLine >> character; // Leer character 
-				cout << character;
-				float x = 40 / 2 + j * 40; // x central
-				float y = 40 + i * 40; // y suelo
-				loadMapObject(character, i, j);
-			}
-
-			cout << character << endl;
-		}
-		mapHeight = totalLines * 32;
-	}
-
-	streamFile.close();
-}
-
-/*
-	Recibe un caracter y una posición en el suelo de dicho caracter
-	y crea el objeto correspondiente y lo añade al motor de físicas.
-*/
-void GameLayer::loadMapObject(char character, int i, int j)
-{
-
-	float x = 40 / 2 + j * 40; // x central
-	float y = 40 + i * 40; // y suelo
-
-	switch (character) {
-		case '1': {
-			Tile* tile = new Tile("res/caja_madera.png", x, y, game);
-			tile->y = tile->y - tile->height / 2;
-			pathTiles.push_back(tile);
-			this->pathManager->addPointToPath(1, new Point(j, i));
-			break;
-		}
-		case '#': {
-			Tile* tile = new Tile("res/bloque_tierra.png", x, y, game);
-			// modificación para empezar a contar desde el suelo.
-			tile->y = tile->y - tile->height / 2;
-			tiles.push_back(tile);
-			space->addStaticActor(tile);
-			break;
-		}
-		case 'E': {
-			Enemy* enemy = new Enemy(x, y, game);
-			enemy->y = enemy->y - enemy->height / 2;
-			enemy->pathId = 1;
-			enemies.push_back(enemy);
-			space->addDynamicActor(enemy);
-			break;
-		}
-		case 'C': {
-			cup = new Tile("res/copa.png", x, y, game);
-			cup->y = cup->y - cup->height / 2;
-			break;
-		}
-
-		case 'A': {
-			Tile* shootPoint = new Tile("res/caja_madera.png", x, y, game);
-			shootPoint->y = shootPoint->y - shootPoint->height / 2;
-			shootPoints.push_back(shootPoint);
-			break;
-		}
-	}
-}
-
-
 
 
 

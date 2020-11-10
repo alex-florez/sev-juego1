@@ -16,8 +16,6 @@ Enemy::Enemy(float x, float y, Game* game)
 
 	state = game->stateMoving;
 
-	this->nextPoint= new Point(19, 5);
-	this->lastPoint = nullptr;
 }
 
 

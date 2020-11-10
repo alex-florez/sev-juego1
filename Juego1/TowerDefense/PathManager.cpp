@@ -36,13 +36,17 @@ void PathManager::update(Actor* actor) {
 			actor->vy = 0;
 		}
 		else {
-			if (actor->nextPoint->equals(actualPoint, 0)) { // El actor a llegado al siguiente punto.
+			/*if (actor->nextPoint->equals(actualPoint, 0)) {*/ // El actor a llegado al siguiente punto.
+			if(actor->isInPoint(actor->nextPoint)){
 				actor->nextPoint = path->getNextPoint(actualPoint, actor->lastPoint);
 				actor->lastPoint = new Point(actualPoint->getX(), actualPoint->getY());
 			}
 			else {
-				int horizontal = actor->nextPoint->getX() - actualPoint->getX();
-				int vertical = actor->nextPoint->getY() - actualPoint->getY();
+				//int horizontal = actor->nextPoint->getX() - actualPoint->getX();
+				//int vertical = actor->nextPoint->getY() - actualPoint->getY();
+
+				int horizontal = (actor->nextPoint->getX() * 40 + 20) - actor->x;
+				int vertical = (actor->nextPoint->getY() * 40 + 20) - actor->y;
 
 				if (horizontal < 0) {
 					actor->vx = -1 * 2;

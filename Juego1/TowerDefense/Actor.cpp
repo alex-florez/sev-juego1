@@ -30,6 +30,13 @@ Point* Actor::getMatrixPoint() {
 	
 }
 
+bool Actor::isInPoint(Point* point) {
+	int xPoint = point->getX() * 40 + 20;
+	int yPoint = point->getY() * 40 + 20;
+
+	return this->x == xPoint && this->y == yPoint;
+}
+
 void Actor::draw() {
 	// Recorte en el fichero de la imagen
 	SDL_Rect source;
