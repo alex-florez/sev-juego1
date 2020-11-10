@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "Point.h"
 
 class Actor
 {
@@ -10,7 +11,7 @@ public:
 	virtual void draw();
 	bool isOverlap(Actor* actor);
 	bool isInRender();
-	
+	Point* getMatrixPoint();
 
 
 	// Control con el ratón
@@ -38,6 +39,15 @@ public:
 	int fileHeight;
 	
 	Game* game;
+
+	// Paths
+	// Id de la trayectoria que debe seguir este actor o -1 si no sigue ninguna.
+	int pathId;
+	// Siguiente punto al que se debe desplazar el actor o null si no debe seguir una trayectoria.
+	Point* nextPoint; 
+	// Último punto de la matriz en la que se encontraba el actor.
+	Point* lastPoint;
+
 
 };
 

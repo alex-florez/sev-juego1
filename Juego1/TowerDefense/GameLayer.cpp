@@ -36,6 +36,8 @@ void GameLayer::init() {
 
 	background = new Background("res/grass.jpg", WIDTH * 0.5, HEIGHT * 0.5, game);
 
+	// Map Manager
+	mapManager = new MapManager(game);
 
 	// Enemigos
 	enemies.clear(); // Vaciar la lista de enemigos, por si se reinicia el juego
@@ -57,20 +59,31 @@ void GameLayer::init() {
 	//buttonJump = new Actor("res/boton_salto.png", WIDTH*0.9, HEIGHT * 0.55, 100, 100, game);
 	//buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
-	path = new Path();
+	mapManager->loadMap("res/mapa-1.txt");
+	mapManager->show();
+
+	this->enemies = mapManager->getEnemies();
+	this->pathTiles = mapManager->getPathTiles();
+	this->pathManager = mapManager->getPathManager();
+	this->shootPoints = mapManager->getShootPoints();
+	this->mapHeight = mapManager->getMapHeight();
+	this->mapWidth = mapManager->getMapWidht();
+
 
 	// cargamos el mapa a partir del fichero
-	loadMap("res/mapa-1.txt");
-
-	path->show();
+	//loadMap("res/mapa-1.txt");
 
 	// Asignar trayectorias a los enemigos
-	for (auto const& enemy : enemies) {
-		enemy->path = path;
-	}
+	//for (auto const& enemy : enemies) {
+	//	enemy->path = path;
+	//}
+
+	Projectile* p = new Projectile(100, 60, game);
+	p->moveTo(460, 150);
+	projectiles.push_back(p);
 
 	player = new Player(0, 0, game);
-	cup = new Tile("res/copa.png", 100, 100, game);
+	cup = new Tile("res/copa.png", -100, -100, game);
 }
 
 
@@ -108,12 +121,15 @@ void GameLayer::update() {
 	// Actualizamos todos los actores dinámicos
 	//space->update();
 
+
+
 	// Actualizamos el fondo móvil
 	background->update();
 
 	//player->update();
 	// Actualizamos los enemigos
 	for (auto const& enemy : enemies) {
+		pathManager->update(enemy);
 		enemy->update();
 		// Enemigo a la izquierda de la pantalla
 		if (enemy->x + enemy->width/2 <= 0) { 
@@ -133,6 +149,11 @@ void GameLayer::update() {
 			}
 		}
 	}
+
+	for (auto const& projectile : projectiles) {
+		projectile->update();
+	}
+
 	// Actualizamos los proyectiles
 	//for (auto const& projectile : projectiles) {
 	//	projectile->update();
@@ -397,6 +418,12 @@ void GameLayer::draw() {
 	for (auto const& enemy : enemies) {
 		enemy->draw();
 	}
+
+
+	for (auto const& shootPoint : shootPoints) {
+		shootPoint->draw();
+	}
+
 	// Dibujamos los proyectiles
 	for (auto const& projectile : projectiles) {
 		projectile->draw();
@@ -469,7 +496,7 @@ void GameLayer::loadMapObject(char character, int i, int j)
 			Tile* tile = new Tile("res/caja_madera.png", x, y, game);
 			tile->y = tile->y - tile->height / 2;
 			pathTiles.push_back(tile);
-			this->path->addPoint(i, j);
+			this->pathManager->addPointToPath(1, new Point(j, i));
 			break;
 		}
 		case '#': {
@@ -483,6 +510,7 @@ void GameLayer::loadMapObject(char character, int i, int j)
 		case 'E': {
 			Enemy* enemy = new Enemy(x, y, game);
 			enemy->y = enemy->y - enemy->height / 2;
+			enemy->pathId = 1;
 			enemies.push_back(enemy);
 			space->addDynamicActor(enemy);
 			break;
@@ -490,6 +518,13 @@ void GameLayer::loadMapObject(char character, int i, int j)
 		case 'C': {
 			cup = new Tile("res/copa.png", x, y, game);
 			cup->y = cup->y - cup->height / 2;
+			break;
+		}
+
+		case 'A': {
+			Tile* shootPoint = new Tile("res/caja_madera.png", x, y, game);
+			shootPoint->y = shootPoint->y - shootPoint->height / 2;
+			shootPoints.push_back(shootPoint);
 			break;
 		}
 	}

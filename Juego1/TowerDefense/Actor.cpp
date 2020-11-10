@@ -22,6 +22,14 @@ Actor::~Actor() {
 	//SDL_DestroyTexture(texture); // No podemos destruir la textura, porque está cacheada.
 }
 
+Point* Actor::getMatrixPoint() {
+	int j = (int)(this->x / 40);
+	int i = (int)(this->y / 40);
+
+	return new Point(j, i);
+	
+}
+
 void Actor::draw() {
 	// Recorte en el fichero de la imagen
 	SDL_Rect source;

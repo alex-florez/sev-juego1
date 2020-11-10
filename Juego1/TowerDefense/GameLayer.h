@@ -10,6 +10,8 @@
 #include "Tile.h"
 #include "Space.h"
 #include "Path.h"
+#include "PathManager.h"
+#include "MapManager.h"
 
 #include <list>
 #include <fstream> // Leer ficheros
@@ -35,13 +37,7 @@ public:
 	void loadMapObject(char character, int i, int j);
 
 	list<Tile*> pathTiles;
-	Path* path;
-
-
-
-
-
-
+	list<Tile*> shootPoints;
 
 	int mapWidth; // Ancho del mapa
 	int mapHeight; // Alto del mapa
@@ -82,6 +78,14 @@ public:
 	Actor* message;
 	bool pause;
 	bool controlContinue;
+
+	// Trayectorias
+	PathManager* pathManager;
+
+	// Mapa
+	MapManager* mapManager;
+
+
 private:
 	void addNewEnemy();
 	void destroyEnemies();

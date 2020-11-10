@@ -19,14 +19,10 @@ public:
 	Animation* aDying;
 	Animation* animation; // Referencia a la animación actual.
 
-	Point* nextPoint;
-	Point* lastPoint;
-	Path* path;
-
 	int state;
 	float vxIntelligence;
 
 private:
-	Point* getPointPos(); // Devuelve la posición del enemigo en la matriz del mapa.
+	bool checkInsideCell(Point* cellCenter, float error);
 };
 

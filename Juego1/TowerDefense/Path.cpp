@@ -4,8 +4,8 @@ Path::Path() {
 	init();
 }
 
-void Path::addPoint(int i, int j) {
-	this->pathMatrix[i][j] = 1;
+void Path::addPoint(Point* point) {
+	this->pathMatrix[point->getY()][point->getX()] = true;
 }
 
 
@@ -17,16 +17,16 @@ Point* Path::getNextPoint(Point* actual, Point* last) {
 	Point* right = new Point(actual->getX()+1, actual->getY());
 	Point* left = new Point(actual->getX()-1, actual->getY());
 
-	if (get(up) > 0 && (last == nullptr || !last->equals(up, 0))) {
+	if (get(up) && (last == nullptr || !last->equals(up, 0))) {
 		next = new Point(up->getX(), up->getY());
 	}
-	else if (get(right) > 0 && (last == nullptr || !last->equals(right, 0))) {
+	else if (get(right) && (last == nullptr || !last->equals(right, 0))) {
 		next = new Point(right->getX(), right->getY());
 	}
-	else if (get(left) > 0 && (last == nullptr || !last->equals(left, 0))) {
+	else if (get(left) && (last == nullptr || !last->equals(left, 0))) {
 		next = new Point(left->getX(), left->getY());
 	}
-	else if (get(down) > 0 && (last == nullptr || !last->equals(down, 0))) {
+	else if (get(down) && (last == nullptr || !last->equals(down, 0))) {
 		next = new Point(down->getX(), down->getY());
 	}
 
@@ -51,14 +51,14 @@ void Path::show() {
 void Path::init() {
 	for (int i = 0; i < 15; i++) {
 		for (int j = 0; j < 20; j++) {
-			this->pathMatrix[i][j] = 0;
+			this->pathMatrix[i][j] = false;
 		}
 	}
 }
 
-int Path::get(Point* point) {
+bool Path::get(Point* point) {
 	if (point->getX() >= 20 || point->getY() < 0) {
-		return -1;
+		return false;
 	}
 	return this->pathMatrix[point->getY()][point->getX()];
 }

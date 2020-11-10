@@ -28,8 +28,10 @@
     <ClCompile Include="GameLayer.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MenuLayer.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="PathManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -46,8 +48,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="MenuLayer.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="PathManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Projectile.h" />

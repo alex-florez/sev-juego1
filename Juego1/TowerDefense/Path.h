@@ -12,13 +12,15 @@ class Path
 public:
 	Path();
 
-	void addPoint(int i, int j);
+	void addPoint(Point* point);
 	Point* getNextPoint(Point* actual, Point* last);
 	void show();
 
-	int pathMatrix[15][20];
+private:
+
+	bool pathMatrix[15][20];
 
 	void init();
-	int get(Point* point);
+	bool get(Point* point);
 };
 

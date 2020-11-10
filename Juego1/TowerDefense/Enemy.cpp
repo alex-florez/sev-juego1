@@ -16,7 +16,7 @@ Enemy::Enemy(float x, float y, Game* game)
 
 	state = game->stateMoving;
 
-	this->nextPoint = new Point(15, 5);
+	this->nextPoint= new Point(19, 5);
 	this->lastPoint = nullptr;
 }
 
@@ -45,77 +45,38 @@ void Enemy::update() {
 		// Y se ha quedado parado
 		if (vx == 0) {
 			vxIntelligence = vxIntelligence * -1;
-			vx = vxIntelligence;
+			//vx = vxIntelligence;
 		}
 		if (outRight) {
 			// Mover hacia la izquierda
 			if (vxIntelligence > 0) {
 				vxIntelligence = vxIntelligence * -1;
 			}
-			vx = vxIntelligence;
+			//vx = vxIntelligence;
 		}
 		if (outLeft) {
 			// Mover hacia la derecha
 			if (vxIntelligence < 0) {
 				vxIntelligence = vxIntelligence * -1;
 			}
-			vx = vxIntelligence;
+			//vx = vxIntelligence;
 		}
 	}
-
-	// Seguir la trayectoria
-	Point* actualPoint = getPointPos(); // Posición actual en la matriz.
-
-	if (this->nextPoint == nullptr) {
-		this->x += this->vx;
-	}
-	else {
-		if (!this->nextPoint->equals(actualPoint, 0)) {
-			int horizontal = nextPoint->getX() - actualPoint->getX();
-			int vertical = nextPoint->getY() - actualPoint->getY();
-			
-			if (horizontal < 0) {
-				this->vx = -1 * ENEMY_SPEED;
-			}
-
-			if (horizontal > 0) {
-				this->vx = ENEMY_SPEED;
-			}
-
-			if (horizontal == 0) {
-				this->vx = 0;
-			}
-
-			if (vertical < 0) {
-				this->vy = -1 * ENEMY_SPEED;
-			}
-
-			if (vertical > 0) {
-				this->vy = ENEMY_SPEED;
-			}
-
-			if (vertical == 0) {
-				this->vy = 0;
-			}
-		}
-		else {
-			this->nextPoint = this->path->getNextPoint(actualPoint, lastPoint);
-			this->lastPoint = new Point(actualPoint->getX(), actualPoint->getY());
-		}
-
 		this->x += this->vx;
 		this->y += this->vy;
-	}
+	
+}
 
+bool Enemy::checkInsideCell(Point* cellCenter, float error) {
+	int xCenter = cellCenter->getX() * 40 + 20;
+	int yCenter = cellCenter->getY() * 40 - 20;
+
+	return x >= xCenter - error && x <= xCenter + error
+		&& y >= yCenter - error && y <= yCenter + error;
 }
 
 
-Point* Enemy::getPointPos() {
-	int j = (int)(this->x / 40);
-	int i = (int)(this->y / 40);
 
-	return new Point(j, i);
-}
 
 void Enemy::draw() {
 	animation->draw(x, y);
