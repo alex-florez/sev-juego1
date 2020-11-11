@@ -16,6 +16,8 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 	this->height = height;
 	// Control del ratón
 	clicked = false;
+
+	this->lastPoint = nullptr;
 }
 
 Actor::~Actor() {

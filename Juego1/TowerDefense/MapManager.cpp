@@ -23,6 +23,10 @@ PathManager* MapManager::getPathManager() {
 	return this->pathManager;
 }
 
+EnemyGenerator* MapManager::getEnemyGenerator() {
+	return this->enemyGenerator1;
+}
+
 int MapManager::getMapHeight() {
 	return this->mapHeight;
 }
@@ -90,14 +94,21 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		//	space->addStaticActor(tile);
 		//	break;
 		//}
+		//case 'E': {
+		//	Enemy* enemy = new Enemy(x, y, game);
+		//	enemy->y = enemy->y - enemy->height / 2;
+		//	enemy->pathId = 1;
+		//	enemies.push_back(enemy);
+		//	//space->addDynamicActor(enemy);
+		//	char leftCharacter = map[i][j - 1];
+		//	int id = leftCharacter - '0';
+		//	enemy->pathId = id;
+		//	enemy->nextPoint = new Point(j-1, i);
+		//	break;
+		//}
 		case 'E': {
-			Enemy* enemy = new Enemy(x, y, game);
-			enemy->y = enemy->y - enemy->height / 2;
-			enemy->pathId = 1;
-			enemies.push_back(enemy);
-			//space->addDynamicActor(enemy);
-			enemy->nextPoint = new Point(15, 5);
-			enemy->lastPoint = nullptr;
+			int pathId = map[i][j - 1] - '0';
+			this->enemyGenerator1 = new EnemyGenerator(pathId, j, i, game);
 			break;
 		}
 		//case 'C': {

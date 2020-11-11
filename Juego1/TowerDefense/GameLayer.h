@@ -12,6 +12,7 @@
 #include "Path.h"
 #include "PathManager.h"
 #include "MapManager.h"
+#include "EnemyGenerator.h"
 
 #include <list>
 
@@ -83,6 +84,8 @@ public:
 	// Mapa
 	MapManager* mapManager;
 
+	// Generadores de enemigos
+	EnemyGenerator* enemyGenerator1;
 
 private:
 	void addNewEnemy();

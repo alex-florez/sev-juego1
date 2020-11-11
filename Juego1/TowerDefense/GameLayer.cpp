@@ -62,12 +62,15 @@ void GameLayer::init() {
 	mapManager->loadMap("res/mapa-1.txt");
 	mapManager->show();
 
-	this->enemies = mapManager->getEnemies();
+	//this->enemies = mapManager->getEnemies();
 	this->pathTiles = mapManager->getPathTiles();
 	this->pathManager = mapManager->getPathManager();
 	this->shootPoints = mapManager->getShootPoints();
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
+	this->enemyGenerator1 = mapManager->getEnemyGenerator();
+
+	this->enemies.push_back(this->enemyGenerator1->createEnemy());
 
 	Projectile* p = new Projectile(100, 60, game);
 	p->moveTo(460, 150);
