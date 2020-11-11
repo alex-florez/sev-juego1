@@ -15,16 +15,17 @@ list<Tile*> MapManager::getShootPoints() {
 	return this->shootPoints;
 }
 
-list<Enemy*> MapManager::getEnemies() {
-	return this->enemies;
-}
 
 PathManager* MapManager::getPathManager() {
 	return this->pathManager;
 }
 
-EnemyGenerator* MapManager::getEnemyGenerator() {
-	return this->enemyGenerator1;
+map<int, EnemyGenerator*> MapManager::getEnemyGenerators() {
+	return this->enemyGenerators;
+}
+
+map<int, Tower*> MapManager::getTowers() {
+	return this->towers;
 }
 
 int MapManager::getMapHeight() {
@@ -79,11 +80,13 @@ void MapManager::loadMapObject(char character, int i, int j) {
 	float y = 40 + i * 40; // y suelo
 
 	switch (character) {
-		case '1': {
+		case '1':
+		case '2': {
 			Tile* tile = new Tile("res/caja_madera.png", x, y, game);
 			tile->y = tile->y - tile->height / 2;
 			pathTiles.push_back(tile);
-			this->pathManager->addPointToPath(1, new Point(j, i));
+			int pathId = character - '0';
+			this->pathManager->addPointToPath(pathId, new Point(j,i));
 			break;
 		}
 		//case '#': {
@@ -108,7 +111,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		//}
 		case 'E': {
 			int pathId = map[i][j - 1] - '0';
-			this->enemyGenerator1 = new EnemyGenerator(pathId, j, i, game);
+			this->enemyGenerators[pathId] = new EnemyGenerator(pathId, j, i, game);
 			break;
 		}
 		//case 'C': {
@@ -121,6 +124,14 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			Tile* shootPoint = new Tile("res/caja_madera.png", x, y, game);
 			shootPoint->y = shootPoint->y - shootPoint->height / 2;
 			shootPoints.push_back(shootPoint);
+			break;
+		}
+
+		case 'T': {
+			Tower* tower = new Tower("res/tower.png", x, y, game);
+			tower->y = tower->y - tower->height / 2;
+			int id = map[i][j + 1] - '0';
+			towers[id] = tower;
 			break;
 		}
 	}

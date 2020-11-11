@@ -49,6 +49,8 @@ public:
 	// Último punto de la matriz en la que se encontraba el actor.
 	Point* lastPoint;
 
+	float speed;
+
 
 };
 

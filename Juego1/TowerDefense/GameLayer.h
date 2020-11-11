@@ -13,8 +13,10 @@
 #include "PathManager.h"
 #include "MapManager.h"
 #include "EnemyGenerator.h"
+#include "Tower.h"
 
 #include <list>
+#include <map>
 
 #define ENEMY_SPAWN_TIME 110
 #define ENEMY_SPAWN_FREQUENCY 5		
@@ -31,16 +33,11 @@ public:
 	void keysToControls(SDL_Event event);
 	void mouseToControls(SDL_Event event); // Uso del mouse
 
-	// Métodos para cargar el mapa y los objetos del mismo
-	void loadMap(string name);
-	void loadMapObject(char character, int i, int j);
-
 	list<Tile*> pathTiles;
 	list<Tile*> shootPoints;
 
 	int mapWidth; // Ancho del mapa
 	int mapHeight; // Alto del mapa
-	list<Tile*> tiles; // Lista de tiles.
 
 	// Motor de movimientos / físicas
 	Space* space;
@@ -62,16 +59,12 @@ public:
 	int newEnemyTime = 0;
 	int killedEnemies = 0;
 
-
 	// Puntuación
 	Text* textPoints;
 	int points;
 
 	// Audio
 	Audio* audioBackground;
-
-	// Copa de final de nivel
-	Tile* cup;
 
 	// Pausa y mensajes
 	Actor* message;
@@ -85,8 +78,10 @@ public:
 	MapManager* mapManager;
 
 	// Generadores de enemigos
-	EnemyGenerator* enemyGenerator1;
+	map<int,EnemyGenerator*> enemyGenerators;
 
+	// Torres
+	map<int, Tower*> towers;
 private:
 	void addNewEnemy();
 	void destroyEnemies();

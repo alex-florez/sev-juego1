@@ -39,6 +39,7 @@
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Space.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Tower.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -23,10 +23,6 @@ void GameLayer::init() {
 	textPoints->content = to_string(points);
 	backgroundPoints = new Actor("res/icono_puntos.png", WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
 
-
-	// limpiar los tiles
-	tiles.clear();
-
 	space = new Space(0); // Instanciamos el motor de físicas con gravedad.
 
 	// Destruir posibles objetos existentes
@@ -62,22 +58,22 @@ void GameLayer::init() {
 	mapManager->loadMap("res/mapa-1.txt");
 	mapManager->show();
 
-	//this->enemies = mapManager->getEnemies();
 	this->pathTiles = mapManager->getPathTiles();
 	this->pathManager = mapManager->getPathManager();
 	this->shootPoints = mapManager->getShootPoints();
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
-	this->enemyGenerator1 = mapManager->getEnemyGenerator();
+	this->enemyGenerators = mapManager->getEnemyGenerators();
+	this->towers = mapManager->getTowers();
 
-	this->enemies.push_back(this->enemyGenerator1->createEnemy());
+	this->enemies.push_back(this->enemyGenerators[1]->createEnemy());
+	this->enemies.push_back(this->enemyGenerators[2]->createEnemy());
 
 	Projectile* p = new Projectile(100, 60, game);
 	p->moveTo(460, 150);
 	projectiles.push_back(p);
 
 	player = new Player(0, 0, game);
-	cup = new Tile("res/copa.png", -100, -100, game);
 }
 
 
@@ -88,7 +84,6 @@ void GameLayer::update() {
 
 	list<Enemy*> deleteEnemies; // Enemigos a eliminar
 	list<Projectile*> deleteProjectiles; // Proyectiles a eliminar
-	list<Tile*> deleteTiles; // Tiles a eliminar
 
 	if (pause) {
 		return;
@@ -100,25 +95,20 @@ void GameLayer::update() {
 		return;
 	}
 
-	// Comprobamos si el jugador colisiona con el elemento de final de nivel
-	if (cup->isOverlap(player)) {
-		game->currentLevel++;
-		if (game->currentLevel > game->finalLevel) {
-			game->currentLevel = 0;
-		}
-		message = new Actor("res/mensaje_ganar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
-		pause = true;
-		init();
-		return;
-	}
+	//// Comprobamos si el jugador colisiona con el elemento de final de nivel
+	//if (cup->isOverlap(player)) {
+	//	game->currentLevel++;
+	//	if (game->currentLevel > game->finalLevel) {
+	//		game->currentLevel = 0;
+	//	}
+	//	message = new Actor("res/mensaje_ganar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
+	//	pause = true;
+	//	init();
+	//	return;
+	//}
 
 	// Actualizamos todos los actores dinámicos
 	//space->update();
-
-
-
-	// Actualizamos el fondo móvil
-	background->update();
 
 	//player->update();
 	// Actualizamos los enemigos
@@ -126,22 +116,23 @@ void GameLayer::update() {
 		pathManager->update(enemy);
 		enemy->update();
 		// Enemigo a la izquierda de la pantalla
-		if (enemy->x + enemy->width/2 <= 0) { 
+		if (enemy->x + enemy->width / 2 <= 0) {
 			markEnemyForDelete(enemy, deleteEnemies);
-		} else if (player->isOverlap(enemy)) { // Colisión con el jugador
-			// Comprobamos si el player ha saltado encima del enemigo
-			if (player->isOver(enemy)) {
-				player->audioJumpOverEnemy->play(); // Reproducir sonido de aplastamiento
-				markEnemyForDelete(enemy, deleteEnemies);
-			}
-			else {
-				player->loseLife();
-				if (player->lifes <= 0) { // Jugador sin vidas
-					init();
-					return; // Se reinicia el juego.
-				}
-			}
 		}
+		//} else if (player->isOverlap(enemy)) { // Colisión con el jugador
+		//	// Comprobamos si el player ha saltado encima del enemigo
+		//	if (player->isOver(enemy)) {
+		//		player->audioJumpOverEnemy->play(); // Reproducir sonido de aplastamiento
+		//		markEnemyForDelete(enemy, deleteEnemies);
+		//	}
+		//	else {
+		//		player->loseLife();
+		//		if (player->lifes <= 0) { // Jugador sin vidas
+		//			init();
+		//			return; // Se reinicia el juego.
+		//		}
+		//	}
+		//}
 	}
 
 	for (auto const& projectile : projectiles) {
@@ -189,15 +180,6 @@ void GameLayer::update() {
 		}
 	}
 
-	// Actualizamos los tiles
-	//for (auto const& tile : tiles) {
-	//	tile->playerIsOver = player->isOver(tile);  // Jugador encima del tile
-	//	tile->update(); // Actualizar ticks del tile
-	//	if (tile->willDestroy()) { // Si el tile se va a destruir...
-	//		markTileForDelete(tile, deleteTiles); // Eliminarlo
-	//	}
-	//}
-
 
 	// Eliminamos los proyectiles y enemigos necesarios
 	for (auto const& delEnemy : deleteEnemies) {
@@ -213,18 +195,6 @@ void GameLayer::update() {
 		delete delProjectile; // Se destruye el proyectil.
 	}
 	deleteProjectiles.clear();
-
-	// Eliminar los tiles marcados
-	for (auto const& tile : deleteTiles) {
-		tiles.remove(tile);
-		delete tile;
-	}
-	deleteTiles.clear();
-
-	// Información
-	/*cout << "Killed Enemies: " << killedEnemies 
-		 << " Current enemies: " << enemies.size() 
-		 << " Shoots: " << projectiles.size() << endl;*/
 }
 
 
@@ -398,15 +368,8 @@ void GameLayer::draw() {
 		pathTile->draw();
 	}
 
-	// Dibujamos los tiles
-	for (auto const& tile : tiles) {
-		tile->draw();
-	}
 	// Dibujamos al jugador
 	//player->draw(scrollX, scrollY);
-
-	//Dibujamos la copa
-	cup->draw();
 
 	// Dibujamos los enemigos
 	for (auto const& enemy : enemies) {
@@ -422,6 +385,12 @@ void GameLayer::draw() {
 	for (auto const& projectile : projectiles) {
 		projectile->draw();
 	}
+
+	// Dibujamos las torres
+	towers[1]->draw();
+	towers[2]->draw();
+
+
 
 	textPoints->draw();
 	backgroundPoints->draw();
@@ -487,7 +456,7 @@ void GameLayer::addNewEnemy() {
 			// Random position
 			int rX = (rand() % (600 - 500)) + 1 + 500;
 			int rY = (rand() % (300 - 60)) + 1 + 60;
-			enemies.push_back(new Enemy(rX, rY, game));
+			enemies.push_back(new Enemy(rX, rY, 2, game));
 		}
 		newEnemyTime = ENEMY_SPAWN_TIME;
 	}

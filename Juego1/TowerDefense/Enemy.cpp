@@ -1,12 +1,10 @@
 #include "Enemy.h"
 
-Enemy::Enemy(float x, float y, Game* game)
+Enemy::Enemy(float x, float y, float speed, Game* game)
 	: Actor("res/enemigo.png", x, y, 36, 40, game) {
 
 	//vx = -1 * ENEMY_SPEED;
-	vxIntelligence = -1;
-	vx = vxIntelligence;
-
+	vx = 0;
 	vy = 0;
 
 	aMoving = new Animation("res/enemigo_movimiento.png", width, height,
@@ -16,6 +14,7 @@ Enemy::Enemy(float x, float y, Game* game)
 
 	state = game->stateMoving;
 
+	this->speed = speed;
 }
 
 
@@ -42,21 +41,15 @@ void Enemy::update() {
 	if (state != game->stateDying) { // Si no se está muriendo...
 		// Y se ha quedado parado
 		if (vx == 0) {
-			vxIntelligence = vxIntelligence * -1;
+			
 			//vx = vxIntelligence;
 		}
 		if (outRight) {
 			// Mover hacia la izquierda
-			if (vxIntelligence > 0) {
-				vxIntelligence = vxIntelligence * -1;
-			}
 			//vx = vxIntelligence;
 		}
 		if (outLeft) {
 			// Mover hacia la derecha
-			if (vxIntelligence < 0) {
-				vxIntelligence = vxIntelligence * -1;
-			}
 			//vx = vxIntelligence;
 		}
 	}
@@ -65,15 +58,13 @@ void Enemy::update() {
 	
 }
 
-bool Enemy::checkInsideCell(Point* cellCenter, float error) {
-	int xCenter = cellCenter->getX() * 40 + 20;
-	int yCenter = cellCenter->getY() * 40 - 20;
-
-	return x >= xCenter - error && x <= xCenter + error
-		&& y >= yCenter - error && y <= yCenter + error;
-}
-
-
+//bool Enemy::checkInsideCell(Point* cellCenter, float error) {
+//	int xCenter = cellCenter->getX() * 40 + 20;
+//	int yCenter = cellCenter->getY() * 40 - 20;
+//
+//	return x >= xCenter - error && x <= xCenter + error
+//		&& y >= yCenter - error && y <= yCenter + error;
+//}
 
 
 void Enemy::draw() {

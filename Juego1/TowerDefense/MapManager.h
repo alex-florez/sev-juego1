@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <list>
+#include <map>
 #include <fstream> // Leer ficheros
 #include <sstream> // Leer líneas / strings
 
@@ -10,6 +11,7 @@
 #include "Enemy.h"
 #include "Tile.h"
 #include "EnemyGenerator.h"
+#include "Tower.h"
 
 
 using namespace std;
@@ -30,20 +32,21 @@ public:
 	list<Enemy*> getEnemies();
 	list<Tile*> getPathTiles();
 	list<Tile*> getShootPoints();
-	EnemyGenerator* getEnemyGenerator();
+	map<int, EnemyGenerator*> getEnemyGenerators();
+	map<int, Tower*> getTowers();
 	int getMapHeight();
 	int getMapWidht();
 	void show();
 
 private:
 	Game* game;
+	map<int, EnemyGenerator*> enemyGenerators; // Generadores de enemigos
+	map<int, Tower*> towers; // Torres para defender
 	char map[FILE_ROWS][FILE_COLS]; // matriz con los caracteres del mapa.
 	PathManager* pathManager; // Gestor de trayectorias
-	EnemyGenerator* enemyGenerator1; // Generador de enemigos
-	list<Enemy*> enemies; // lista de enemigos
 	list<Tile*> pathTiles; // Tiles que representan los distintos caminos 
-	
 	list<Tile*> shootPoints;
+	
 
 	int mapHeight; // Altura del mapa
 	int mapWidth; // Anchura del mapa
