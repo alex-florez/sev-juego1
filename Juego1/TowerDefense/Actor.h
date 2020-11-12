@@ -3,9 +3,18 @@
 #include "Game.h"
 #include "Point.h"
 
+
 class Actor
 {
 public:
+
+	/// <summary>
+	/// Enumerado que define los estados de un enemigo:
+	///		* MOVING: se está moviendo siguiendo la trayectoria que le corresponde.
+	///		* ATTACKING: está atacando a una de las torres.
+	/// </summary>
+	enum class ActorState { MOVING, ATTACKING };
+
 	Actor(string filename, float x, float y, int width, int height, Game* game);
 	~Actor();
 	virtual void draw();
@@ -50,7 +59,6 @@ public:
 	Point* lastPoint;
 
 	float speed;
-
-
+	ActorState state;
 };
 

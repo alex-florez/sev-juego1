@@ -10,5 +10,7 @@ class Tower : public Actor
 {
 public:
 	Tower(string filename, float x, float y, Game* game);
+
+	int health;
 };
 

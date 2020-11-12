@@ -35,6 +35,9 @@ void GameLayer::init() {
 	// Map Manager
 	mapManager = new MapManager(game);
 
+	// Collision engine
+	collisionEngine = new CollisionEngine();
+
 	// Enemigos
 	enemies.clear(); // Vaciar la lista de enemigos, por si se reinicia el juego
 
@@ -68,6 +71,9 @@ void GameLayer::init() {
 
 	this->enemies.push_back(this->enemyGenerators[1]->createEnemy());
 	this->enemies.push_back(this->enemyGenerators[2]->createEnemy());
+
+	this->collisionEngine->enemies = this->enemies;
+	this->collisionEngine->towers = this->towers;
 
 	Projectile* p = new Projectile(100, 60, game);
 	p->moveTo(460, 150);
@@ -109,6 +115,9 @@ void GameLayer::update() {
 
 	// Actualizamos todos los actores dinámicos
 	//space->update();
+
+	// Actualizar el motor de colisiones
+	collisionEngine->update();
 
 	//player->update();
 	// Actualizamos los enemigos
@@ -175,9 +184,9 @@ void GameLayer::update() {
 	//}
 
 	for (auto const& enemy : enemies) { // Marcamos para eliminar aquellos enemigos en el estado muerto.
-		if (enemy->state == game->stateDead) {
-			markEnemyForDelete(enemy, deleteEnemies);
-		}
+		//if (enemy->state == game->stateDead) {
+		//	markEnemyForDelete(enemy, deleteEnemies);
+		//}
 	}
 
 

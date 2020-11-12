@@ -14,6 +14,7 @@
 #include "MapManager.h"
 #include "EnemyGenerator.h"
 #include "Tower.h"
+#include "CollisionEngine.h"
 
 #include <list>
 #include <map>
@@ -41,6 +42,9 @@ public:
 
 	// Motor de movimientos / físicas
 	Space* space;
+
+	// Motor de colisiones
+	CollisionEngine* collisionEngine;
 
 	Player* player;
 	Background* background;

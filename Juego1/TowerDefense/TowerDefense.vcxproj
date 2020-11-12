@@ -23,6 +23,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="CollisionEngine.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="CollisionEngine.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="Game.h" />

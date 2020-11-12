@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Point.h"
 #include "Path.h"
+#include "Tower.h"
 
 #define ENEMY_SPEED 2
 
@@ -14,11 +15,13 @@ public:
 	void update();
 	void draw() override;
 	void impacted(); // Enemigo recibe un impacto
+	void attack(Tower* tower); // El enemigo ataca a una torre.
 
 	Animation* aMoving;
 	Animation* aDying;
 	Animation* animation; // Referencia a la animación actual.
 
-	int state;
+	int attackFrequency; // Frecuencia de ataque del enemigo
+	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
 };
 

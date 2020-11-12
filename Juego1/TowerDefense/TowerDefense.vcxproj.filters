@@ -78,6 +78,9 @@
     <ClCompile Include="Tower.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionEngine.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -138,6 +141,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionEngine.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

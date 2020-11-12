@@ -29,42 +29,49 @@ void PathManager::update(Actor* actor) {
 	Path* path = paths[actor->pathId];
 
 	if (path != nullptr) { 
-		Point* actualPoint = actor->getMatrixPoint(); // Posición actual en la matriz.
+		if (actor->state == Actor::ActorState::MOVING) {
+			Point* actualPoint = actor->getMatrixPoint(); // Posición actual en la matriz.
 
-		if (actor->nextPoint == nullptr) {
-			actor->vx = -1 * actor->speed;
-			actor->vy = 0;
-		}
-		else if(actor->isInPoint(actor->nextPoint)){ // Actor ha llegado al punto siguiente
-				actor->nextPoint = path->getNextPoint(actualPoint, actor->lastPoint);
-				actor->lastPoint = new Point(actualPoint->getX(), actualPoint->getY());
-		} else { 
-			int horizontal = (actor->nextPoint->getX() * 40 + 20) - actor->x;
-			int vertical = (actor->nextPoint->getY() * 40 + 20) - actor->y;
-
-			if (horizontal < 0) {
+			if (actor->nextPoint == nullptr) {
 				actor->vx = -1 * actor->speed;
-			}
-
-			if (horizontal > 0) {
-				actor->vx = actor->speed;
-			}
-
-			if (horizontal == 0) {
-				actor->vx = 0;
-			}
-
-			if (vertical < 0) {
-				actor->vy = -1 * actor->speed;
-			}
-
-			if (vertical > 0) {
-				actor->vy = actor->speed;
-			}
-
-			if (vertical == 0) {
 				actor->vy = 0;
 			}
+			else if (actor->isInPoint(actor->nextPoint)) { // Actor ha llegado al punto siguiente
+				actor->nextPoint = path->getNextPoint(actualPoint, actor->lastPoint);
+				actor->lastPoint = new Point(actualPoint->getX(), actualPoint->getY());
+			}
+			else {
+				int horizontal = (actor->nextPoint->getX() * 40 + 20) - actor->x;
+				int vertical = (actor->nextPoint->getY() * 40 + 20) - actor->y;
+
+				if (horizontal < 0) {
+					actor->vx = -1 * actor->speed;
+				}
+
+				if (horizontal > 0) {
+					actor->vx = actor->speed;
+				}
+
+				if (horizontal == 0) {
+					actor->vx = 0;
+				}
+
+				if (vertical < 0) {
+					actor->vy = -1 * actor->speed;
+				}
+
+				if (vertical > 0) {
+					actor->vy = actor->speed;
+				}
+
+				if (vertical == 0) {
+					actor->vy = 0;
+				}
+			}
+		} else if(actor->state == Actor::ActorState::ATTACKING){
+			actor->vx = 0;
+			actor->vy = 0;
 		}
+		
 	}
 }
