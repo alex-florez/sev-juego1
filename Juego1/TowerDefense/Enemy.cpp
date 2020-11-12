@@ -17,7 +17,7 @@ Enemy::Enemy(float x, float y, float speed, Game* game)
 	this->state = ActorState::MOVING;
 	this->speed = speed;
 
-	this->attackFrequency = 50;
+	this->attackFrequency = 30;
 	this->ticksUntilNextAttack = 0;
 }
 
@@ -32,6 +32,11 @@ void Enemy::update() {
 		//if (state == game->stateDying) { // Estaba muriendo
 		//	state = game->stateDead;
 		//}
+	}
+
+	// Si el enemigo no está colisionando con algo que siga moviéndose
+	if (!isCollisioning) { 
+		this->state = ActorState::MOVING;
 	}
 
 	//if (state == game->stateMoving) { // Moviendo
@@ -79,21 +84,24 @@ void Enemy::draw() {
 	animation->draw(x, y);
 }
 
+/// <summary>
+/// Método que modela la lógica de ataque de este enemigo contra
+/// la torre pasada como parámetro.
+/// </summary>
+/// <param name="tower">Torre que está siendo atacada.</param>
 void Enemy::attack(Tower* tower) {
-	if (this->state == ActorState::MOVING) {
-		this->state = ActorState::ATTACKING;
-		cout << "** Primer ataque" << endl;
-		this->ticksUntilNextAttack = this->attackFrequency;
+	if (this->state == ActorState::MOVING) { // El enemigo se estaba aproximando a la torre
+		this->state = ActorState::ATTACKING; // Enemigo realiza primer ataque.
+		cout << "** Primer ataque " << tower->health << endl;
+		this->ticksUntilNextAttack = 0;
 	}
 	else if (this->state == ActorState::ATTACKING) {
 		this->ticksUntilNextAttack--;
-		if (this->ticksUntilNextAttack <= 0) {
-			cout << "** Ataque sucesivo" << endl;
-			this->ticksUntilNextAttack = this->attackFrequency;
-		}
 	}
-	else {
 
+	if (this->ticksUntilNextAttack <= 0) {
+		tower->health -= 30;
+		this->ticksUntilNextAttack = this->attackFrequency;
 	}
 }
 

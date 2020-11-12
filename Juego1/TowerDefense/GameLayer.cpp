@@ -4,6 +4,7 @@
 void markEnemyForDelete(Enemy* enemy, list<Enemy*>& deleteList);
 void markProjectileForDelete(Projectile* projectile, list<Projectile*>& deleteList);
 void markTileForDelete(Tile* tile, list<Tile*>& deleteList);
+void markTowerForDelete(Tower* tower, list<Tower*>& deleteList);
 
 
 GameLayer::GameLayer(Game* game)
@@ -90,6 +91,7 @@ void GameLayer::update() {
 
 	list<Enemy*> deleteEnemies; // Enemigos a eliminar
 	list<Projectile*> deleteProjectiles; // Proyectiles a eliminar
+	list<Tower*> deleteTowers; // Torres a eliminar
 
 	if (pause) {
 		return;
@@ -148,6 +150,15 @@ void GameLayer::update() {
 		projectile->update();
 	}
 
+	// Actualizar torres
+	for (auto const& pair : towers) {
+		pair.second->update();
+		// Si la torre está destruida entonces se elimina
+		if (pair.second->state == Tower::TowerState::DESTROYED) {
+			markTowerForDelete(pair.second, deleteTowers);
+		}
+	}
+
 	// Actualizamos los proyectiles
 	//for (auto const& projectile : projectiles) {
 	//	projectile->update();
@@ -189,6 +200,12 @@ void GameLayer::update() {
 		//}
 	}
 
+	// Eliminar torres destruidas
+	for (auto const& tower : deleteTowers) {
+		towers.erase(tower->pathId);
+		delete tower;
+	}
+	deleteTowers.clear();
 
 	// Eliminamos los proyectiles y enemigos necesarios
 	for (auto const& delEnemy : deleteEnemies) {
@@ -396,8 +413,9 @@ void GameLayer::draw() {
 	}
 
 	// Dibujamos las torres
-	towers[1]->draw();
-	towers[2]->draw();
+	for (auto const& pair : towers) {
+		pair.second->draw();
+	}
 
 
 
@@ -421,6 +439,16 @@ void GameLayer::draw() {
 
 // Métodos privados
 // **********************************************************************************
+
+
+void markTowerForDelete(Tower* tower, list<Tower*>& deleteList) {
+	bool inList = std::find(deleteList.begin(),
+		deleteList.end(),
+		tower) != deleteList.end();
+	if (!inList) {
+		deleteList.push_back(tower);
+	}
+}
 
 void markEnemyForDelete(Enemy* enemy, list<Enemy*>& deleteList) {
 	bool inList = std::find(deleteList.begin(),

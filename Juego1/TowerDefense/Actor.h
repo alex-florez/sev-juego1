@@ -34,6 +34,8 @@ public:
 	bool outRight; // Indica si el actor se sale por la derecha
 	bool outLeft; // Actor se sale por la izquierda.
 
+	bool invisible; // Indica si el actor es afectado por las colisiones o es atravesable.
+
 	SDL_Texture* texture;
 	// Posición
 	int x;

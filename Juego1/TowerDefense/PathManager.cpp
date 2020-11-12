@@ -41,8 +41,8 @@ void PathManager::update(Actor* actor) {
 				actor->lastPoint = new Point(actualPoint->getX(), actualPoint->getY());
 			}
 			else {
-				int horizontal = (actor->nextPoint->getX() * 40 + 20) - actor->x;
-				int vertical = (actor->nextPoint->getY() * 40 + 20) - actor->y;
+				int horizontal = (actor->nextPoint->getX() * TILE_WIDTH + TILE_WIDTH/2) - actor->x;
+				int vertical = (actor->nextPoint->getY() * TILE_HEIGHT + TILE_HEIGHT/2) - actor->y;
 
 				if (horizontal < 0) {
 					actor->vx = -1 * actor->speed;

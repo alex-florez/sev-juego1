@@ -51,7 +51,7 @@ void MapManager::loadMap(string filename) {
 		for (int i = 0; getline(streamFile, line); i++) {
 			totalLines++;
 			istringstream streamLine(line);
-			mapWidth = line.length() * 40; // Ancho del mapa en pixels
+			mapWidth = line.length() * TILE_WIDTH; // Ancho del mapa en pixels
 			// Por carácter (en cada línea)
 			for (int j = 0; !streamLine.eof(); j++) {
 				streamLine >> character; // Leer character
@@ -76,8 +76,8 @@ void MapManager::parseObjects() {
 }
 
 void MapManager::loadMapObject(char character, int i, int j) {
-	float x = 40 / 2 + j * 40; // x central
-	float y = 40 + i * 40; // y suelo
+	float x = TILE_WIDTH / 2 + j * TILE_WIDTH; // x central
+	float y = TILE_HEIGHT + i * TILE_HEIGHT; // y suelo
 
 	switch (character) {
 		case '1':
@@ -131,6 +131,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			Tower* tower = new Tower("res/tower.png", x, y, game);
 			tower->y = tower->y - tower->height / 2;
 			int id = map[i][j + 1] - '0';
+			tower->pathId = id;
 			towers[id] = tower;
 			break;
 		}

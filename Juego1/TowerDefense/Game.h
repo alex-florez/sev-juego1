@@ -13,6 +13,8 @@ using namespace std;
 // Valores generales
 #define WIDTH 800
 #define HEIGHT 600
+#define TILE_WIDTH 40
+#define TILE_HEIGHT 40
 #define FPS 30
 
 #include "Layer.h"

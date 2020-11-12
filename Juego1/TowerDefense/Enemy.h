@@ -23,5 +23,6 @@ public:
 
 	int attackFrequency; // Frecuencia de ataque del enemigo
 	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
+	bool isCollisioning; // Flag que indica si el enemigo está colisionando con otro actor.
 };
 
