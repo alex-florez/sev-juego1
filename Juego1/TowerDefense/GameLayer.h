@@ -15,6 +15,7 @@
 #include "EnemyGenerator.h"
 #include "Tower.h"
 #include "CollisionEngine.h"
+#include "Turret.h"
 
 #include <list>
 #include <map>
@@ -55,6 +56,11 @@ public:
 	int controlMoveX = 0;
 	int controlMoveY = 0;
 
+	// Coordenadas en las que se ha hecho click
+	ConstructionTile* clickedCT = nullptr; // Referencia al construction tile sobre el que se ha hecho click.
+	bool controlConstruct; // Se intenta construir una torreta.
+
+
 	// Lista de enemigos
 	list<Enemy*> enemies;
 	// Lista de proyectiles
@@ -86,7 +92,23 @@ public:
 
 	// Torres
 	map<int, Tower*> towers;
+
+	// Tiles de construcción
+	list<ConstructionTile*> constructionTiles;
+
+	// Torretas construidas
+	list<Turret*> turrets;
+
 private:
+	/// <summary>
+	/// Construye una nueva torreta del tipo seleccionado en el 
+	/// construction Tile pasado como parámetro, siempre y cuando
+	/// este no esté ocupado.
+	/// </summary>
+	/// <param name="ct">ConstructionTile en el que se quiere construir.</param>
+	void constructTurret(ConstructionTile* ct); 
+
+
 	void addNewEnemy();
 	void destroyEnemies();
 	void destroyProjectiles();

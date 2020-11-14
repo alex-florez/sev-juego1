@@ -69,6 +69,7 @@ void GameLayer::init() {
 	this->mapWidth = mapManager->getMapWidht();
 	this->enemyGenerators = mapManager->getEnemyGenerators();
 	this->towers = mapManager->getTowers();
+	this->constructionTiles = mapManager->getConstructionTiles();
 
 	this->enemies.push_back(this->enemyGenerators[1]->createEnemy());
 	this->enemies.push_back(this->enemyGenerators[2]->createEnemy());
@@ -77,7 +78,7 @@ void GameLayer::init() {
 	this->collisionEngine->towers = this->towers;
 
 	Projectile* p = new Projectile(100, 60, game);
-	p->moveTo(460, 150);
+	p->moveTo(460, 100);
 	projectiles.push_back(p);
 
 	player = new Player(0, 0, game);
@@ -256,6 +257,15 @@ void GameLayer::processControls() {
 		controlContinue = false;
 	}
 
+	// Construir en un ConstructionTile
+	if (controlConstruct) {
+		if (clickedCT != nullptr) {
+			constructTurret(this->clickedCT);
+		}
+		controlConstruct = false;
+	}
+
+
 	// Disparar
 	if (controlShoot) {
 		Projectile* newProjectile = player->shoot();
@@ -353,8 +363,14 @@ void GameLayer::mouseToControls(SDL_Event event) {
 
 	// Cada vez que el usuario hace click
 	if (event.type == SDL_MOUSEBUTTONDOWN) {
-		controlContinue = true;
-
+		//controlContinue = true;
+		for (auto const& ct : this->constructionTiles) {
+			if (ct->containsPoint(motionX, motionY)) {
+				this->controlConstruct = true;
+				this->clickedCT = ct;
+			}
+		}
+		
 		/*	if (buttonShoot->containsPoint(motionX, motionY)) {
 				controlShoot = true;
 			}
@@ -364,6 +380,12 @@ void GameLayer::mouseToControls(SDL_Event event) {
 	}
 	// Cada vez que se mueve
 	if (event.type == SDL_MOUSEMOTION) {
+		for (auto const& ct : this->constructionTiles) {
+			if (ct->containsPoint(motionX, motionY)) {
+				this->controlConstruct = false;
+				this->clickedCT = nullptr;
+			}
+		}
 		//if (!buttonShoot->containsPoint(motionX, motionY)) { // Ratón se mueve fuera del botón de disparo
 		//	controlShoot = false;
 		//}
@@ -374,6 +396,12 @@ void GameLayer::mouseToControls(SDL_Event event) {
 
 	// Cada vez que se levanta el click
 	if (event.type == SDL_MOUSEBUTTONUP) {
+		for (auto const& ct : this->constructionTiles) {
+			if (ct->containsPoint(motionX, motionY)) {
+				this->controlConstruct = false;
+				this->clickedCT = nullptr;
+			}
+		}
 		//if (buttonShoot->containsPoint(motionX, motionY)) {
 		//	controlShoot = false;
 		//}
@@ -417,6 +445,17 @@ void GameLayer::draw() {
 		pair.second->draw();
 	}
 
+	// Dibujar construction tiles
+	for (auto const& ct : constructionTiles) {
+		ct->draw();
+	}
+
+
+	// Dibujamos las torretas
+	for (auto const& turret : turrets) {
+		turret->draw();
+	}
+
 
 
 	textPoints->draw();
@@ -439,6 +478,21 @@ void GameLayer::draw() {
 
 // Métodos privados
 // **********************************************************************************
+
+
+void GameLayer::constructTurret(ConstructionTile* ct) {
+	if (!ct->occupied) { // Ocupada?
+		int x = (int)(ct->x / TILE_WIDTH) * TILE_WIDTH + TILE_WIDTH / 2;
+		int y = (int)(ct->y / TILE_HEIGHT) * TILE_HEIGHT + TILE_HEIGHT / 2;
+		this->turrets.push_back(new Turret("res/cannon1.png", x, y, 55, 14, game));
+		cout << "Nueva torreta en x: " << x << " y: " << y << endl;
+		ct->occupied = true;
+	}
+	else {
+		cout << "Ya hay una torreta construida en ese lugar" << endl;
+	}
+}
+
 
 
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList) {
@@ -477,11 +531,6 @@ void markTileForDelete(Tile* tile, list<Tile*>& deleteList) {
 		deleteList.push_back(tile);
 	}
 }
-
-
-// Molaría esto
-// markActorForDelete(projectile, deleteProjectiles);
-// markActorForDelete(enemy, deleteEnemies);
 
 
 

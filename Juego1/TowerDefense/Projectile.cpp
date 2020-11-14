@@ -2,30 +2,31 @@
 
 
 Projectile::Projectile(float x, float y, Game* game)
-	: Actor("res/disparo_jugador2.png", x, y, 20, 20, game) {
+	: Actor("res/bullet1.png", x, y, 10, 10, game) {
 	
 	vx = 0;
 	vy = 0;
+
+	speed = 16;
 }
 
 void Projectile::update() {
-	//vy = vy - 1; // La gravedad suma 1 en cada tick, para anularla restamos uno.
 	x = x + vx;
 	y = y + vy;
 }
 
 void Projectile::moveTo(float x, float y) {
-	float diffX = x - this->x;
+	float diffX = x - this->x; // Diff Vector
 	float diffY = y - this->y;
 
 	float d = sqrt(diffX * diffX + diffY * diffY);
 
-	float normalX = diffX / d;
+	float normalX = diffX / d; // Normalizar el vector para obtener la dirección
 	float normalY = diffY / d;
 
-	float moveX = normalX * 5;
-	float moveY = normalY * 5;
+	float moveX = normalX * speed; // Multiplicar la dirección por el speed.
+	float moveY = normalY * speed;
 
-	this->vx = round(normalX * 5);
-	this->vy = round(normalY * 5);
+	this->vx = moveX;
+	this->vy = moveY;
 }

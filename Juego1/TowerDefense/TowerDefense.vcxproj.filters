@@ -93,6 +93,12 @@
     <ClCompile Include="PathManager.cpp">
       <Filter>Archivos de origen\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="ConstructionTile.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -157,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="PathManager.h">
       <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructionTile.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

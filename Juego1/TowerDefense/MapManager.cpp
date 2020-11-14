@@ -16,6 +16,11 @@ list<Tile*> MapManager::getShootPoints() {
 }
 
 
+list<ConstructionTile*> MapManager::getConstructionTiles() {
+	return this->constructionTiles;
+}
+
+
 PathManager* MapManager::getPathManager() {
 	return this->pathManager;
 }
@@ -114,11 +119,13 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			this->enemyGenerators[pathId] = new EnemyGenerator(pathId, j, i, game);
 			break;
 		}
-		//case 'C': {
-		//	cup = new Tile("res/copa.png", x, y, game);
-		//	cup->y = cup->y - cup->height / 2;
-		//	break;
-		//}
+
+		case 'C': {
+			ConstructionTile* constructionTile = new ConstructionTile(x, y, game);
+			constructionTile->y = constructionTile->y - constructionTile->height / 2;
+			this->constructionTiles.push_back(constructionTile);
+			break;
+		}
 
 		case 'A': {
 			Tile* shootPoint = new Tile("res/caja_madera.png", x, y, game);

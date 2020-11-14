@@ -12,6 +12,7 @@
 #include "Tile.h"
 #include "EnemyGenerator.h"
 #include "Tower.h"
+#include "ConstructionTile.h"
 
 
 using namespace std;
@@ -32,6 +33,7 @@ public:
 	list<Enemy*> getEnemies();
 	list<Tile*> getPathTiles();
 	list<Tile*> getShootPoints();
+	list<ConstructionTile*> getConstructionTiles();
 	map<int, EnemyGenerator*> getEnemyGenerators();
 	map<int, Tower*> getTowers();
 	int getMapHeight();
@@ -46,6 +48,7 @@ private:
 	PathManager* pathManager; // Gestor de trayectorias
 	list<Tile*> pathTiles; // Tiles que representan los distintos caminos 
 	list<Tile*> shootPoints;
+	list<ConstructionTile*> constructionTiles; // Tiles en los que se puede construir torretas
 	
 
 	int mapHeight; // Altura del mapa

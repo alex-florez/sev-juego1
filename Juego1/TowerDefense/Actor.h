@@ -38,11 +38,11 @@ public:
 
 	SDL_Texture* texture;
 	// Posición
-	int x;
-	int y;
+	float x;
+	float y;
 	// Velocidad
-	int vx;
-	int vy;
+	float vx;
+	float vy;
 	// Tamaño en el juego
 	int width;
 	int height;

@@ -17,7 +17,7 @@ Enemy::Enemy(float x, float y, float speed, Game* game)
 	this->state = ActorState::MOVING;
 	this->speed = speed;
 
-	this->attackFrequency = 30;
+	this->attackFrequency = 20;
 	this->ticksUntilNextAttack = 0;
 }
 

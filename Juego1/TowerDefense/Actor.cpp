@@ -50,8 +50,11 @@ void Actor::draw() {
 
 	// Donde se va a pegar en el renderizador
 	SDL_Rect destination;
-	destination.x = x - width / 2;
-	destination.y = y - height / 2;
+	float destX = x - width / 2;
+	float destY = y - height / 2;
+	//cout << "destX: " << destX << " destY: " << destY << endl;
+	destination.x = round(destX);
+	destination.y = round(destY);
 	destination.w = width;
 	destination.h = height;
 	// Modificar para que la referencia sea el punto central.

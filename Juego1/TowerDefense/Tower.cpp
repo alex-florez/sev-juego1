@@ -6,7 +6,7 @@ Tower::Tower(string filename, float x, float y, Game* game)
 
 	this->health = 100;
 	this->state = TowerState::ALIVE;
-	this->explotionAnim = new Animation("res/tower_explosion.png", 60, 56, 480, 56, 4, 8, false, game);
+	this->explotionAnim = new Animation("res/tower_explosion.png", 60, 56, 480, 56, 2, 8, false, game);
 }
 
 
