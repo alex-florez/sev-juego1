@@ -11,9 +11,6 @@ list<Tile*> MapManager::getPathTiles() {
 	return this->pathTiles;
 }
 
-list<Tile*> MapManager::getShootPoints() {
-	return this->shootPoints;
-}
 
 
 list<ConstructionTile*> MapManager::getConstructionTiles() {
@@ -127,12 +124,12 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			break;
 		}
 
-		case 'A': {
+	/*	case 'A': {
 			Tile* shootPoint = new Tile("res/caja_madera.png", x, y, game);
 			shootPoint->y = shootPoint->y - shootPoint->height / 2;
 			shootPoints.push_back(shootPoint);
 			break;
-		}
+		}*/
 
 		case 'T': {
 			Tower* tower = new Tower("res/tower.png", x, y, game);

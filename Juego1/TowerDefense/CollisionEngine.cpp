@@ -4,15 +4,40 @@ CollisionEngine::CollisionEngine() {
 
 }
 
+
+void CollisionEngine::addTowers(map<int, Tower*>* towers) {
+	this->towers = towers;
+}
+
+void CollisionEngine::addEnemies(list<Enemy*>* enemies) {
+	this->enemies = enemies;
+}
+
+void CollisionEngine::addProjectiles(list<Projectile*>* projectiles) {
+	this->projectiles = projectiles;
+}
+
 void CollisionEngine::update() {
 
+
+	// Colisiones entre enemigos y proyectiles
+	for (auto const& enemy : *enemies) {
+		for (auto const& projectile : *projectiles) {
+			if (enemy->isOverlap(projectile)) {
+				projectile->impacted = true;
+				enemy->impactedBy(projectile);
+			}
+		}
+	}
+
 	// Colisiones entre enemigos y torres
-	for (auto const& enemy : enemies) {
-		enemy->isCollisioning = false;
-		for (auto const& pair : towers) {
+	for (auto const& enemy : *enemies) {
+		//enemy->isCollisioning = false;
+		for (auto const& pair : *towers) {
 			Tower* tower = pair.second;
-			if (enemy->isOverlap(tower) && !tower->invisible) { // Enemigo colisiona con la torre si esta no se está destruyendo...
-				enemy->isCollisioning = true;
+			if (enemy->isOverlap(tower) && 
+				tower->state != Tower::TowerState::EXPLODING) { // Enemigo colisiona con la torre si esta no se está destruyendo...
+				//enemy->isCollisioning = true;
 				enemy->attack(tower); // Hacer que ese enemigo ataque a esa torre.
 			}
 		}

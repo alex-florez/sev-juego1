@@ -32,7 +32,6 @@ public:
 	PathManager* getPathManager();
 	list<Enemy*> getEnemies();
 	list<Tile*> getPathTiles();
-	list<Tile*> getShootPoints();
 	list<ConstructionTile*> getConstructionTiles();
 	map<int, EnemyGenerator*> getEnemyGenerators();
 	map<int, Tower*> getTowers();
@@ -47,7 +46,6 @@ private:
 	char map[FILE_ROWS][FILE_COLS]; // matriz con los caracteres del mapa.
 	PathManager* pathManager; // Gestor de trayectorias
 	list<Tile*> pathTiles; // Tiles que representan los distintos caminos 
-	list<Tile*> shootPoints;
 	list<ConstructionTile*> constructionTiles; // Tiles en los que se puede construir torretas
 	
 

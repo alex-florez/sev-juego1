@@ -19,6 +19,8 @@ Enemy::Enemy(float x, float y, float speed, Game* game)
 
 	this->attackFrequency = 20;
 	this->ticksUntilNextAttack = 0;
+
+	this->health = 100;
 }
 
 
@@ -29,21 +31,21 @@ void Enemy::update() {
 	
 	if (endAnimation) { // Terminó la animación
 		
-		//if (state == game->stateDying) { // Estaba muriendo
-		//	state = game->stateDead;
-		//}
+		if (state == ActorState::DYING) { // Estaba muriendo
+			state = ActorState::DEAD;
+		}
 	}
 
 	// Si el enemigo no está colisionando con algo que siga moviéndose
-	if (!isCollisioning) { 
-		this->state = ActorState::MOVING;
-	}
-
-	//if (state == game->stateMoving) { // Moviendo
-	//	animation = aMoving;
+	//if (!isCollisioning) { 
+	//	this->state = ActorState::MOVING;
 	//}
+
 	if (state == ActorState::MOVING) {
 		animation = aMoving;
+	}
+	else if (state == ActorState::DYING) {
+		animation = aDying;
 	}
 
 	//if (state == game->stateDying) { // Muriendo
@@ -102,11 +104,17 @@ void Enemy::attack(Tower* tower) {
 	if (this->ticksUntilNextAttack <= 0) {
 		tower->health -= 30;
 		this->ticksUntilNextAttack = this->attackFrequency;
+		if (tower->health <= 0) { // Si tras este último ataque la torre se destruye...
+			this->state = ActorState::MOVING; // El enemigo vuelve al estado MOVING
+		}
 	}
 }
 
-//void Enemy::impacted() {
-//	if (state != game->stateDying) {
-//		state = game->stateDying;
-//	}
-//}
+void Enemy::impactedBy(Projectile* projectile) {
+	this->health -= projectile->damage;
+	if (this->health <= 0 && this->state != ActorState::DYING) {
+		this->state = ActorState::DYING;
+		cout << "salud del enemigo " << this->health << endl;
+		this->isCollisioning = true;
+	}
+}

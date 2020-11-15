@@ -13,7 +13,7 @@ public:
 	///		* MOVING: se está moviendo siguiendo la trayectoria que le corresponde.
 	///		* ATTACKING: está atacando a una de las torres.
 	/// </summary>
-	enum class ActorState { MOVING, ATTACKING };
+	enum class ActorState { MOVING, ATTACKING, DYING, DEAD};
 
 	Actor(string filename, float x, float y, int width, int height, Game* game);
 	~Actor();
@@ -34,8 +34,7 @@ public:
 	bool outRight; // Indica si el actor se sale por la derecha
 	bool outLeft; // Actor se sale por la izquierda.
 
-	bool invisible; // Indica si el actor es afectado por las colisiones o es atravesable.
-
+	
 	SDL_Texture* texture;
 	// Posición
 	float x;

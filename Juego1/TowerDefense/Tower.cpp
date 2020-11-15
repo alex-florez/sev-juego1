@@ -13,7 +13,6 @@ Tower::Tower(string filename, float x, float y, Game* game)
 void Tower::update() {
 	if (health <= 0) {
 		this->state = TowerState::EXPLODING;
-		this->invisible = true; // Invisible para que pueda ser atravesada por los enemigos.
 	}
 
 	if (this->state == TowerState::EXPLODING) {

@@ -68,7 +68,7 @@ void PathManager::update(Actor* actor) {
 					actor->vy = 0;
 				}
 			}
-		} else if(actor->state == Actor::ActorState::ATTACKING){
+		} else {
 			actor->vx = 0;
 			actor->vy = 0;
 		}

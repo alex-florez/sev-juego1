@@ -45,6 +45,12 @@ void GameLayer::init() {
 	// Proyectiles
 	projectiles.clear();
 
+	// Torretas
+	turrets.clear();
+
+	// Torres
+	towers.clear();
+
 	// Enemigos eliminados
 	killedEnemies = 0;
 
@@ -64,7 +70,6 @@ void GameLayer::init() {
 
 	this->pathTiles = mapManager->getPathTiles();
 	this->pathManager = mapManager->getPathManager();
-	this->shootPoints = mapManager->getShootPoints();
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
 	this->enemyGenerators = mapManager->getEnemyGenerators();
@@ -74,12 +79,9 @@ void GameLayer::init() {
 	this->enemies.push_back(this->enemyGenerators[1]->createEnemy());
 	this->enemies.push_back(this->enemyGenerators[2]->createEnemy());
 
-	this->collisionEngine->enemies = this->enemies;
-	this->collisionEngine->towers = this->towers;
-
-	Projectile* p = new Projectile(100, 60, game);
-	p->moveTo(460, 100);
-	projectiles.push_back(p);
+	this->collisionEngine->addTowers(&this->towers);
+	this->collisionEngine->addEnemies(&this->enemies);
+	this->collisionEngine->addProjectiles(&this->projectiles);
 
 	player = new Player(0, 0, game);
 }
@@ -131,6 +133,9 @@ void GameLayer::update() {
 		if (enemy->x + enemy->width / 2 <= 0) {
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
+		else if (enemy->state == Actor::ActorState::DEAD) { // Enemigo está muerto -> eliminarlo
+			markEnemyForDelete(enemy, deleteEnemies);
+		}
 		//} else if (player->isOverlap(enemy)) { // Colisión con el jugador
 		//	// Comprobamos si el player ha saltado encima del enemigo
 		//	if (player->isOver(enemy)) {
@@ -147,8 +152,24 @@ void GameLayer::update() {
 		//}
 	}
 
+	// Actualizar las torretas
+	for (auto const& turret : turrets) {
+		turret->update(); // Escanear enemigos
+		Projectile* p = turret->shoot(this->enemies); // Realizar disparo
+		if (p != nullptr) {
+			projectiles.push_back(p);
+		}
+	}
+
+	// Actualizar los proyectiles
 	for (auto const& projectile : projectiles) {
 		projectile->update();
+		if (!projectile->isInRender()) { // Proyectil fuera del render
+			markProjectileForDelete(projectile, deleteProjectiles);
+		}
+		else if (projectile->impacted) { // Proyectiles que ya han impactado.
+			markProjectileForDelete(projectile, deleteProjectiles);
+		}
 	}
 
 	// Actualizar torres
@@ -431,10 +452,6 @@ void GameLayer::draw() {
 	}
 
 
-	for (auto const& shootPoint : shootPoints) {
-		shootPoint->draw();
-	}
-
 	// Dibujamos los proyectiles
 	for (auto const& projectile : projectiles) {
 		projectile->draw();
@@ -484,9 +501,12 @@ void GameLayer::constructTurret(ConstructionTile* ct) {
 	if (!ct->occupied) { // Ocupada?
 		int x = (int)(ct->x / TILE_WIDTH) * TILE_WIDTH + TILE_WIDTH / 2;
 		int y = (int)(ct->y / TILE_HEIGHT) * TILE_HEIGHT + TILE_HEIGHT / 2;
-		this->turrets.push_back(new Turret("res/cannon1.png", x, y, 55, 14, game));
+		Turret* newTurret = new Turret("res/cannon1.png", x, y, 55, 14, game);
+		this->turrets.push_back(newTurret);
+
 		cout << "Nueva torreta en x: " << x << " y: " << y << endl;
 		ct->occupied = true;
+
 	}
 	else {
 		cout << "Ya hay una torreta construida en ese lugar" << endl;

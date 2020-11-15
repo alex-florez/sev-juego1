@@ -4,10 +4,12 @@
 Projectile::Projectile(float x, float y, Game* game)
 	: Actor("res/bullet1.png", x, y, 10, 10, game) {
 	
-	vx = 0;
+	vx = 16;
 	vy = 0;
 
 	speed = 16;
+	damage = 35;
+	this->impacted = false;
 }
 
 void Projectile::update() {

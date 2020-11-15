@@ -36,7 +36,6 @@ public:
 	void mouseToControls(SDL_Event event); // Uso del mouse
 
 	list<Tile*> pathTiles;
-	list<Tile*> shootPoints;
 
 	int mapWidth; // Ancho del mapa
 	int mapHeight; // Alto del mapa

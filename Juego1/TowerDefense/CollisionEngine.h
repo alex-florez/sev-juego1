@@ -14,10 +14,24 @@ class CollisionEngine
 public:
 	CollisionEngine();
 	void update();
+	void addTowers(map<int, Tower*>* towers);
+	void addEnemies(list<Enemy*>* enemies);
+	void addProjectiles(list<Projectile*>* projectiles);
 
+	/// <summary>
+	/// Puntero al mapa de torres que hay en el render.
+	/// </summary>
+	map<int, Tower*>* towers;
 
-	map<int, Tower*> towers;
-	list<Enemy*> enemies;
+	/// <summary>
+	/// Puntero a la lista de enemigos en el render.
+	/// </summary>
+	list<Enemy*>* enemies;
+
+	/// <summary>
+	/// Puntero a la lista de proyectiles en el render.
+	/// </summary>
+	list<Projectile*>* projectiles;
 
 };
 

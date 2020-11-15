@@ -18,7 +18,6 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 	clicked = false;
 
 	this->lastPoint = nullptr;
-	this->invisible = false;
 }
 
 Actor::~Actor() {

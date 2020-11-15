@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include <math.h>
 
+
 class Projectile : public Actor
 {
 public:
@@ -11,6 +12,8 @@ public:
 	void moveTo(float x, float y);
 
 
-	int speed;
+	int speed; // Velocidad del proyectil
+	int damage; // Daño causado por este proyectil
+	bool impacted; // Indica si este proyectil ha impactado ya o no
 };
 
