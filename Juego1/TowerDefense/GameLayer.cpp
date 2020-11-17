@@ -76,9 +76,6 @@ void GameLayer::init() {
 	this->towers = mapManager->getTowers();
 	this->constructionTiles = mapManager->getConstructionTiles();
 
-	this->enemies.push_back(this->enemyGenerators[1]->createEnemy());
-	this->enemies.push_back(this->enemyGenerators[2]->createEnemy());
-
 	this->collisionEngine->addTowers(&this->towers);
 	this->collisionEngine->addEnemies(&this->enemies);
 	this->collisionEngine->addProjectiles(&this->projectiles);
@@ -123,6 +120,12 @@ void GameLayer::update() {
 
 	// Actualizar el motor de colisiones
 	collisionEngine->update();
+
+	// Actualizar los generadores de enemigos
+	for (auto const& pair : enemyGenerators) {
+		Enemy* newEnemy = pair.second->createEnemy();
+		if (newEnemy != nullptr) enemies.push_back(newEnemy);
+	}
 
 	//player->update();
 	// Actualizamos los enemigos

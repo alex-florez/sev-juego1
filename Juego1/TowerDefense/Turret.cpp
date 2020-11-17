@@ -10,8 +10,8 @@ Turret::Turret(string filename, float x, float y,
 	this->shootCadency = 30;
 	this->ticksUntilNextShoot = this->shootCadency;
 
-	this->xDetectionRange = 4;
-	this->yDetectionRange = 4;
+	this->xDetectionRange = 8;
+	this->yDetectionRange = 8;
 }
 
 void Turret::update() {

@@ -1,6 +1,7 @@
 #include "PathManager.h"
 
 PathManager::PathManager() {
+	// Tres trayectorias distintas.
 	paths[1] = new Path();
 	paths[2] = new Path();
 	paths[3] = new Path();

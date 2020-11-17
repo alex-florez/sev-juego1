@@ -65,7 +65,7 @@ void MapManager::loadMap(string filename) {
 	}
 
 	streamFile.close();
-	parseObjects();
+	parseObjects(); // Parsear los objetos
 }
 
 
@@ -83,7 +83,8 @@ void MapManager::loadMapObject(char character, int i, int j) {
 
 	switch (character) {
 		case '1':
-		case '2': {
+		case '2': 
+		case '3': {
 			Tile* tile = new Tile("res/caja_madera.png", x, y, game);
 			tile->y = tile->y - tile->height / 2;
 			pathTiles.push_back(tile);
@@ -91,46 +92,17 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			this->pathManager->addPointToPath(pathId, new Point(j,i));
 			break;
 		}
-		//case '#': {
-		//	Tile* tile = new Tile("res/bloque_tierra.png", x, y, game);
-		//	// modificación para empezar a contar desde el suelo.
-		//	tile->y = tile->y - tile->height / 2;
-		//	tiles.push_back(tile);
-		//	space->addStaticActor(tile);
-		//	break;
-		//}
-		//case 'E': {
-		//	Enemy* enemy = new Enemy(x, y, game);
-		//	enemy->y = enemy->y - enemy->height / 2;
-		//	enemy->pathId = 1;
-		//	enemies.push_back(enemy);
-		//	//space->addDynamicActor(enemy);
-		//	char leftCharacter = map[i][j - 1];
-		//	int id = leftCharacter - '0';
-		//	enemy->pathId = id;
-		//	enemy->nextPoint = new Point(j-1, i);
-		//	break;
-		//}
 		case 'E': {
-			int pathId = map[i][j - 1] - '0';
-			this->enemyGenerators[pathId] = new EnemyGenerator(pathId, j, i, game);
+			int pathId = map[i][j - 1] - '0'; // Obtenemos el id de la trayectoria que seguirán los enemigos de este generador
+			this->enemyGenerators[pathId] = new EnemyGenerator(pathId, j, i, 100, 2, game);
 			break;
 		}
-
 		case 'C': {
 			ConstructionTile* constructionTile = new ConstructionTile(x, y, game);
 			constructionTile->y = constructionTile->y - constructionTile->height / 2;
 			this->constructionTiles.push_back(constructionTile);
 			break;
 		}
-
-	/*	case 'A': {
-			Tile* shootPoint = new Tile("res/caja_madera.png", x, y, game);
-			shootPoint->y = shootPoint->y - shootPoint->height / 2;
-			shootPoints.push_back(shootPoint);
-			break;
-		}*/
-
 		case 'T': {
 			Tower* tower = new Tower("res/tower.png", x, y, game);
 			tower->y = tower->y - tower->height / 2;
