@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy(float x, float y, float speed, Game* game)
-	: Actor("res/enemigo.png", x, y, 36, 40, game) {
+	: Pawn("res/enemigo.png", 36, 40, x, y, speed, game) {
 
 	//vx = -1 * ENEMY_SPEED;
 	vx = 0;
@@ -15,7 +15,7 @@ Enemy::Enemy(float x, float y, float speed, Game* game)
 	/*state = game->stateMoving;*/
 
 	this->state = ActorState::MOVING;
-	this->speed = speed;
+	//this->speed = speed;
 
 	this->attackFrequency = 20;
 	this->ticksUntilNextAttack = 0;
@@ -43,9 +43,14 @@ void Enemy::update() {
 
 	if (state == ActorState::MOVING) {
 		animation = aMoving;
+		this->stopFollowing = false;
 	}
 	else if (state == ActorState::DYING) {
 		animation = aDying;
+		this->stopFollowing = true;
+	}
+	else if (state == ActorState::ATTACKING) {
+		this->stopFollowing = true;
 	}
 
 	//if (state == game->stateDying) { // Muriendo

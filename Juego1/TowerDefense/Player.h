@@ -6,6 +6,7 @@
 #include "Animation.h"
 
 #define PLAYER_SPEED 3
+#define PLAYER_INITIAL_RESOURCES 200
 
 class Player : public Actor
 {
@@ -52,6 +53,9 @@ public:
 	// Vidas y tiempo de invulnerabilidad
 	int lifes = 3;
 	int invulnerableTime = 0;
+
+	// Recursos/materiales disponibles
+	int availableResources;
 };
 
 

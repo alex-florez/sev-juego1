@@ -19,7 +19,6 @@ void CollisionEngine::addProjectiles(list<Projectile*>* projectiles) {
 
 void CollisionEngine::update() {
 
-
 	// Colisiones entre enemigos y proyectiles
 	for (auto const& enemy : *enemies) {
 		for (auto const& projectile : *projectiles) {

@@ -25,6 +25,12 @@
     <Filter Include="Archivos de origen\Layers">
       <UniqueIdentifier>{0f0b90e1-0746-4bb5-aeee-276aee7980f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Torretas">
+      <UniqueIdentifier>{a6c5afdf-93c3-4bc9-9e98-832b31cbba64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Torretas">
+      <UniqueIdentifier>{ed898ed4-aebc-474c-99cf-84059e119027}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -96,8 +102,35 @@
     <ClCompile Include="ConstructionTile.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Turret.cpp">
+    <ClCompile Include="Pawn.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstructionManager.cpp">
+      <Filter>Archivos de origen\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopManager.cpp">
+      <Filter>Archivos de origen\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretItem.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretA.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretAFactory.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretB.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretBFactory.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretFactory.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,8 +200,35 @@
     <ClInclude Include="ConstructionTile.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Turret.h">
+    <ClInclude Include="Pawn.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructionManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretItem.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretA.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretB.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretAFactory.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretBFactory.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretFactory.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

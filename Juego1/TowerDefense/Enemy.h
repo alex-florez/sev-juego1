@@ -6,10 +6,11 @@
 #include "Path.h"
 #include "Tower.h"
 #include "Projectile.h"
+#include "Pawn.h"
 
 #define ENEMY_SPEED 2
 
-class Enemy : public Actor
+class Enemy : public Pawn
 {
 public:
 	Enemy(float x, float y, float speed, Game* game);

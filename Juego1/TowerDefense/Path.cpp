@@ -17,18 +17,31 @@ Point* Path::getNextPoint(Point* actual, Point* last) {
 	Point* right = new Point(actual->getX()+1, actual->getY());
 	Point* left = new Point(actual->getX()-1, actual->getY());
 
-	if (get(up) && (last == nullptr || !last->equals(up, 0))) {
+	if (get(up) && !last->equals(up, 0)) {
 		next = new Point(up->getX(), up->getY());
 	}
-	else if (get(right) && (last == nullptr || !last->equals(right, 0))) {
+	else if (get(right) && !last->equals(right, 0)) {
 		next = new Point(right->getX(), right->getY());
 	}
-	else if (get(left) && (last == nullptr || !last->equals(left, 0))) {
+	else if (get(left) && !last->equals(left, 0)) {
 		next = new Point(left->getX(), left->getY());
 	}
-	else if (get(down) && (last == nullptr || !last->equals(down, 0))) {
+	else if (get(down) && !last->equals(down, 0)) {
 		next = new Point(down->getX(), down->getY());
 	}
+
+	//if (get(up) && (last == nullptr || !last->equals(up, 0))) {
+	//	next = new Point(up->getX(), up->getY());
+	//}
+	//else if (get(right) && (last == nullptr || !last->equals(right, 0))) {
+	//	next = new Point(right->getX(), right->getY());
+	//}
+	//else if (get(left) && (last == nullptr || !last->equals(left, 0))) {
+	//	next = new Point(left->getX(), left->getY());
+	//}
+	//else if (get(down) && (last == nullptr || !last->equals(down, 0))) {
+	//	next = new Point(down->getX(), down->getY());
+	//}
 
 	return next;
 }

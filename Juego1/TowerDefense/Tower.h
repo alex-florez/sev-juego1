@@ -15,6 +15,7 @@ public:
 	void update();
 
 	int health;
+	int pathId;
 	enum class TowerState {ALIVE, EXPLODING, DESTROYED} state;
 	Animation* explotionAnim; // Animación de explosión
 

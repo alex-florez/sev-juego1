@@ -17,27 +17,13 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 	// Control del ratón
 	clicked = false;
 
-	this->lastPoint = nullptr;
+	//this->lastPoint = nullptr;
 }
 
 Actor::~Actor() {
 	//SDL_DestroyTexture(texture); // No podemos destruir la textura, porque está cacheada.
 }
 
-Point* Actor::getMatrixPoint() {
-	int j = (int)(this->x / 40);
-	int i = (int)(this->y / 40);
-
-	return new Point(j, i);
-	
-}
-
-bool Actor::isInPoint(Point* point) {
-	int xPoint = point->getX() * 40 + 20;
-	int yPoint = point->getY() * 40 + 20;
-
-	return this->x == xPoint && this->y == yPoint;
-}
 
 void Actor::draw() {
 	// Recorte en el fichero de la imagen

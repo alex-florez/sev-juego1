@@ -23,6 +23,7 @@ Player::Player(float x, float y, Game* game)
 	state = game->stateMoving;
 	orientation = game->orientationRight;
 	onAir = false;
+	this->availableResources = PLAYER_INITIAL_RESOURCES;
 }
 
 void Player::update() {

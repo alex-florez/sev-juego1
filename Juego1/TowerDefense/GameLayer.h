@@ -16,6 +16,7 @@
 #include "Tower.h"
 #include "CollisionEngine.h"
 #include "Turret.h"
+#include "ShopManager.h"
 
 #include <list>
 #include <map>
@@ -55,10 +56,11 @@ public:
 	int controlMoveX = 0;
 	int controlMoveY = 0;
 
-	// Coordenadas en las que se ha hecho click
-	ConstructionTile* clickedCT = nullptr; // Referencia al construction tile sobre el que se ha hecho click.
-	bool controlConstruct; // Se intenta construir una torreta.
-
+	
+	// Evento de click
+	bool mouseClick;
+	float xClick;
+	float yClick;
 
 	// Lista de enemigos
 	list<Enemy*> enemies;
@@ -80,7 +82,7 @@ public:
 	bool pause;
 	bool controlContinue;
 
-	// Trayectorias
+	// Gestor de Trayectorias
 	PathManager* pathManager;
 
 	// Mapa
@@ -92,21 +94,19 @@ public:
 	// Torres
 	map<int, Tower*> towers;
 
-	// Tiles de construcción
-	list<ConstructionTile*> constructionTiles;
+	// Gestor de construcción
+	ConstructionManager* constructionManager;
 
-	// Torretas construidas
-	list<Turret*> turrets;
+	// Gestor de compra de torretas
+	ShopManager* shopManager;
 
 private:
-	/// <summary>
-	/// Construye una nueva torreta del tipo seleccionado en el 
-	/// construction Tile pasado como parámetro, siempre y cuando
-	/// este no esté ocupado.
-	/// </summary>
-	/// <param name="ct">ConstructionTile en el que se quiere construir.</param>
-	void constructTurret(ConstructionTile* ct); 
 
+	/// <summary>
+	/// Este método carga las referencias a los distintos objetos obtenidas por
+	/// el MapManager tras cargar el mapa desde el fichero.
+	/// </summary>
+	void loadEntities();
 
 	void addNewEnemy();
 	void destroyEnemies();

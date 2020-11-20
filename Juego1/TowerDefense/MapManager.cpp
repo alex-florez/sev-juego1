@@ -4,6 +4,7 @@
 MapManager::MapManager(Game* game) {
 	this->game = game;
 	this->pathManager = new PathManager();
+	this->constructionManager = new ConstructionManager(game);
 }
 
 
@@ -11,10 +12,8 @@ list<Tile*> MapManager::getPathTiles() {
 	return this->pathTiles;
 }
 
-
-
-list<ConstructionTile*> MapManager::getConstructionTiles() {
-	return this->constructionTiles;
+ConstructionManager* MapManager::getConstructionManager() {
+	return this->constructionManager;
 }
 
 
@@ -100,7 +99,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		case 'C': {
 			ConstructionTile* constructionTile = new ConstructionTile(x, y, game);
 			constructionTile->y = constructionTile->y - constructionTile->height / 2;
-			this->constructionTiles.push_back(constructionTile);
+			this->constructionManager->addConstructionTile(constructionTile);
 			break;
 		}
 		case 'T': {

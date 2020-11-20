@@ -2,6 +2,7 @@
 
 #include "Path.h"
 #include "Actor.h"
+#include "Pawn.h"
 
 #include <map>
 
@@ -36,7 +37,7 @@ public:
 	/// a la trayectoria que este debe se seguir.
 	/// </summary>
 	/// <param name="actor"></param>
-	void update(Actor* actor);
+	void update(Pawn* pawn);
 
 	/// <summary>
 	/// Añade el punto pasado como parámetro, a la trayectoria
