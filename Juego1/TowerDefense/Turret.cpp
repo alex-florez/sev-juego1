@@ -14,20 +14,24 @@ Turret::Turret(string filename, float x, float y,
 	this->yDetectionRange = 8;
 }
 
-void Turret::update() {
+void Turret::update(list<Enemy*>& enemies) {
 	if (this->currentTarget != nullptr // Si ya hay un enemigo objetivo,
 		&& !isInArea(this->currentTarget)) { //  comprobar que no se haya salido del área de efecto
 		this->currentTarget = nullptr;
 	}
+	// Escanear en busca de enemigos.
+	scan(enemies);
+	// Calcular el ángulo que debe rotar la torreta.
+	this->angle = this->calculateAngleOfRotation();
 }
 
 
 
-Projectile* Turret::shoot(list<Enemy*>& enemies) {
+Projectile* Turret::shoot() {
 	this->ticksUntilNextShoot--;
 	Projectile* p = nullptr;
 	if (this->ticksUntilNextShoot <= 0) { // Se puede disparar
-		scan(enemies); // Escaneamos los enemigos para obtener el más cercano dentro del árera de efecto.
+		//scan(enemies); // Escaneamos los enemigos para obtener el más cercano dentro del árera de efecto.
 		if (this->currentTarget != nullptr) { // Obtener la posición del objetivo actual
 			p = new Projectile(x, y, game);
 			float targetX = this->currentTarget->x;
@@ -60,6 +64,15 @@ float Turret::distance(float x1, float y1, float x2, float y2) {
 	int dy = y2 - y1;
 	return sqrt(dx*dx + dy*dy);
 
+}
+
+float Turret::calculateAngleOfRotation() {
+	if (this->currentTarget != nullptr) {
+		float diffX = this->currentTarget->x - this->x;
+		float diffY = this->currentTarget->y - this->y;
+		return (atan2(diffY, diffX) * 180.0000) / 3.1416;
+	}
+	return 0.0;
 }
 
 bool Turret::isInArea(Enemy* enemy) {

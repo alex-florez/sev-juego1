@@ -20,6 +20,7 @@ public:
 	virtual void draw();
 	bool isOverlap(Actor* actor);
 	bool isInRender();
+	void rotate(int angle);
 
 
 	// Control con el ratón
@@ -34,6 +35,11 @@ public:
 
 	
 	SDL_Texture* texture;
+	SDL_Surface* surface;
+
+	//Ángulo
+	int angle;
+
 	// Posición
 	float x;
 	float y;

@@ -17,8 +17,8 @@ class Turret : public Actor
 public:
 	Turret(string filename, float x, float y, 
 		float width, float height, Game* game);
-	Projectile* shoot(list<Enemy*>& enemies);
-	void update();
+	Projectile* shoot();
+	void update(list<Enemy*>& enemies);
 
 	// Referencia al enemigo más cercano que es objetivo actual de disparo.
 	Enemy* currentTarget;
@@ -65,5 +65,12 @@ private:
 	/// <param name="y2"></param>
 	/// <returns></returns>
 	float distance(float x1, float y1, float x2, float y2);
+
+	/// <summary>
+	/// Método que devuelve el ángulo de rotación en grados que 
+	/// debe de rotar esta torreta para apuntar al enemigo objetivo.
+	/// </summary>
+	/// <returns></returns>
+	float calculateAngleOfRotation();
 };
 

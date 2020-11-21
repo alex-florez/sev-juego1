@@ -3,9 +3,9 @@
 Actor::Actor(string filename, float x, float y, int width, int height, Game* game) {
 	this->game = game;
 	// Creamos la textura: la buscamos en la cache de texturas
-	//SDL_Surface* surface = IMG_Load(filename.c_str());
-	//texture = SDL_CreateTextureFromSurface(game->renderer, surface);
-	texture = game->getTexture(filename);
+	surface = IMG_Load(filename.c_str());
+	texture = SDL_CreateTextureFromSurface(game->renderer, surface);
+	//texture = game->getTexture(filename);
 	this->x = x;
 	this->y = y;
 	// Lo que mide el fichero
@@ -18,6 +18,7 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 	clicked = false;
 	this->filename = filename;
 	//this->lastPoint = nullptr;
+	this->angle = 0;
 }
 
 
@@ -44,8 +45,7 @@ void Actor::draw() {
 	destination.w = width;
 	destination.h = height;
 	// Modificar para que la referencia sea el punto central.
-
-	SDL_RenderCopyEx(game->renderer, texture, &source, &destination, 0, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(game->renderer, texture, &source, &destination, this->angle, NULL, SDL_FLIP_NONE);
 }
 
 bool Actor::isOverlap(Actor* actor) {

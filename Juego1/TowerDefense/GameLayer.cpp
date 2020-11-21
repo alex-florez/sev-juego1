@@ -151,8 +151,8 @@ void GameLayer::update() {
 
 	// Actualizar las torretas
 	for (auto const& turret : this->constructionManager->turrets) {
-		turret->update(); // Escanear enemigos
-		Projectile* p = turret->shoot(this->enemies); // Realizar disparo
+		turret->update(this->enemies); // Escanear enemigos
+		Projectile* p = turret->shoot(); // Realizar disparo
 		if (p != nullptr) {
 			projectiles.push_back(p);
 		}
