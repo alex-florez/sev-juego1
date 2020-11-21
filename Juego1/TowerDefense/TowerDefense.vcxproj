@@ -51,7 +51,7 @@
     <ClCompile Include="TurretB.cpp" />
     <ClCompile Include="TurretBFactory.cpp" />
     <ClCompile Include="TurretFactory.cpp" />
-    <ClCompile Include="TurretItem.cpp" />
+    <ClCompile Include="UITurretItem.cpp" />
     <ClCompile Include="UIPurchasedTurret.cpp" />
     <ClCompile Include="UITextIcon.cpp" />
   </ItemGroup>
@@ -87,7 +87,7 @@
     <ClInclude Include="TurretB.h" />
     <ClInclude Include="TurretBFactory.h" />
     <ClInclude Include="TurretFactory.h" />
-    <ClInclude Include="TurretItem.h" />
+    <ClInclude Include="UITurretItem.h" />
     <ClInclude Include="UIPurchasedTurret.h" />
     <ClInclude Include="UITextIcon.h" />
   </ItemGroup>

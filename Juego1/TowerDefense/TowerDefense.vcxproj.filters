@@ -111,9 +111,6 @@
     <ClCompile Include="ShopManager.cpp">
       <Filter>Archivos de origen\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="TurretItem.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="Turret.cpp">
       <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
@@ -136,6 +133,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="UIPurchasedTurret.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="UITurretItem.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -215,9 +215,6 @@
     <ClInclude Include="ShopManager.h">
       <Filter>Archivos de encabezado\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TurretItem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Turret.h">
       <Filter>Archivos de encabezado\Torretas</Filter>
     </ClInclude>
@@ -240,6 +237,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="UIPurchasedTurret.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="UITurretItem.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

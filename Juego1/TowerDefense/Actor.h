@@ -46,6 +46,8 @@ public:
 	// Tamaño de la imagen real
 	int fileWidth;
 	int fileHeight;
+	// String con el path de la imagen
+	string filename;
 	
 	Game* game;
 

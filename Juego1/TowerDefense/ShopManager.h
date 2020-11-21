@@ -2,7 +2,7 @@
 
 #include "Player.h"
 #include "Game.h"
-#include "TurretItem.h"
+#include "UITurretItem.h"
 #include "Turret.h"
 #include "TurretAFactory.h"
 #include "TurretBFactory.h"
@@ -52,13 +52,13 @@ public:
 
 	Game* game;
 	Player* player;
-	list<TurretItem*> turretItems; // Lista con los items de la UI.
+	list<UITurretItem*> turretItems; // Lista con los items de la UI.
 	Turret* purchasedTurret; // Almacena una referencia a una torreta que se ha comprado.
 	UIPurchasedTurret* uiPurchasedTurret; // Icono de la interfaz que muestra la torreta recién comprada disponible.
 
 private:
 	void init();
-	TurretItem* getClickedTurretItem(float x, float y);
+	UITurretItem* getClickedTurretItem(float x, float y);
 	
 };
 

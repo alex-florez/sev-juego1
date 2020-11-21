@@ -16,9 +16,10 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 	this->height = height;
 	// Control del ratón
 	clicked = false;
-
+	this->filename = filename;
 	//this->lastPoint = nullptr;
 }
+
 
 Actor::~Actor() {
 	//SDL_DestroyTexture(texture); // No podemos destruir la textura, porque está cacheada.

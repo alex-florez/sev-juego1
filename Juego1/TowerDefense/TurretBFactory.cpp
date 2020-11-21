@@ -3,7 +3,11 @@
 TurretBFactory::TurretBFactory(Game* game)
 	: TurretFactory(game) {
 
-	this->iconView = new Actor("res/cannon2Icon.png", 0, 0, 31, 44, game);
+	this->iconView = new Actor("res/cannon2Icon.png", 0, 0, 44, 31, game);
+	this->iconName = "res/cannon2Icon.png";
+	this->iconWidth = 44;
+	this->iconHeight = 31;
+	this->cost = 500;
 }
 
 
