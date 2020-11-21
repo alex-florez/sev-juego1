@@ -8,7 +8,6 @@
 #include <SDL_ttf.h>
 #include <map>
 
-#include "SDL_rotozoom.h"
 
 using namespace std;
 
