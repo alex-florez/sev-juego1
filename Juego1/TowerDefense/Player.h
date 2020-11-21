@@ -6,7 +6,9 @@
 #include "Animation.h"
 
 #define PLAYER_SPEED 3
-#define PLAYER_INITIAL_RESOURCES 200
+#define PLAYER_INITIAL_RESOURCES 500
+#define PLAYER_HIT_RESOURCES 25 // Recursos añadidos al jugador cuando un enemigo es impactado.
+#define PLAYER_KILL_RESOURCES 50 // Recursos añadidos al jugador cuando elimina a un enemigo.
 
 class Player : public Actor
 {

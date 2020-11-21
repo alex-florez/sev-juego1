@@ -14,5 +14,6 @@ public:
 	virtual Turret* createTurret() = 0;
 
 	Game* game;
+	Actor* iconView; // Representa un icono con la miniatura de la torreta.
 };
 

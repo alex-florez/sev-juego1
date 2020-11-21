@@ -17,6 +17,7 @@
 #include "CollisionEngine.h"
 #include "Turret.h"
 #include "ShopManager.h"
+#include "UITextIcon.h"
 
 #include <list>
 #include <map>
@@ -99,6 +100,9 @@ public:
 
 	// Gestor de compra de torretas
 	ShopManager* shopManager;
+
+	// UI
+	UITextIcon* uiRecursos;
 
 private:
 

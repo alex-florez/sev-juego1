@@ -17,6 +17,11 @@ void CollisionEngine::addProjectiles(list<Projectile*>* projectiles) {
 	this->projectiles = projectiles;
 }
 
+void CollisionEngine::addPlayer(Player* player) {
+	this->player = player;
+}
+
+
 void CollisionEngine::update() {
 
 	// Colisiones entre enemigos y proyectiles
@@ -24,7 +29,7 @@ void CollisionEngine::update() {
 		for (auto const& projectile : *projectiles) {
 			if (enemy->isOverlap(projectile)) {
 				projectile->impacted = true;
-				enemy->impactedBy(projectile);
+				enemy->impactedBy(projectile, player);
 			}
 		}
 	}

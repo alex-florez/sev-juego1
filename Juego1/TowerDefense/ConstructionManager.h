@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Turret.h"
 #include "ConstructionTile.h"
+#include "ShopManager.h"
 
 /// <summary>
 /// Clase encargada de gestionar la compra y construcción
@@ -14,16 +15,18 @@
 class ConstructionManager
 {
 public:
-	ConstructionManager(Game* game);
-
-	void construct(float x, float y);
+	ConstructionManager(Game* game, ShopManager* shopManager);
 
 	/// <summary>
-	/// Construye una torreta sobre el constructionTile
-	/// pasado como parámetro, siempre y cuando este no esté
-	/// ocupado y haya alguna torreta seleccionada para construir.
+	/// Recibe como parámetros las coordenadas en las que se ha
+	/// hecho click y si hay algún construction tile en esas coordenadas
+	/// construye la torreta pasada como parámetro.
 	/// </summary>
-	void construct(ConstructionTile* ct);
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <param name="turret">Referencia a objeto de tipo Turret</param>
+	void construct(float x, float y, Turret* turret);
+
 
 	/// <summary>
 	/// Dadas unas coordenadas x e y, recorre la lista de tiles 
@@ -44,9 +47,9 @@ public:
 	
 	list<ConstructionTile*> constructionTiles; // Lista de tiles en los que se puede construir.
 	list<Turret*> turrets; // Torretas construidas hasta ahora.
-	Turret* currentTurret; // Referencia a la torreta que se ha adquirido
 	Player* player;
 	Game* game;
+	ShopManager* shopManager; // Referencia a la tienda
 
 };
 

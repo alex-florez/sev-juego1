@@ -115,11 +115,15 @@ void Enemy::attack(Tower* tower) {
 	}
 }
 
-void Enemy::impactedBy(Projectile* projectile) {
+void Enemy::impactedBy(Projectile* projectile, Player* player) {
 	this->health -= projectile->damage;
+	// Incrementar recursos del jugador por haber impactado a un enemigo
+	player->availableResources += PLAYER_HIT_RESOURCES; 
 	if (this->health <= 0 && this->state != ActorState::DYING) {
 		this->state = ActorState::DYING;
+		// Incrementar recursos del jugador por haber eliminado al enemigo.
+		player->availableResources += PLAYER_KILL_RESOURCES;
 		cout << "salud del enemigo " << this->health << endl;
-		this->isCollisioning = true;
+		//this->isCollisioning = true;
 	}
 }

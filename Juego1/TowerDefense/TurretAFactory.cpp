@@ -3,7 +3,8 @@
 
 TurretAFactory::TurretAFactory(Game* game)
 	: TurretFactory(game) {
-
+	// Crear el icono en miniatura
+	this->iconView = new Actor("res/cannon1Icon.png", 0, 0, 43, 11, game);
 }
 
 Turret* TurretAFactory::createTurret() {

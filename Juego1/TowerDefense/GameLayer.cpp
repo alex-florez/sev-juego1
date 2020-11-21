@@ -65,20 +65,22 @@ void GameLayer::init() {
 	//buttonJump = new Actor("res/boton_salto.png", WIDTH*0.9, HEIGHT * 0.55, 100, 100, game);
 	//buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
+	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 30, 30, "res/resourcesIcon.png", "", game);
+
 	player = new Player(0, 0, game);
 
 	// Gestor de compra
 	this->shopManager = new ShopManager(player, game);
 
-	mapManager->loadMap("res/mapa-1.txt");
+	mapManager->loadMap("res/mapa-2.txt");
 	loadEntities();
 
 	// inicializar el motor de colisiones
 	this->collisionEngine->addTowers(&this->towers);
 	this->collisionEngine->addEnemies(&this->enemies);
 	this->collisionEngine->addProjectiles(&this->projectiles);
+	this->collisionEngine->addPlayer(player);
 
-	
 }
 
 
@@ -211,6 +213,10 @@ void GameLayer::update() {
 	//	}
 	//}
 
+
+	// Actualizar UI
+	this->uiRecursos->text->content = to_string(this->player->availableResources);
+
 	for (auto const& enemy : enemies) { // Marcamos para eliminar aquellos enemigos en el estado muerto.
 		//if (enemy->state == game->stateDead) {
 		//	markEnemyForDelete(enemy, deleteEnemies);
@@ -276,11 +282,8 @@ void GameLayer::processControls() {
 	// Se ha hecho click con el ratón
 	if (mouseClick) {
 		// Delegar a los managers el control del click
-		this->constructionManager->construct(xClick, yClick); // Construir torreta
-		Turret* purchasedTurret = this->shopManager->purchase(xClick, yClick); // Comprar torreta
-		if (purchasedTurret != nullptr) {
-			this->constructionManager->currentTurret = purchasedTurret;
-		}
+		this->constructionManager->construct(xClick, yClick, this->shopManager->getPurchasedTurret()); // Construir torreta
+		this->shopManager->purchase(xClick, yClick); // Comprar torreta
 		mouseClick = false;
 	}
 
@@ -473,9 +476,11 @@ void GameLayer::draw() {
 	// Dibujar UI con los items de las torretas
 	this->shopManager->draw();
 
+	this->uiRecursos->draw();
 
-	textPoints->draw();
-	backgroundPoints->draw();
+
+	//textPoints->draw();
+	//backgroundPoints->draw();
 	// HUD
 	if (game->input == GameInputType::MOUSE) { // Dibujar el HUD solo si el tipo de entrada es el mouse
 		//buttonJump->draw(); // NO TIENEN SCROLL, POSISICIÓN FIJA
@@ -517,6 +522,7 @@ void GameLayer::loadEntities() {
 	this->pathTiles = mapManager->getPathTiles();
 	this->pathManager = mapManager->getPathManager();
 	this->constructionManager = mapManager->getConstructionManager();
+	this->constructionManager->shopManager = this->shopManager;
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
 	this->enemyGenerators = mapManager->getEnemyGenerators();

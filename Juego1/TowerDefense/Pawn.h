@@ -11,6 +11,7 @@ class Pawn : public Actor
 {
 public:
 	Pawn(string filename, int width, int height, float x, float y, float speed, Game* game);
+
 	/// <summary>
 	/// Devuelve la posición actual de este Pawn en la 
 	/// matriz del mapa.

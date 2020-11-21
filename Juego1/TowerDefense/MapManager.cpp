@@ -4,7 +4,7 @@
 MapManager::MapManager(Game* game) {
 	this->game = game;
 	this->pathManager = new PathManager();
-	this->constructionManager = new ConstructionManager(game);
+	this->constructionManager = new ConstructionManager(game, nullptr);
 }
 
 

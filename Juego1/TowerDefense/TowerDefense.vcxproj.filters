@@ -132,6 +132,12 @@
     <ClCompile Include="TurretFactory.cpp">
       <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
+    <ClCompile Include="UITextIcon.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPurchasedTurret.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -229,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="TurretFactory.h">
       <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="UITextIcon.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPurchasedTurret.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -52,6 +52,8 @@
     <ClCompile Include="TurretBFactory.cpp" />
     <ClCompile Include="TurretFactory.cpp" />
     <ClCompile Include="TurretItem.cpp" />
+    <ClCompile Include="UIPurchasedTurret.cpp" />
+    <ClCompile Include="UITextIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -86,6 +88,8 @@
     <ClInclude Include="TurretBFactory.h" />
     <ClInclude Include="TurretFactory.h" />
     <ClInclude Include="TurretItem.h" />
+    <ClInclude Include="UIPurchasedTurret.h" />
+    <ClInclude Include="UITextIcon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

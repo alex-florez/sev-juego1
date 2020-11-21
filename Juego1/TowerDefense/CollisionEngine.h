@@ -5,6 +5,7 @@
 
 #include "Tower.h"
 #include "Enemy.h"
+#include "Player.h"
 
 /// <summary>
 /// Clase que modela un motor muy simple de colisiones.
@@ -17,6 +18,7 @@ public:
 	void addTowers(map<int, Tower*>* towers);
 	void addEnemies(list<Enemy*>* enemies);
 	void addProjectiles(list<Projectile*>* projectiles);
+	void addPlayer(Player* player);
 
 	/// <summary>
 	/// Puntero al mapa de torres que hay en el render.
@@ -32,6 +34,12 @@ public:
 	/// Puntero a la lista de proyectiles en el render.
 	/// </summary>
 	list<Projectile*>* projectiles;
+
+	/// <summary>
+	/// Referencia al jugador.
+	/// </summary>
+	Player* player;
+
 
 };
 

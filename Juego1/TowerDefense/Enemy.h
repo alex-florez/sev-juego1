@@ -7,6 +7,7 @@
 #include "Tower.h"
 #include "Projectile.h"
 #include "Pawn.h"
+#include "Player.h"
 
 #define ENEMY_SPEED 2
 
@@ -16,7 +17,7 @@ public:
 	Enemy(float x, float y, float speed, Game* game);
 	void update();
 	void draw() override;
-	void impactedBy(Projectile* projectile); // Enemigo recibe un impacto
+	void impactedBy(Projectile* projectile, Player* player); // Enemigo recibe un impacto
 	void attack(Tower* tower); // El enemigo ataca a una torre.
 
 	Animation* aMoving;
