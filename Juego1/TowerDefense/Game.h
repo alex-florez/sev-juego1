@@ -24,6 +24,7 @@ enum class GameInputType {
 	KEYBOARD, MOUSE, GAMEPAD
 };
 
+
 class Game
 {
 public:

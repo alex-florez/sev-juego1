@@ -1,18 +1,21 @@
 #include "Text.h"
 
-Text::Text(string content, float x, float y, Game* game) {
+Text::Text(string content, float x, float y, RGB* rgb, Game* game) {
 	this->content = content;
 	this->x = x;
 	this->y = y;
+	if (rgb == nullptr)
+		this->rgb = new RGB(0, 0, 0);
+	else this->rgb = rgb;
 	this->game = game;
 }
 
 
 void Text::draw() {
 	SDL_Color color;
-	color.r = 255;
-	color.g = 145;
-	color.b = 255;
+	color.r = this->rgb->r;
+	color.g = this->rgb->g;
+	color.b = this->rgb->b;
 	color.a = 255; // Transparencia: 255 -> Opaco
 
 	SDL_Surface* surface = TTF_RenderText_Blended(game->font, content.c_str(), color);

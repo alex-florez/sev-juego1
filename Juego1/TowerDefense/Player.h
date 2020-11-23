@@ -58,6 +58,9 @@ public:
 
 	// Recursos/materiales disponibles
 	int availableResources;
+
+	// Enemigos eliminados en la ronda actual
+	int killedEnemiesInActualHorde = 0;
 };
 
 

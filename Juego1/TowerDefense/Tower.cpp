@@ -5,8 +5,8 @@ Tower::Tower(string filename, float x, float y, Game* game)
 	: Actor(filename, x, y, 60, 69, game) {
 
 	this->health = 100;
-	this->uiHealth = new UITextIcon(x - this->width/2, y - this->height - 15, 30, 30,
-		"res/healthIcon.png", to_string(this->health), game);
+	this->uiHealth = new UITextIcon(x - this->width/2, y - this->height - 15, 30, 30, 42,
+		new RGB(0, 255 ,255), "res/healthIcon.png", to_string(this->health), game);
 	this->state = TowerState::ALIVE;
 	this->explotionAnim = new Animation("res/tower_explosion.png", 60, 56, 480, 56, 2, 8, false, game);
 }

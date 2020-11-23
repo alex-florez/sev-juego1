@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include "Text.h"
+#include "RGB.h"
 
 
 /// <summary>
@@ -12,7 +13,7 @@ class UITextIcon : public Actor
 {
 public:
 	UITextIcon(float x, float y, float width, float height, 
-		string filename, string text, Game* game);
+		float padding, RGB* rgb, string filename, string text, Game* game);
 	void draw() override;
 	Text* text;
 };

@@ -20,8 +20,8 @@ GameLayer::GameLayer(Game* game)
 void GameLayer::init() {
 	// Puntuación
 	points = 0;
-	textPoints = new Text("hola", WIDTH * 0.92, HEIGHT * 0.05, game);
-	textPoints->content = to_string(points);
+	//textPoints = new Text("hola", WIDTH * 0.92, HEIGHT * 0.05, game);
+	//textPoints->content = to_string(points);
 	backgroundPoints = new Actor("res/icono_puntos.png", WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
 
 	space = new Space(0); // Instanciamos el motor de físicas con gravedad.
@@ -51,8 +51,6 @@ void GameLayer::init() {
 	// Torres
 	towers.clear();
 
-	// Enemigos eliminados
-	killedEnemiesInActualHorde = 0;
 
 	// Semilla aleatoria para generar números aleatorios
 	srand(SDL_GetTicks());
@@ -65,7 +63,9 @@ void GameLayer::init() {
 	//buttonJump = new Actor("res/boton_salto.png", WIDTH*0.9, HEIGHT * 0.55, 100, 100, game);
 	//buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
-	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 30, 30, "res/resourcesIcon.png", "", game);
+	RGB* color1 = new RGB(255, 255, 23);
+	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 30, 30, 50, color1, "res/resourcesIcon.png", "", game);
+	uiLeftEnemies = new UITextIcon(0.75 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, "res/leftEnemiesIcon.png", "0", game);
 
 	player = new Player(0, 0, game);
 
@@ -83,6 +83,7 @@ void GameLayer::init() {
 
 	// Establecer la ronda inicial al generador de enemigos
 	this->enemyGenerator->setNextHorde(this->hordes[currentHorde]);
+	this->leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies;
 
 }
 
@@ -133,7 +134,6 @@ void GameLayer::update() {
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 		else if (enemy->state == Actor::ActorState::DEAD) { // Enemigo está muerto -> eliminarlo
-			killedEnemiesInActualHorde++; // Incrementar el nº de enemigos eliminados.
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 		//} else if (player->isOverlap(enemy)) { // Colisión con el jugador
@@ -181,13 +181,20 @@ void GameLayer::update() {
 		}
 	}
 
+	// Enemigos restantes
+	if (this->currentHorde <= this->hordes.size()) // Actualizar el nº de enemigos restantes
+		leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies - this->player->killedEnemiesInActualHorde;
+
+
 	// Actualizar hordas
 	if (this->currentHorde <= this->hordes.size()) { // Aún no se han terminado las hordas...
-		if (this->hordes[currentHorde]->totalNumberOfEnemies == this->killedEnemiesInActualHorde) {
+		if (this->hordes[currentHorde]->totalNumberOfEnemies == this->player->killedEnemiesInActualHorde) {
 			this->currentHorde++;
-			this->killedEnemiesInActualHorde = 0;
-			if (this->currentHorde <= this->hordes.size())
+			this->player->killedEnemiesInActualHorde = 0;
+			if (this->currentHorde <= this->hordes.size()) {
 				this->enemyGenerator->setNextHorde(this->hordes[currentHorde]);
+				this->leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies;
+			}
 		}
 	}
 	
@@ -230,6 +237,7 @@ void GameLayer::update() {
 
 	// Actualizar UI
 	this->uiRecursos->text->content = to_string(this->player->availableResources);
+	this->uiLeftEnemies->text->content = to_string(this->leftEnemies);
 
 	for (auto const& enemy : enemies) { // Marcamos para eliminar aquellos enemigos en el estado muerto.
 		//if (enemy->state == game->stateDead) {
@@ -491,6 +499,7 @@ void GameLayer::draw() {
 	this->shopManager->draw();
 
 	this->uiRecursos->draw();
+	this->uiLeftEnemies->draw();
 
 
 	//textPoints->draw();

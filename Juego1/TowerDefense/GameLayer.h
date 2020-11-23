@@ -19,6 +19,7 @@
 #include "ShopManager.h"
 #include "UITextIcon.h"
 #include "Horde.h"
+#include "RGB.h"
 
 #include <list>
 #include <map>
@@ -75,7 +76,8 @@ public:
 	Text* textPoints;
 	int points;
 
-	int killedEnemiesInActualHorde = 0; // Enemigos eliminados en la horda actual
+	 // Enemigos eliminados en la horda actual
+	int leftEnemies = 0; // enemigos de la horda actual que quedan vivos
 	int currentHorde = 1; // Horda actual
 
 
@@ -107,6 +109,7 @@ public:
 
 	// UI
 	UITextIcon* uiRecursos;
+	UITextIcon* uiLeftEnemies;
 
 	// Hordas de enemigos
 	map<int, Horde*> hordes;

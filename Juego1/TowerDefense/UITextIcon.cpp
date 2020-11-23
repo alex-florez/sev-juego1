@@ -1,10 +1,10 @@
 #include "UITextIcon.h"
 
 UITextIcon::UITextIcon(float x, float y, float width, float height,
-	string filename, string text, Game* game)
+	float padding, RGB* rgb, string filename, string text, Game* game)
 	: Actor(filename, x, y, width, height, game) {
 
-	this->text = new Text(text, x + 42, y, game);
+	this->text = new Text(text, x + padding, y, rgb, game);
 }
 
 void UITextIcon::draw() {
