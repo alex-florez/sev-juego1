@@ -18,6 +18,7 @@
 #include "Turret.h"
 #include "ShopManager.h"
 #include "UITextIcon.h"
+#include "Horde.h"
 
 #include <list>
 #include <map>
@@ -69,11 +70,14 @@ public:
 	list<Projectile*> projectiles;
 
 	int newEnemyTime = 0;
-	int killedEnemies = 0;
 
 	// Puntuación
 	Text* textPoints;
 	int points;
+
+	int killedEnemiesInActualHorde = 0; // Enemigos eliminados en la horda actual
+	int currentHorde = 1; // Horda actual
+
 
 	// Audio
 	Audio* audioBackground;
@@ -89,8 +93,8 @@ public:
 	// Mapa
 	MapManager* mapManager;
 
-	// Generadores de enemigos
-	map<int,EnemyGenerator*> enemyGenerators;
+	// Generador de enemigos
+	EnemyGenerator* enemyGenerator;
 
 	// Torres
 	map<int, Tower*> towers;
@@ -103,6 +107,9 @@ public:
 
 	// UI
 	UITextIcon* uiRecursos;
+
+	// Hordas de enemigos
+	map<int, Horde*> hordes;
 
 private:
 

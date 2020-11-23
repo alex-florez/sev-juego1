@@ -1,32 +1,35 @@
 #pragma once
 
+#include <map>
 
 #include "Point.h"
 #include "Enemy.h"
+#include "Horde.h"
 
 /// <summary>
-/// Clase que representa un generador de enemigos 
-/// situado en un lugar del mapa.
+/// Clase que representa un generador de enemigos que crea
+/// enemigos en distintos puntos del mapa que siguen distintas trayectorias
+/// y que varían en número según la Horda indicada.
 /// </summary>
 class EnemyGenerator
 {
 public:
-	EnemyGenerator(int pathId, int x, int y, int spawnFrequency, int numberOfEnemies, Game* game);
+	EnemyGenerator(Game* game);
 	Enemy* createEnemy();
+	void setNextHorde(Horde* horde);
 
+	// Puntos de Spawn (int: id del camino, Point: punto de spawn)
+	map<int, Point*> spawnPoints;
 
 private:
 	Game* game;
-	int x;
-	int y;
-	int pathId; // Id de la trayectoria que deben seguir los enemigos generados.
-	Point* startPoint; // Punto de inicio en el que aparecerán los enemigos.
 
 	// Generación aleatoria de enemigos
-	int spawnFrequency; // Frecuencia de aparición
+	Horde* actualHorde; // Referencia a la horda actual
 	int ticksUntilNextSpawn; // Vble de control 
-	int numberOfEnemies; // Nº de enemigos que se van a generar
 	int generatedEnemies; // Almacena el nº de enemigos generados hasta el momento.
+
+	
 	
 
 private:
@@ -37,5 +40,6 @@ private:
 	/// </summary>
 	/// <returns></returns>
 	int randomInt(int a, int b);
+
 };
 

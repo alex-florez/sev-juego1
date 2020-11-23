@@ -52,7 +52,7 @@ void GameLayer::init() {
 	towers.clear();
 
 	// Enemigos eliminados
-	killedEnemies = 0;
+	killedEnemiesInActualHorde = 0;
 
 	// Semilla aleatoria para generar números aleatorios
 	srand(SDL_GetTicks());
@@ -80,6 +80,9 @@ void GameLayer::init() {
 	this->collisionEngine->addEnemies(&this->enemies);
 	this->collisionEngine->addProjectiles(&this->projectiles);
 	this->collisionEngine->addPlayer(player);
+
+	// Establecer la ronda inicial al generador de enemigos
+	this->enemyGenerator->setNextHorde(this->hordes[currentHorde]);
 
 }
 
@@ -116,10 +119,9 @@ void GameLayer::update() {
 	collisionEngine->update();
 
 	// Actualizar los generadores de enemigos
-	for (auto const& pair : enemyGenerators) {
-		Enemy* newEnemy = pair.second->createEnemy();
-		if (newEnemy != nullptr) enemies.push_back(newEnemy);
-	}
+	Enemy* newEnemy = this->enemyGenerator->createEnemy();
+	if (newEnemy != nullptr) enemies.push_back(newEnemy);
+	
 
 	//player->update();
 	// Actualizamos los enemigos
@@ -131,6 +133,7 @@ void GameLayer::update() {
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 		else if (enemy->state == Actor::ActorState::DEAD) { // Enemigo está muerto -> eliminarlo
+			killedEnemiesInActualHorde++; // Incrementar el nº de enemigos eliminados.
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 		//} else if (player->isOverlap(enemy)) { // Colisión con el jugador
@@ -177,6 +180,17 @@ void GameLayer::update() {
 			markTowerForDelete(pair.second, deleteTowers);
 		}
 	}
+
+	// Actualizar hordas
+	if (this->currentHorde <= this->hordes.size()) { // Aún no se han terminado las hordas...
+		if (this->hordes[currentHorde]->totalNumberOfEnemies == this->killedEnemiesInActualHorde) {
+			this->currentHorde++;
+			this->killedEnemiesInActualHorde = 0;
+			if (this->currentHorde <= this->hordes.size())
+				this->enemyGenerator->setNextHorde(this->hordes[currentHorde]);
+		}
+	}
+	
 
 	// Actualizamos los proyectiles
 	//for (auto const& projectile : projectiles) {
@@ -525,8 +539,9 @@ void GameLayer::loadEntities() {
 	this->constructionManager->shopManager = this->shopManager;
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
-	this->enemyGenerators = mapManager->getEnemyGenerators();
+	this->enemyGenerator = mapManager->getEnemyGenerator();
 	this->towers = mapManager->getTowers();
+	this->hordes = mapManager->getHordes();
 }
 
 
@@ -568,20 +583,20 @@ void markTileForDelete(Tile* tile, list<Tile*>& deleteList) {
 }
 
 
-
-void GameLayer::addNewEnemy() {
-	newEnemyTime--;
-	if (newEnemyTime <= 0) {
-		for (int i = 0; i < (killedEnemies / ENEMY_SPAWN_FREQUENCY) + 1; i++) {
-			cout << "New enemy spawned" << endl;
-			// Random position
-			int rX = (rand() % (600 - 500)) + 1 + 500;
-			int rY = (rand() % (300 - 60)) + 1 + 60;
-			enemies.push_back(new Enemy(rX, rY, 2, game));
-		}
-		newEnemyTime = ENEMY_SPAWN_TIME;
-	}
-}
+//
+//void GameLayer::addNewEnemy() {
+//	newEnemyTime--;
+//	if (newEnemyTime <= 0) {
+//		for (int i = 0; i < (killedEnemies / ENEMY_SPAWN_FREQUENCY) + 1; i++) {
+//			cout << "New enemy spawned" << endl;
+//			// Random position
+//			int rX = (rand() % (600 - 500)) + 1 + 500;
+//			int rY = (rand() % (300 - 60)) + 1 + 60;
+//			enemies.push_back(new Enemy(rX, rY, 2, game));
+//		}
+//		newEnemyTime = ENEMY_SPAWN_TIME;
+//	}
+//}
 
 void GameLayer::destroyEnemies() {
 	for (auto const& enemy : enemies) {

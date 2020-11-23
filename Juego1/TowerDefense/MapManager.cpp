@@ -5,6 +5,7 @@ MapManager::MapManager(Game* game) {
 	this->game = game;
 	this->pathManager = new PathManager();
 	this->constructionManager = new ConstructionManager(game, nullptr);
+	this->enemyGenerator = new EnemyGenerator(game);
 }
 
 
@@ -21,12 +22,20 @@ PathManager* MapManager::getPathManager() {
 	return this->pathManager;
 }
 
-map<int, EnemyGenerator*> MapManager::getEnemyGenerators() {
-	return this->enemyGenerators;
+EnemyGenerator* MapManager::getEnemyGenerator() {
+	return this->enemyGenerator;
 }
 
 map<int, Tower*> MapManager::getTowers() {
 	return this->towers;
+}
+
+map<int, Horde*> MapManager::getHordes() {
+	// Cargar las hordas desde el fichero
+	this->hordes[1] = new Horde(4, 70, 100);
+	this->hordes[2] = new Horde(7, 50, 70);
+	this->hordes[3] = new Horde(10, 40, 60);
+	return this->hordes;
 }
 
 int MapManager::getMapHeight() {
@@ -93,7 +102,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		}
 		case 'E': {
 			int pathId = map[i][j - 1] - '0'; // Obtenemos el id de la trayectoria que seguirán los enemigos de este generador
-			this->enemyGenerators[pathId] = new EnemyGenerator(pathId, j, i, 100, 2, game);
+			this->enemyGenerator->spawnPoints[pathId] = new Point(j, i);
 			break;
 		}
 		case 'C': {

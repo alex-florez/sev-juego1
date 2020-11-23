@@ -8,7 +8,6 @@
 #include <SDL_ttf.h>
 #include <map>
 
-
 using namespace std;
 
 // Valores generales

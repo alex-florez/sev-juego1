@@ -30,6 +30,7 @@
     <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLayer.cpp" />
+    <ClCompile Include="Horde.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapManager.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="Horde.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MenuLayer.h" />
