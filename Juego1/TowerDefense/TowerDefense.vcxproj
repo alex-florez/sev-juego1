@@ -41,6 +41,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="RGB.cpp" />
     <ClCompile Include="ShopManager.cpp" />
     <ClCompile Include="Space.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="RGB.h" />
     <ClInclude Include="ShopManager.h" />
     <ClInclude Include="Space.h" />

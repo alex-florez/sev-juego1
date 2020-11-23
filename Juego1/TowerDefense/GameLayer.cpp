@@ -5,6 +5,7 @@ void markEnemyForDelete(Enemy* enemy, list<Enemy*>& deleteList);
 void markProjectileForDelete(Projectile* projectile, list<Projectile*>& deleteList);
 void markTileForDelete(Tile* tile, list<Tile*>& deleteList);
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList);
+void markResourcesForDelete(Resources* resources, list<Resources*>& deleteList);
 
 
 GameLayer::GameLayer(Game* game)
@@ -82,7 +83,7 @@ void GameLayer::init() {
 	this->collisionEngine->addPlayer(player);
 
 	// Establecer la ronda inicial al generador de enemigos
-	this->enemyGenerator->setNextHorde(this->hordes[currentHorde]);
+	this->enemyGenerator->setNextHorde(this->hordes[currentHorde], 0);
 	this->leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies;
 
 }
@@ -96,6 +97,7 @@ void GameLayer::update() {
 	list<Enemy*> deleteEnemies; // Enemigos a eliminar
 	list<Projectile*> deleteProjectiles; // Proyectiles a eliminar
 	list<Tower*> deleteTowers; // Torres a eliminar
+	list<Resources*> deleteResources; // Recolectables de recursos a eliminar
 
 	if (pause) {
 		return;
@@ -119,7 +121,7 @@ void GameLayer::update() {
 	// Actualizar el motor de colisiones
 	collisionEngine->update();
 
-	// Actualizar los generadores de enemigos
+	// Actualizar generador de enemigos
 	Enemy* newEnemy = this->enemyGenerator->createEnemy();
 	if (newEnemy != nullptr) enemies.push_back(newEnemy);
 	
@@ -151,6 +153,8 @@ void GameLayer::update() {
 		//	}
 		//}
 	}
+
+
 
 	// Actualizar las torretas
 	for (auto const& turret : this->constructionManager->turrets) {
@@ -188,16 +192,24 @@ void GameLayer::update() {
 
 	// Actualizar hordas
 	if (this->currentHorde <= this->hordes.size()) { // Aún no se han terminado las hordas...
-		if (this->hordes[currentHorde]->totalNumberOfEnemies == this->player->killedEnemiesInActualHorde) {
+		if (this->hordeHasFinished()) { // Horda finalizada
 			this->currentHorde++;
 			this->player->killedEnemiesInActualHorde = 0;
 			if (this->currentHorde <= this->hordes.size()) {
-				this->enemyGenerator->setNextHorde(this->hordes[currentHorde]);
+				this->enemyGenerator->setNextHorde(this->hordes[currentHorde], HORDE_DELAY);
 				this->leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies;
 			}
 		}
 	}
+
+	// Recolectables
+	this->addResourceCollectable();
 	
+	// Eliminar recolectables ya recogidos
+	for (auto const& resources : randomResources) {
+		if (resources->collected)
+			markResourcesForDelete(resources, deleteResources);
+	}
 
 	// Actualizamos los proyectiles
 	//for (auto const& projectile : projectiles) {
@@ -266,6 +278,12 @@ void GameLayer::update() {
 		delete delProjectile; // Se destruye el proyectil.
 	}
 	deleteProjectiles.clear();
+
+	for (auto const& delResource : deleteResources) {
+		randomResources.remove(delResource);
+		delete delResource;
+	}
+	deleteResources.clear();
 }
 
 
@@ -306,6 +324,12 @@ void GameLayer::processControls() {
 		// Delegar a los managers el control del click
 		this->constructionManager->construct(xClick, yClick, this->shopManager->getPurchasedTurret()); // Construir torreta
 		this->shopManager->purchase(xClick, yClick); // Comprar torreta
+		for (auto const& resources : randomResources) {
+			if (resources->containsPoint(xClick, yClick)) {
+				player->availableResources += resources->quantity;
+				resources->collected = true;
+			}
+		}
 		mouseClick = false;
 	}
 
@@ -495,6 +519,11 @@ void GameLayer::draw() {
 		turret->draw();
 	}
 
+	// Dibujar recolectables
+	for (auto const& resources : randomResources) {
+		resources->draw();
+	}
+
 	// Dibujar UI con los items de las torretas
 	this->shopManager->draw();
 
@@ -553,6 +582,24 @@ void GameLayer::loadEntities() {
 	this->hordes = mapManager->getHordes();
 }
 
+bool GameLayer::hordeHasFinished() {
+	if (currentHorde > hordes.size()) {
+		return false;
+	}
+	return player->killedEnemiesInActualHorde == hordes[currentHorde]->totalNumberOfEnemies;
+}
+
+
+void GameLayer::addResourceCollectable() {
+	this->ticksUntilNextResourcesSpawn--;
+
+	if (this->ticksUntilNextResourcesSpawn <= 0) {
+		float rX = rand() % (770 - 30 + 1) + 30;
+		float rY = rand() % (570 - 30 + 1) + 30;
+		this->randomResources.push_back(new Resources(rX, rY, game));
+		this->ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
+	}
+}
 
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList) {
 	bool inList = std::find(deleteList.begin(),
@@ -588,6 +635,15 @@ void markTileForDelete(Tile* tile, list<Tile*>& deleteList) {
 		tile) != deleteList.end();
 	if (!inList) {
 		deleteList.push_back(tile);
+	}
+}
+
+void markResourcesForDelete(Resources* resources, list<Resources*>& deleteList) {
+	bool inList = std::find(deleteList.begin(),
+		deleteList.end(),
+		resources) != deleteList.end();
+	if (!inList) {
+		deleteList.push_back(resources);
 	}
 }
 

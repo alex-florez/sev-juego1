@@ -23,9 +23,12 @@
 
 #include <list>
 #include <map>
+#include "Resources.h"
 
 #define ENEMY_SPAWN_TIME 110
-#define ENEMY_SPAWN_FREQUENCY 5		
+#define ENEMY_SPAWN_FREQUENCY 5
+#define HORDE_DELAY 120 // Delay de ticks entre cada horda
+#define RESOURCES_SPAWN_FREQUENCY 300
 
 
 class GameLayer : public Layer
@@ -114,6 +117,11 @@ public:
 	// Hordas de enemigos
 	map<int, Horde*> hordes;
 
+	// Recursos coleccionables
+	list<Resources*> randomResources;
+	int ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
+
+
 private:
 
 	/// <summary>
@@ -121,6 +129,19 @@ private:
 	/// el MapManager tras cargar el mapa desde el fichero.
 	/// </summary>
 	void loadEntities();
+
+	/// <summary>
+	/// Devuelve true si la horda actual ha terminado, es decir,
+	/// se han eliminado a todos los enemigos.
+	/// </summary>
+	/// <returns></returns>
+	bool hordeHasFinished();
+
+	/// <summary>
+	/// Añade recursos recolectables de forma aleatoria
+	/// cada cierto número de ticks
+	/// </summary>
+	void addResourceCollectable();
 
 	void addNewEnemy();
 	void destroyEnemies();

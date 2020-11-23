@@ -26,10 +26,10 @@ Enemy* EnemyGenerator::createEnemy() {
 	return e;
 }
 
-void EnemyGenerator::setNextHorde(Horde* horde)
+void EnemyGenerator::setNextHorde(Horde* horde, int delay)
 {
 	this->actualHorde = horde;
-	this->ticksUntilNextSpawn = this->randomInt(horde->spawnFrequencyRange[0],
+	this->ticksUntilNextSpawn = delay + this->randomInt(horde->spawnFrequencyRange[0],
 												horde->spawnFrequencyRange[1]);
 	this->generatedEnemies = 0;
 }

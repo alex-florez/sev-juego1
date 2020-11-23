@@ -16,7 +16,15 @@ class EnemyGenerator
 public:
 	EnemyGenerator(Game* game);
 	Enemy* createEnemy();
-	void setNextHorde(Horde* horde);
+
+	/// <summary>
+	/// Establece la siguiente horda pasada como parámetro y
+	/// añade un delay en los ticksUntilNextSpawn para esperar
+	/// al comienzo de la horda.
+	/// </summary>
+	/// <param name="horde"></param>
+	/// <param name="delay"></param>
+	void setNextHorde(Horde* horde, int delay);
 
 	// Puntos de Spawn (int: id del camino, Point: punto de spawn)
 	map<int, Point*> spawnPoints;
