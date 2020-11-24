@@ -1,9 +1,11 @@
 #pragma once
 #include "EnemyFactory.h"
+#include "EnemyB.h"
+
 class EnemyBFactory : public EnemyFactory
 {
 public:
-	EnemyBFactory();
+	EnemyBFactory(Game* game);
 	Enemy* createEnemy() override;
 };
 

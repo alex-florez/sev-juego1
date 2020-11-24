@@ -5,6 +5,10 @@
 #include "Point.h"
 #include "Enemy.h"
 #include "Horde.h"
+#include "EnemyFactory.h"
+#include "EnemyAFactory.h"
+#include "EnemyBFactory.h"
+#include "EnemyCFactory.h"
 
 /// <summary>
 /// Clase que representa un generador de enemigos que crea
@@ -28,7 +32,10 @@ public:
 
 	// Puntos de Spawn (int: id del camino, Point: punto de spawn)
 	map<int, Point*> spawnPoints;
-
+	// Factorías para construir los distintos tipos de enemigos.
+	map<char, EnemyFactory*> factories;
+	bool allGenerated; // Toma el valor true cuando todos los enemigos han sido generados
+	
 private:
 	Game* game;
 
@@ -36,7 +43,6 @@ private:
 	Horde* actualHorde; // Referencia a la horda actual
 	int ticksUntilNextSpawn; // Vble de control 
 	int generatedEnemies; // Almacena el nº de enemigos generados hasta el momento.
-
 	
 	
 

@@ -82,9 +82,11 @@ void GameLayer::init() {
 	this->collisionEngine->addProjectiles(&this->projectiles);
 	this->collisionEngine->addPlayer(player);
 
+	// Horda inicial
+	this->currentHorde = getNextHorde();
 	// Establecer la ronda inicial al generador de enemigos
-	this->enemyGenerator->setNextHorde(this->hordes[currentHorde], 0);
-	this->leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies;
+	this->enemyGenerator->setNextHorde(this->currentHorde, 0);
+	this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
 
 }
 
@@ -186,18 +188,17 @@ void GameLayer::update() {
 	}
 
 	// Enemigos restantes
-	if (this->currentHorde <= this->hordes.size()) // Actualizar el nº de enemigos restantes
-		leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies - this->player->killedEnemiesInActualHorde;
-
+	if (this->currentHorde != nullptr) // Actualizar el nº de enemigos restantes
+		leftEnemies = this->currentHorde->totalNumberOfEnemies - this->player->killedEnemiesInActualHorde;
 
 	// Actualizar hordas
-	if (this->currentHorde <= this->hordes.size()) { // Aún no se han terminado las hordas...
+	if (this->currentHorde != nullptr) { // Aún no se han terminado las hordas...
 		if (this->hordeHasFinished()) { // Horda finalizada
-			this->currentHorde++;
+			this->currentHorde = getNextHorde();
 			this->player->killedEnemiesInActualHorde = 0;
-			if (this->currentHorde <= this->hordes.size()) {
-				this->enemyGenerator->setNextHorde(this->hordes[currentHorde], HORDE_DELAY);
-				this->leftEnemies = this->hordes[currentHorde]->totalNumberOfEnemies;
+			if (this->currentHorde != nullptr) {
+				this->enemyGenerator->setNextHorde(this->currentHorde, HORDE_DELAY);
+				this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
 			}
 		}
 	}
@@ -583,10 +584,10 @@ void GameLayer::loadEntities() {
 }
 
 bool GameLayer::hordeHasFinished() {
-	if (currentHorde > hordes.size()) {
-		return false;
-	}
-	return player->killedEnemiesInActualHorde == hordes[currentHorde]->totalNumberOfEnemies;
+	return this->currentHorde != nullptr &&
+		(this->currentHorde->totalNumberOfEnemies == player->killedEnemiesInActualHorde
+			|| 
+			(this->enemyGenerator->allGenerated && this->enemies.empty()));
 }
 
 
@@ -600,6 +601,13 @@ void GameLayer::addResourceCollectable() {
 		this->ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
 	}
 }
+
+Horde* GameLayer::getNextHorde() {
+	Horde* next = this->hordes.front();
+	this->hordes.pop();
+	return next;
+}
+
 
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList) {
 	bool inList = std::find(deleteList.begin(),

@@ -5,7 +5,9 @@
 class EnemyFactory
 {
 public:
-	EnemyFactory();
-	virtual Enemy* createEnemy();
+	EnemyFactory(Game* game);
+	virtual Enemy* createEnemy() = 0;
+
+	Game* game;
 };
 

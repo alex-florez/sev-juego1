@@ -31,6 +31,8 @@
     <ClCompile Include="EnemyAFactory.cpp" />
     <ClCompile Include="EnemyB.cpp" />
     <ClCompile Include="EnemyBFactory.cpp" />
+    <ClCompile Include="EnemyC.cpp" />
+    <ClCompile Include="EnemyCFactory.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -76,6 +78,8 @@
     <ClInclude Include="EnemyAFactory.h" />
     <ClInclude Include="EnemyB.h" />
     <ClInclude Include="EnemyBFactory.h" />
+    <ClInclude Include="EnemyC.h" />
+    <ClInclude Include="EnemyCFactory.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="Game.h" />

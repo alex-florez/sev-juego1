@@ -23,7 +23,7 @@ public:
 	/// </summary>
 	enum class EnemyState { MOVING, ATTACKING, DYING, DEAD };
 
-	Enemy(string filename, float x, float y, float speed, Game* game);
+	Enemy(string filename, float width, float height, float x, float y, float speed, Game* game);
 	void update();
 	void draw() override;
 	void impactedBy(Projectile* projectile, Player* player); // Enemigo recibe un impacto

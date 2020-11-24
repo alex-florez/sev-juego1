@@ -168,6 +168,12 @@
     <ClCompile Include="EnemyBFactory.cpp">
       <Filter>Archivos de origen\Enemigos</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyC.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyCFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -294,6 +300,12 @@
       <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyC.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCFactory.h">
       <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
   </ItemGroup>

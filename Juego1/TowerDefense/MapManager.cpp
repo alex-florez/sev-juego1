@@ -30,11 +30,15 @@ map<int, Tower*> MapManager::getTowers() {
 	return this->towers;
 }
 
-map<int, Horde*> MapManager::getHordes() {
-	// Cargar las hordas desde el fichero
-	this->hordes[1] = new Horde(4, 70, 100);
-	this->hordes[2] = new Horde(7, 50, 70);
-	this->hordes[3] = new Horde(10, 40, 60);
+//map<int, Horde*> MapManager::getHordes() {
+//	// Cargar las hordas desde el fichero
+//	this->hordes[1] = new Horde(4, 70, 100);
+//	this->hordes[2] = new Horde(7, 50, 70);
+//	this->hordes[3] = new Horde(10, 40, 60);
+//	return this->hordes;
+//}
+
+queue<Horde*> MapManager::getHordes() {
 	return this->hordes;
 }
 
@@ -57,6 +61,9 @@ void MapManager::loadMap(string filename) {
 		return;
 	}
 	else {
+		// Primera linea de configuración
+		getline(streamFile, line);
+		parseConfigLine(line);
 		// Por línea
 		for (int i = 0; getline(streamFile, line); i++) {
 			totalLines++;
@@ -69,7 +76,7 @@ void MapManager::loadMap(string filename) {
 				//loadMapObject(character, i, j);
 			}
 		}
-		mapHeight = totalLines * 32;
+		mapHeight = (totalLines-1) * 32;
 	}
 
 	streamFile.close();
@@ -120,6 +127,45 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			break;
 		}
 	}
+}
+
+void MapManager::parseConfigLine(string line) {
+	list<string> data = split(line, ";");
+	int index = 1;
+	int maxSpawnFreq = 100;
+	int minSpawnFreq = 70;
+	for (auto const& d : data) {
+		queue<char> enemySequence = getCharQueue(d);
+		this->hordes.push(new Horde(index, enemySequence, enemySequence.size(), minSpawnFreq, maxSpawnFreq));
+		index++;
+		maxSpawnFreq -= 20;
+		minSpawnFreq -= 20;
+	}
+}
+
+queue<char> MapManager::getCharQueue(string data) {
+	queue<char> result;
+	list<string> fragments = split(data, ",");
+	for (auto const& s : fragments) {
+		char type = s.at(0);
+		int n = s.at(1) - '0';
+		for (int i = 0; i < n; i++) {
+			result.push(type);
+		}
+	}
+	return result;
+}
+
+
+list<string> MapManager::split(string line, string delimiter) {
+	list<string> data;
+	size_t pos = 0;
+	while ((pos = line.find(delimiter)) != string::npos) {
+		data.push_back(line.substr(0, pos));
+		line.erase(0, pos + delimiter.length());
+	}
+	data.push_back(line);
+	return data;
 }
 
 void MapManager::show() {

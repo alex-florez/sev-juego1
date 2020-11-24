@@ -23,6 +23,7 @@
 
 #include <list>
 #include <map>
+#include <queue>
 #include "Resources.h"
 
 #define ENEMY_SPAWN_TIME 110
@@ -81,7 +82,6 @@ public:
 
 	 // Enemigos eliminados en la horda actual
 	int leftEnemies = 0; // enemigos de la horda actual que quedan vivos
-	int currentHorde = 1; // Horda actual
 
 
 	// Audio
@@ -115,7 +115,9 @@ public:
 	UITextIcon* uiLeftEnemies;
 
 	// Hordas de enemigos
-	map<int, Horde*> hordes;
+	Horde* currentHorde;
+	queue<Horde*> hordes;
+	
 
 	// Recursos coleccionables
 	list<Resources*> randomResources;
@@ -142,6 +144,13 @@ private:
 	/// cada cierto número de ticks
 	/// </summary>
 	void addResourceCollectable();
+
+	/// <summary>
+	/// Hace un pop de la cola FIFO de hordas para obtener
+	/// y devolver la siguiente horda de enemigos.
+	/// </summary>
+	/// <returns></returns>
+	Horde* getNextHorde();
 
 	void addNewEnemy();
 	void destroyEnemies();

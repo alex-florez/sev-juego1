@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(string filename, float x, float y, float speed, Game* game)
-	: Pawn(filename, 36, 40, x, y, speed, game) {
+Enemy::Enemy(string filename, float width, float height, float x, float y, float speed, Game* game)
+	: Pawn(filename, width, height, x, y, speed, game) {
 
 	//vx = -1 * ENEMY_SPEED;
 	vx = 0;
@@ -88,7 +88,8 @@ void Enemy::update() {
 
 
 void Enemy::draw() {
-	animation->draw(x, y);
+	//animation->draw(x, y);
+	Actor::draw();
 }
 
 /// <summary>
