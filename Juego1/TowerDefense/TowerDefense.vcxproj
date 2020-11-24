@@ -27,6 +27,11 @@
     <ClCompile Include="ConstructionManager.cpp" />
     <ClCompile Include="ConstructionTile.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyA.cpp" />
+    <ClCompile Include="EnemyAFactory.cpp" />
+    <ClCompile Include="EnemyB.cpp" />
+    <ClCompile Include="EnemyBFactory.cpp" />
+    <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLayer.cpp" />
@@ -67,6 +72,11 @@
     <ClInclude Include="ConstructionManager.h" />
     <ClInclude Include="ConstructionTile.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyA.h" />
+    <ClInclude Include="EnemyAFactory.h" />
+    <ClInclude Include="EnemyB.h" />
+    <ClInclude Include="EnemyBFactory.h" />
+    <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />

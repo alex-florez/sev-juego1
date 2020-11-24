@@ -23,20 +23,20 @@ public:
 	/// </summary>
 	enum class EnemyState { MOVING, ATTACKING, DYING, DEAD };
 
-	Enemy(float x, float y, float speed, Game* game);
+	Enemy(string filename, float x, float y, float speed, Game* game);
 	void update();
 	void draw() override;
 	void impactedBy(Projectile* projectile, Player* player); // Enemigo recibe un impacto
 	void attack(Tower* tower); // El enemigo ataca a una torre.
 
-	Animation* aMoving;
-	Animation* aDying;
+	Animation* aMoving; 
+	Animation* aDying; 
 	Animation* animation; // Referencia a la animación actual.
 
 	int attackFrequency; // Frecuencia de ataque del enemigo
 	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
-	bool isCollisioning; // Flag que indica si el enemigo está colisionando con otro actor.
 	int health; // Variable que almacena la salud de este enemigo.
+
 	EnemyState state; // Estado del enemigo.
 };
 

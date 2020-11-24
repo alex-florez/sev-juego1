@@ -13,7 +13,7 @@ Enemy* EnemyGenerator::createEnemy() {
 		// Id de path aleatorio
 		int randomPathId = rand() % spawnPoints.size() + 1;
 		Point* startingPoint = this->spawnPoints[randomPathId];
-		e = new Enemy(startingPoint->getX() * TILE_WIDTH + TILE_WIDTH / 2, 
+		e = new Enemy("res/enemigo.png", startingPoint->getX() * TILE_WIDTH + TILE_WIDTH / 2,
 			startingPoint->getY() * TILE_HEIGHT + TILE_HEIGHT / 2, 2, this->game);
 		e->pathId = randomPathId;
 		e->nextPoint = new Point(startingPoint->getX()-1, startingPoint->getY());

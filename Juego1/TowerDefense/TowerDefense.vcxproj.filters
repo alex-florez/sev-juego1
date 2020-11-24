@@ -31,6 +31,12 @@
     <Filter Include="Archivos de origen\Torretas">
       <UniqueIdentifier>{ed898ed4-aebc-474c-99cf-84059e119027}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Enemigos">
+      <UniqueIdentifier>{a06a67d7-72f9-44fa-a752-7167f34c4d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Enemigos">
+      <UniqueIdentifier>{0d894913-77d7-4d5d-a226-e0131554307d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -43,9 +49,6 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -147,6 +150,24 @@
     <ClCompile Include="Resources.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyA.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyB.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -159,9 +180,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -259,6 +277,24 @@
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyA.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyB.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

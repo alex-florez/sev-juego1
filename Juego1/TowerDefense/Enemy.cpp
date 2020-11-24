@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(float x, float y, float speed, Game* game)
-	: Pawn("res/enemigo.png", 36, 40, x, y, speed, game) {
+Enemy::Enemy(string filename, float x, float y, float speed, Game* game)
+	: Pawn(filename, 36, 40, x, y, speed, game) {
 
 	//vx = -1 * ENEMY_SPEED;
 	vx = 0;
