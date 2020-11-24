@@ -14,7 +14,7 @@ Enemy::Enemy(float x, float y, float speed, Game* game)
 
 	/*state = game->stateMoving;*/
 
-	this->state = ActorState::MOVING;
+	this->state = EnemyState::MOVING;
 	//this->speed = speed;
 
 	this->attackFrequency = 20;
@@ -31,25 +31,25 @@ void Enemy::update() {
 	
 	if (endAnimation) { // Terminó la animación
 		
-		if (state == ActorState::DYING) { // Estaba muriendo
-			state = ActorState::DEAD;
+		if (state == EnemyState::DYING) { // Estaba muriendo
+			state = EnemyState::DEAD;
 		}
 	}
 
 	// Si el enemigo no está colisionando con algo que siga moviéndose
 	//if (!isCollisioning) { 
-	//	this->state = ActorState::MOVING;
+	//	this->state = EnemyState::MOVING;
 	//}
 
-	if (state == ActorState::MOVING) {
+	if (state == EnemyState::MOVING) {
 		animation = aMoving;
 		this->stopFollowing = false;
 	}
-	else if (state == ActorState::DYING) {
+	else if (state == EnemyState::DYING) {
 		animation = aDying;
 		this->stopFollowing = true;
 	}
-	else if (state == ActorState::ATTACKING) {
+	else if (state == EnemyState::ATTACKING) {
 		this->stopFollowing = true;
 	}
 
@@ -97,12 +97,12 @@ void Enemy::draw() {
 /// </summary>
 /// <param name="tower">Torre que está siendo atacada.</param>
 void Enemy::attack(Tower* tower) {
-	if (this->state == ActorState::MOVING) { // El enemigo se estaba aproximando a la torre
-		this->state = ActorState::ATTACKING; // Enemigo realiza primer ataque.
+	if (this->state == EnemyState::MOVING) { // El enemigo se estaba aproximando a la torre
+		this->state = EnemyState::ATTACKING; // Enemigo realiza primer ataque.
 		cout << "** Primer ataque " << tower->health << endl;
 		this->ticksUntilNextAttack = 0;
 	}
-	else if (this->state == ActorState::ATTACKING) {
+	else if (this->state == EnemyState::ATTACKING) {
 		this->ticksUntilNextAttack--;
 	}
 
@@ -110,7 +110,7 @@ void Enemy::attack(Tower* tower) {
 		tower->health -= 30;
 		this->ticksUntilNextAttack = this->attackFrequency;
 		if (tower->health <= 0) { // Si tras este último ataque la torre se destruye...
-			this->state = ActorState::MOVING; // El enemigo vuelve al estado MOVING
+			this->state = EnemyState::MOVING; // El enemigo vuelve al estado MOVING
 		}
 	}
 }
@@ -119,8 +119,8 @@ void Enemy::impactedBy(Projectile* projectile, Player* player) {
 	this->health -= projectile->damage;
 	// Incrementar recursos del jugador por haber impactado a un enemigo
 	player->availableResources += PLAYER_HIT_RESOURCES; 
-	if (this->health <= 0 && this->state != ActorState::DYING) {
-		this->state = ActorState::DYING;
+	if (this->health <= 0 && this->state != EnemyState::DYING) {
+		this->state = EnemyState::DYING;
 		// Incrementar recursos del jugador por haber eliminado al enemigo.
 		player->availableResources += PLAYER_KILL_RESOURCES;
 		player->killedEnemiesInActualHorde++;

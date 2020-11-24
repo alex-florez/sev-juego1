@@ -135,7 +135,7 @@ void GameLayer::update() {
 		if (enemy->x + enemy->width / 2 <= 0) {
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
-		else if (enemy->state == Actor::ActorState::DEAD) { // Enemigo está muerto -> eliminarlo
+		else if (enemy->state == Enemy::EnemyState::DEAD) { // Enemigo está muerto -> eliminarlo
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 		//} else if (player->isOverlap(enemy)) { // Colisión con el jugador

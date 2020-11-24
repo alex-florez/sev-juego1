@@ -50,7 +50,7 @@ void Turret::scan(list<Enemy*>& enemies) {
 	for (auto const& enemy : enemies) {
 		float dist = distance(x, y, enemy->x, enemy->y);
 		if (isInArea(enemy) && dist < minDistance 
-			&& enemy->state != ActorState::DYING && enemy->state != ActorState::DEAD) {
+			&& enemy->state != Enemy::EnemyState::DYING && enemy->state != Enemy::EnemyState::DEAD) {
 			minDistance = dist;
 			closestEnemy = enemy;
 		}
