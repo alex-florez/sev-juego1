@@ -37,11 +37,10 @@ public:
 	void purchase(float x, float y);
 
 	/// <summary>
-	/// Establece como torreta comprada la referencia
-	/// pasada como parámetro.
+	/// Se encarga de limpiar la compra de la torreta actual, porque
+	/// ya ha sido colocada en un construction tile
 	/// </summary>
-	/// <param name="turret">Referencia a objeto de tipo Turret</param>
-	void setPurchasedTurret(Turret* turret);
+	void clearPurchase();
 
 	/// <summary>
 	/// Devuelve una referencia a la torreta que se acaba de

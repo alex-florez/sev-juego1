@@ -5,9 +5,10 @@ UITurretItem::UITurretItem(string filename, TurretFactory* turretFactory, float 
 	: Actor(filename, x, y, 50, 50, game) {
 
 	this->turretFactory = turretFactory;
-	this->turretIcon = new Actor(this->turretFactory->iconName, x, y, 
-	this->turretFactory->iconWidth, this->turretFactory->iconHeight, game);
-	this->txtCost = new Text(to_string(this->turretFactory->cost), 
+	this->turretIcon = turretFactory->getIcon();
+	this->turretIcon->x = x;
+	this->turretIcon->y = y;
+	this->txtCost = new Text(to_string(this->turretFactory->getCost()), 
 		x, y + this->height / 2 + 10, new RGB(0,0,0), game);
 }
 

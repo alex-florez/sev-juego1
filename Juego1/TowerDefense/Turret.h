@@ -32,8 +32,6 @@ public:
 	int xDetectionRange;
 	int yDetectionRange;
 
-	// Coste de la torreta en términos de recursos necesarios para construirla
-	int cost;
 
 
 private:

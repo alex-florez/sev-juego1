@@ -5,7 +5,7 @@ void markEnemyForDelete(Enemy* enemy, list<Enemy*>& deleteList);
 void markProjectileForDelete(Projectile* projectile, list<Projectile*>& deleteList);
 void markTileForDelete(Tile* tile, list<Tile*>& deleteList);
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList);
-void markResourcesForDelete(Resources* resources, list<Resources*>& deleteList);
+void markGemForDelete(Gem* gem, list<Gem*>& deleteList);
 
 
 GameLayer::GameLayer(Game* game)
@@ -65,7 +65,7 @@ void GameLayer::init() {
 	//buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
 	RGB* color1 = new RGB(255, 255, 23);
-	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 30, 30, 50, color1, "res/resourcesIcon.png", "", game);
+	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 29, 41, 50, color1, "res/gemsIcon.png", "", game);
 	uiLeftEnemies = new UITextIcon(0.75 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, "res/leftEnemiesIcon.png", "0", game);
 
 	player = new Player(0, 0, game);
@@ -88,6 +88,7 @@ void GameLayer::init() {
 	this->enemyGenerator->setNextHorde(this->currentHorde, 0);
 	this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
 
+	this->gemGenerator = new GemGenerator(game);
 }
 
 
@@ -99,7 +100,7 @@ void GameLayer::update() {
 	list<Enemy*> deleteEnemies; // Enemigos a eliminar
 	list<Projectile*> deleteProjectiles; // Proyectiles a eliminar
 	list<Tower*> deleteTowers; // Torres a eliminar
-	list<Resources*> deleteResources; // Recolectables de recursos a eliminar
+	list<Gem*> deleteGems; // Gemas recolectables a eliminar
 
 	if (pause) {
 		return;
@@ -204,12 +205,16 @@ void GameLayer::update() {
 	}
 
 	// Recolectables
-	this->addResourceCollectable();
+	//this->addResourceCollectable();
 	
+	Gem* newGem = this->gemGenerator->createGem();
+	if (newGem != nullptr)
+		gems.push_back(newGem);
+
 	// Eliminar recolectables ya recogidos
-	for (auto const& resources : randomResources) {
-		if (resources->collected)
-			markResourcesForDelete(resources, deleteResources);
+	for (auto const& gem : gems) {
+		if (gem->collected)
+			markGemForDelete(gem, deleteGems);
 	}
 
 	// Actualizamos los proyectiles
@@ -280,11 +285,11 @@ void GameLayer::update() {
 	}
 	deleteProjectiles.clear();
 
-	for (auto const& delResource : deleteResources) {
-		randomResources.remove(delResource);
-		delete delResource;
+	for (auto const& delGem : deleteGems) {
+		gems.remove(delGem);
+		delete delGem;
 	}
-	deleteResources.clear();
+	deleteGems.clear();
 }
 
 
@@ -325,10 +330,11 @@ void GameLayer::processControls() {
 		// Delegar a los managers el control del click
 		this->constructionManager->construct(xClick, yClick, this->shopManager->getPurchasedTurret()); // Construir torreta
 		this->shopManager->purchase(xClick, yClick); // Comprar torreta
-		for (auto const& resources : randomResources) {
-			if (resources->containsPoint(xClick, yClick)) {
-				player->availableResources += resources->quantity;
-				resources->collected = true;
+		// Click sobre alguna gema
+		for (auto const& gem : gems) {
+			if (gem->containsPoint(xClick, yClick)) {
+				gem->collected = true;
+				player->availableResources += gem->value;
 			}
 		}
 		mouseClick = false;
@@ -521,8 +527,8 @@ void GameLayer::draw() {
 	}
 
 	// Dibujar recolectables
-	for (auto const& resources : randomResources) {
-		resources->draw();
+	for (auto const& gem : gems) {
+		gem->draw();
 	}
 
 	// Dibujar UI con los items de las torretas
@@ -590,17 +596,17 @@ bool GameLayer::hordeHasFinished() {
 			(this->enemyGenerator->allGenerated && this->enemies.empty()));
 }
 
-
-void GameLayer::addResourceCollectable() {
-	this->ticksUntilNextResourcesSpawn--;
-
-	if (this->ticksUntilNextResourcesSpawn <= 0) {
-		float rX = rand() % (770 - 30 + 1) + 30;
-		float rY = rand() % (570 - 30 + 1) + 30;
-		this->randomResources.push_back(new Resources(rX, rY, game));
-		this->ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
-	}
-}
+//
+//void GameLayer::addResourceCollectable() {
+//	this->ticksUntilNextResourcesSpawn--;
+//
+//	if (this->ticksUntilNextResourcesSpawn <= 0) {
+//		float rX = rand() % (770 - 30 + 1) + 30;
+//		float rY = rand() % (570 - 30 + 1) + 30;
+//		this->randomResources.push_back(new Resources(rX, rY, game));
+//		this->ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
+//	}
+//}
 
 Horde* GameLayer::getNextHorde() {
 	Horde* next = this->hordes.front();
@@ -646,12 +652,12 @@ void markTileForDelete(Tile* tile, list<Tile*>& deleteList) {
 	}
 }
 
-void markResourcesForDelete(Resources* resources, list<Resources*>& deleteList) {
+void markGemForDelete(Gem* gem, list<Gem*>& deleteList) {
 	bool inList = std::find(deleteList.begin(),
 		deleteList.end(),
-		resources) != deleteList.end();
+		gem) != deleteList.end();
 	if (!inList) {
-		deleteList.push_back(resources);
+		deleteList.push_back(gem);
 	}
 }
 

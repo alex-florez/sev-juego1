@@ -18,7 +18,7 @@ void ConstructionManager::construct(float x, float y, Turret* turret)
 		this->turrets.push_back(turret);
 		ct->occupied = true;
 		// Notificar al Shop manager de que la torreta comprada ya ha sido colocada.
-		this->shopManager->setPurchasedTurret(nullptr);
+		this->shopManager->clearPurchase();
 	}
 }
 

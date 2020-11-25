@@ -147,9 +147,6 @@
     <ClCompile Include="RGB.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Resources.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Archivos de origen\Enemigos</Filter>
     </ClCompile>
@@ -173,6 +170,21 @@
     </ClCompile>
     <ClCompile Include="EnemyCFactory.cpp">
       <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Gem.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGem.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="YellowGem.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="MagentaGem.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="GemGenerator.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +293,6 @@
     <ClInclude Include="RGB.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
@@ -307,6 +316,21 @@
     </ClInclude>
     <ClInclude Include="EnemyCFactory.h">
       <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="Gem.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGem.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="YellowGem.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="MagentaGem.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="GemGenerator.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

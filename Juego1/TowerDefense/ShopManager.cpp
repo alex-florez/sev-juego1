@@ -32,22 +32,20 @@ void ShopManager::purchase(float x, float y) {
 	UITurretItem* item = this->getClickedTurretItem(x, y);
 	// Si se ha hecho click en un item de la tienda y además no hay ya una torreta comprada...
 	if (item != nullptr && this->purchasedTurret == nullptr) {
-		this->purchasedTurret = item->turretFactory->createTurret();
 		// Comprobar recursos del player
-		if (player->availableResources >= purchasedTurret->cost) {
-			player->availableResources -= purchasedTurret->cost;
-			// Mostrar el icono de la miniatura de la torreta reciién comprada
-			this->uiPurchasedTurret->purchasedTurretIconView = item->turretFactory->iconView;
-		}
-		else {
-			this->purchasedTurret = nullptr;
+		int turretCost = item->turretFactory->getCost();
+		TurretFactory* factory = item->turretFactory;
+		if (player->availableResources >= turretCost) {
+			player->availableResources -= turretCost;
+			this->purchasedTurret = factory->createTurret();
+			this->uiPurchasedTurret->purchasedTurretIconView = factory->getIcon();
 		}
 	}
 }
 
-void ShopManager::setPurchasedTurret(Turret* turret)
+void ShopManager::clearPurchase()
 {
-	this->purchasedTurret = turret;
+	this->purchasedTurret = nullptr;
 	this->uiPurchasedTurret->purchasedTurretIconView = nullptr;
 }
 

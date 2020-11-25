@@ -20,16 +20,18 @@
 #include "UITextIcon.h"
 #include "Horde.h"
 #include "RGB.h"
+#include "Gem.h"
+#include "GemGenerator.h"
 
 #include <list>
 #include <map>
 #include <queue>
-#include "Resources.h"
+
 
 #define ENEMY_SPAWN_TIME 110
 #define ENEMY_SPAWN_FREQUENCY 5
 #define HORDE_DELAY 120 // Delay de ticks entre cada horda
-#define RESOURCES_SPAWN_FREQUENCY 300
+
 
 
 class GameLayer : public Layer
@@ -118,10 +120,11 @@ public:
 	Horde* currentHorde;
 	queue<Horde*> hordes;
 	
+	// Gemas
+	list<Gem*> gems;
+	GemGenerator* gemGenerator;
 
-	// Recursos coleccionables
-	list<Resources*> randomResources;
-	int ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
+
 
 
 private:
@@ -143,7 +146,7 @@ private:
 	/// Añade recursos recolectables de forma aleatoria
 	/// cada cierto número de ticks
 	/// </summary>
-	void addResourceCollectable();
+	//void addResourceCollectable();
 
 	/// <summary>
 	/// Hace un pop de la cola FIFO de hordas para obtener
