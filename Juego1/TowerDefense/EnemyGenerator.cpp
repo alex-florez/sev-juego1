@@ -14,15 +14,14 @@ Enemy* EnemyGenerator::createEnemy() {
 	Enemy* e = nullptr;
 	this->ticksUntilNextSpawn--;
 
-	if (this->ticksUntilNextSpawn <= 0 && this->generatedEnemies < this->actualHorde->totalNumberOfEnemies) {
+	if (this->ticksUntilNextSpawn <= 0 &&
+		this->actualHorde != nullptr && this->generatedEnemies < this->actualHorde->totalNumberOfEnemies) {
 		// Id de path aleatorio
 		int randomPathId = rand() % spawnPoints.size() + 1;
 		Point* startingPoint = this->spawnPoints[randomPathId];
 		e = this->factories[this->actualHorde->next()]->createEnemy();
 		e->x = startingPoint->getX() * TILE_WIDTH + TILE_WIDTH / 2;
 		e->y = startingPoint->getY() * TILE_HEIGHT + TILE_HEIGHT / 2;
-		//e = new Enemy("res/enemigo.png", startingPoint->getX() * TILE_WIDTH + TILE_WIDTH / 2,
-		//	startingPoint->getY() * TILE_HEIGHT + TILE_HEIGHT / 2, 2, this->game);
 		e->pathId = randomPathId;
 		e->nextPoint = new Point(startingPoint->getX()-1, startingPoint->getY());
 		this->ticksUntilNextSpawn = this->randomInt(this->actualHorde->spawnFrequencyRange[0], 

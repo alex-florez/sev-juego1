@@ -16,7 +16,7 @@ class Turret : public Actor
 {
 public:
 	Turret(string filename, float x, float y, 
-		float width, float height, Game* game);
+		float width, float height, int cost, Game* game);
 	Projectile* shoot();
 	void update(list<Enemy*>& enemies);
 
@@ -31,8 +31,9 @@ public:
 	// y en el eje Y que puede escanear la torreta para detectar a un enemigo.
 	int xDetectionRange;
 	int yDetectionRange;
+	int cost; // Coste de la torreta
 
-
+	bool enabled; // Indica si la torreta está activada
 
 private:
 

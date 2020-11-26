@@ -20,7 +20,8 @@ public:
 	/// <summary>
 	/// Recibe como parámetros las coordenadas en las que se ha
 	/// hecho click y si hay algún construction tile en esas coordenadas
-	/// construye la torreta pasada como parámetro.
+	/// construye la torreta pasada como parámetro. Si consigue construir
+	/// la torreta con éxito se lo notifica al ShopManager
 	/// </summary>
 	/// <param name="x"></param>
 	/// <param name="y"></param>

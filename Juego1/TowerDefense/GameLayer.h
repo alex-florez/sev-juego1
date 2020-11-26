@@ -66,10 +66,17 @@ public:
 	int controlMoveY = 0;
 
 	
-	// Evento de click
+	// Eventos de ratón
+	float mouseX;
+	float mouseY;
 	bool mouseClick;
 	float xClick;
 	float yClick;
+	bool mouseHold;
+	bool mouseReleased;
+
+	// Torreta actualmente seleccionada
+	Turret* selectedTurret;
 
 	// Lista de enemigos
 	list<Enemy*> enemies;

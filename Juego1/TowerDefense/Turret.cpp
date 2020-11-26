@@ -2,7 +2,7 @@
 
 
 Turret::Turret(string filename, float x, float y, 
-	float width, float height, Game* game)
+	float width, float height, int cost, Game* game)
 	: Actor(filename, x, y, width, height, game) {
 
 
@@ -12,6 +12,8 @@ Turret::Turret(string filename, float x, float y,
 
 	this->xDetectionRange = 8;
 	this->yDetectionRange = 8;
+	this->cost = cost;
+	this->enabled = false;
 }
 
 void Turret::update(list<Enemy*>& enemies) {
@@ -19,10 +21,12 @@ void Turret::update(list<Enemy*>& enemies) {
 		&& !isInArea(this->currentTarget)) { //  comprobar que no se haya salido del área de efecto
 		this->currentTarget = nullptr;
 	}
-	// Escanear en busca de enemigos.
-	scan(enemies);
-	// Calcular el ángulo que debe rotar la torreta.
-	this->angle = this->calculateAngleOfRotation();
+	if (this->enabled) { // Si torreta activada...
+		// Escanear en busca de enemigos.
+		scan(enemies);
+		// Calcular el ángulo que debe rotar la torreta.
+		this->angle = this->calculateAngleOfRotation();
+	}
 }
 
 

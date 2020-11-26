@@ -56,6 +56,12 @@ void GameLayer::init() {
 	// Semilla aleatoria para generar números aleatorios
 	srand(SDL_GetTicks());
 
+	this->mouseClick = false;
+	this->mouseHold = false;
+	this->mouseReleased = false;
+
+	this->selectedTurret = nullptr;
+
 	// Audio de fondo
 	audioBackground = new Audio("res/musica_ambiente.mp3", true);
 	//audioBackground->play();
@@ -89,6 +95,8 @@ void GameLayer::init() {
 	this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
 
 	this->gemGenerator = new GemGenerator(game);
+
+
 }
 
 
@@ -325,12 +333,13 @@ void GameLayer::processControls() {
 		controlContinue = false;
 	}
 
-	// Se ha hecho click con el ratón
+	// Drag & drop
 	if (mouseClick) {
-		// Delegar a los managers el control del click
-		this->constructionManager->construct(xClick, yClick, this->shopManager->getPurchasedTurret()); // Construir torreta
-		this->shopManager->purchase(xClick, yClick); // Comprar torreta
-		// Click sobre alguna gema
+		cout << "Mouse clicked!" << endl;
+		// Comprobar la compra de torretas
+		this->selectedTurret = this->shopManager->purchase(mouseX, mouseY);
+
+		// Comprobar la recolección de items
 		for (auto const& gem : gems) {
 			if (gem->containsPoint(xClick, yClick)) {
 				gem->collected = true;
@@ -339,6 +348,39 @@ void GameLayer::processControls() {
 		}
 		mouseClick = false;
 	}
+		
+
+	if (mouseReleased) {
+		cout << "Mouse released!" << endl;
+		this->constructionManager->construct(mouseX, mouseY, this->selectedTurret);
+		this->selectedTurret = nullptr;
+		this->shopManager->clearPurchase();
+		mouseReleased = false;
+	}
+		
+	if (mouseHold) {
+		cout << "Mouse hold!" << endl;
+		if (this->selectedTurret != nullptr) {
+			this->selectedTurret->x = this->mouseX;
+			this->selectedTurret->y = this->mouseY;
+		}
+	}
+		
+
+	// Se ha hecho click con el ratón
+	//if (mouseClick) {
+	//	// Delegar a los managers el control del click
+	//	this->constructionManager->construct(xClick, yClick, this->shopManager->getPurchasedTurret()); // Construir torreta
+	//	this->shopManager->purchase(xClick, yClick); // Comprar torreta
+	//	// Click sobre alguna gema
+	//	for (auto const& gem : gems) {
+	//		if (gem->containsPoint(xClick, yClick)) {
+	//			gem->collected = true;
+	//			player->availableResources += gem->value;
+	//		}
+	//	}
+	//	mouseClick = false;
+	//}
 
 	// Disparar
 	if (controlShoot) {
@@ -438,10 +480,15 @@ void GameLayer::mouseToControls(SDL_Event event) {
 	this->xClick = motionX;
 	this->yClick = motionY;
 
+	this->mouseX = motionX;
+	this->mouseY = motionY;
+
 	// Cada vez que el usuario hace click
 	if (event.type == SDL_MOUSEBUTTONDOWN) {
 		//controlContinue = true;
 		this->mouseClick = true;
+		this->mouseReleased = false;
+		this->mouseHold = true;
 		/*for (auto const& ct : this->constructionTiles) {
 			if (ct->containsPoint(motionX, motionY)) {
 				this->controlConstruct = true;
@@ -459,6 +506,7 @@ void GameLayer::mouseToControls(SDL_Event event) {
 	// Cada vez que se mueve
 	if (event.type == SDL_MOUSEMOTION) {
 		this->mouseClick = false;
+		this->mouseReleased = false;
 		/*for (auto const& ct : this->constructionTiles) {
 			if (ct->containsPoint(motionX, motionY)) {
 				this->controlConstruct = false;
@@ -476,6 +524,8 @@ void GameLayer::mouseToControls(SDL_Event event) {
 	// Cada vez que se levanta el click
 	if (event.type == SDL_MOUSEBUTTONUP) {
 		this->mouseClick = false;
+		this->mouseReleased = true;
+		this->mouseHold = false;
 		//if (buttonShoot->containsPoint(motionX, motionY)) {
 		//	controlShoot = false;
 		//}
@@ -536,6 +586,10 @@ void GameLayer::draw() {
 
 	this->uiRecursos->draw();
 	this->uiLeftEnemies->draw();
+
+	// Torreta seleccionada con el mouse
+	if (this->selectedTurret != nullptr)
+		this->selectedTurret->draw();
 
 
 	//textPoints->draw();
@@ -609,9 +663,12 @@ bool GameLayer::hordeHasFinished() {
 //}
 
 Horde* GameLayer::getNextHorde() {
-	Horde* next = this->hordes.front();
-	this->hordes.pop();
-	return next;
+	if (!this->hordes.empty()) {
+		Horde* next = this->hordes.front();
+		this->hordes.pop();
+		return next;
+	}
+	return nullptr;
 }
 
 

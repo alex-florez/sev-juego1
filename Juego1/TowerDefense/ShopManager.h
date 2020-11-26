@@ -30,15 +30,21 @@ public:
 	/// Recibe como parámetros las coordenadas x e y en las que
 	/// se ha hecho click, y si coinciden con uno de los items de la UI,
 	/// y el jugador dispone de recursos suficientes, se crea una nueva torreta
-	/// del tipo definido por ese item.
+	/// del tipo definido por ese item y se retorna. En caso contrario devuelve nullptr
 	/// </summary>
 	/// <param name="x">Coordenada X</param>
 	/// <param name="y">Coordenada Y</param>
-	void purchase(float x, float y);
+	Turret* purchase(float x, float y);
 
 	/// <summary>
-	/// Se encarga de limpiar la compra de la torreta actual, porque
-	/// ya ha sido colocada en un construction tile
+	/// Será invocado por el ConstructionManager una vez la torreta se haya
+	/// colocado con éxito.
+	/// </summary>
+	void notifyTurretConstruction();
+
+	/// <summary>
+	/// Se encarga de limpiar la compra, es decir, establecer a nullptr
+	/// la torreta comprada.
 	/// </summary>
 	void clearPurchase();
 

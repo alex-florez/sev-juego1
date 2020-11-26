@@ -15,10 +15,11 @@ void ConstructionManager::construct(float x, float y, Turret* turret)
 		float y = (int)(ct->y / TILE_HEIGHT) * TILE_HEIGHT + TILE_HEIGHT / 2;
 		turret->x = x;
 		turret->y = y;
+		turret->enabled = true; // Activar la torreta
 		this->turrets.push_back(turret);
 		ct->occupied = true;
 		// Notificar al Shop manager de que la torreta comprada ya ha sido colocada.
-		this->shopManager->clearPurchase();
+		this->shopManager->notifyTurretConstruction();
 	}
 }
 

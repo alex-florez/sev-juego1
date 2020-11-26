@@ -6,7 +6,7 @@
 class TurretA : public Turret
 {
 public:
-	TurretA(string filename, float x, float y, float width, float height, Game* game);
+	TurretA(string filename, float x, float y, float width, float height, int cost, Game* game);
 
 };
 

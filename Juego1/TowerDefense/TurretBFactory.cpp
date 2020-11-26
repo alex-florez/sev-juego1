@@ -15,5 +15,5 @@ Actor* TurretBFactory::getIcon()
 }
 
 Turret* TurretBFactory::createTurret() {
-	return new TurretB("res/cannon2.png", 0, 0, 60, 42, game);
+	return new TurretB("res/cannon2.png", 0, 0, 60, 42, getCost(), game);
 }
