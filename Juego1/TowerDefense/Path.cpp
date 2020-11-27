@@ -2,10 +2,12 @@
 
 Path::Path() {
 	init();
+	this->length = 0;
 }
 
 void Path::addPoint(Point* point) {
 	this->pathMatrix[point->getY()][point->getX()] = true;
+	length++;
 }
 
 
@@ -44,6 +46,11 @@ Point* Path::getNextPoint(Point* actual, Point* last) {
 	//}
 
 	return next;
+}
+
+Point* Path::getStartingPoint()
+{
+	return this->start;
 }
 
 

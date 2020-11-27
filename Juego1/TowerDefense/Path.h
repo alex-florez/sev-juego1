@@ -14,7 +14,10 @@ public:
 
 	void addPoint(Point* point);
 	Point* getNextPoint(Point* actual, Point* last);
+	Point* getStartingPoint();
 	void show();
+
+	Point* start; // Comienzo del camino
 
 private:
 
@@ -22,5 +25,7 @@ private:
 
 	void init();
 	bool get(Point* point);
+	int length; // Longitud del camino
+	
 };
 

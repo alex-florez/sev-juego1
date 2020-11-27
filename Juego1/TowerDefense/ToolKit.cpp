@@ -8,9 +8,11 @@ ToolKit::ToolKit(float x, float y, int aliveTicks, Game* game)
 
 void ToolKit::effect(Tower* tower)
 {
-	tower->repair();
-	tower->applyingPowerUp = true;
-	this->used = true;
+	if (tower->state == Tower::TowerState::DESTROYED) {
+		tower->repair();
+		tower->applyingPowerUp = true;
+		this->used = true;
+	}
 }
 
 PowerUp* ToolKit::clone() {

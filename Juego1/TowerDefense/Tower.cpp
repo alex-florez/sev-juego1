@@ -53,6 +53,6 @@ void Tower::draw() {
 }
 
 void Tower::repair() {
-	this->state = TowerState::ALIVE;
+	this->state = TowerState::REPAIRED;
 	this->health = TOWER_INITIAL_HEALTH;
 }

@@ -24,7 +24,7 @@ public:
 	int pathId;
 	bool applyingPowerUp;
 	UITextIcon* uiHealth; // Icono de la UI que muestra una etiqueta encima de la torre con su salud actual.
-	enum class TowerState {ALIVE, EXPLODING, DESTROYED} state;
+	enum class TowerState {ALIVE, EXPLODING, DESTROYED, REPAIRED} state;
 	Animation* explotionAnim; // Animación de explosión
 	Animation* powerUpEffectAnimation; // Animación de aplicación de mejora
 	Actor* destroyedGround;

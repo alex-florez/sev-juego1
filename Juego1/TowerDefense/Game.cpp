@@ -11,7 +11,7 @@ Game::Game() {
 		cout << "Error Window y Renderer" << SDL_GetError() << endl;
 	}
 
-	SDL_SetWindowTitle(window, "Juego de Naves");
+	SDL_SetWindowTitle(window, "TowerDefense!");
 	// Escalado de imágenes de calidad 
 	// https://wiki.libsdl.org/SDL_HINT_RENDER_SCALE_QUALITY
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");

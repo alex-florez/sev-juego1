@@ -105,6 +105,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		case 'E': {
 			int pathId = map[i][j - 1] - '0'; // Obtenemos el id de la trayectoria que seguirán los enemigos de este generador
 			this->enemyGenerator->addSpawnPoint(pathId, new Point(j, i));
+			this->pathManager->addStartingPoint(pathId, new Point(j, i));
 			break;
 		}
 		case 'C': {

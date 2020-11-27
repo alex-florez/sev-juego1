@@ -26,6 +26,11 @@ void PathManager::addPointToPath(int pathId, Point* point) {
 	}
 }
 
+void PathManager::addStartingPoint(int pathId, Point* point)
+{
+	this->paths[pathId]->start = point;
+}
+
 void PathManager::update(Pawn* pawn) {
 	Path* path = paths[pawn->pathId];
 

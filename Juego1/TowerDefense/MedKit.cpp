@@ -9,9 +9,12 @@ MedKit::MedKit(float x, float y, int aliveTicks, Game* game)
 
 void MedKit::effect(Tower* tower)
 {
-	tower->health += 50;
-	tower->applyingPowerUp = true;
-	this->used = true; // Establecer el powerUp como ya utilizado.
+	if (tower->state == Tower::TowerState::ALIVE) {
+		tower->health += 50;
+		tower->applyingPowerUp = true;
+		this->used = true; // Establecer el powerUp como ya utilizado.
+	}
+	
 }
 
 PowerUp* MedKit::clone()

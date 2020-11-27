@@ -17,7 +17,7 @@ public:
 
 	/// <summary>
 	/// Aplica el efecto del powerup sobre la torre
-	/// pasada como parámetro.
+	/// pasada como parámetro. 
 	/// </summary>
 	/// <param name="tower">Torre afectada por el powerup.</param>
 	virtual void effect(Tower* tower) = 0;

@@ -47,6 +47,7 @@ public:
 	/// <param name="point">Punto</param>
 	void addPointToPath(int pathId, Point* point);
 
+	void addStartingPoint(int pathId, Point* point);
 
 private:
 	map<int, Path*> paths;

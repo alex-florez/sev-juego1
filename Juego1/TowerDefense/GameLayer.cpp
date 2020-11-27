@@ -172,8 +172,12 @@ void GameLayer::update() {
 		pair.second->update();
 		// Si la torre está destruida entonces se elimina y Eliminar del generador de enemigos el punto de aparición de esta trayectoria
 		if (pair.second->state == Tower::TowerState::DESTROYED) {
-			//markTowerForDelete(pair.second, deleteTowers);
 			this->enemyGenerator->removeSpawnPoint(pair.second->pathId); 
+		}
+		else if (pair.second->state == Tower::TowerState::REPAIRED) { // Si se ha reparado...
+			Point* start = this->pathManager->getPath(pair.second->pathId)->getStartingPoint();
+			this->enemyGenerator->addSpawnPoint(pair.second->pathId, start); // Volver a añadir el spawn de los enemigos
+			pair.second->state = Tower::TowerState::ALIVE;
 		}
 	}
 
@@ -347,7 +351,8 @@ void GameLayer::processControls() {
 		if (this->selectedPowerUp != nullptr) {
 			Tower* affectedTower = this->towerManager->getTower(mouseX, mouseY);
 			if (affectedTower != nullptr) this->selectedPowerUp->effect(affectedTower);
-			else // Si no se ha soltado encima de una torre, devolverlo al slot
+			// Si no se ha podido usar el power UP
+			if(!this->selectedPowerUp->used)
 				this->powerUpInventory->addPowerUp(this->selectedPowerUp);
 		}	
 		this->selectedPowerUp = nullptr;
