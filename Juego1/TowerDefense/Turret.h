@@ -6,6 +6,8 @@
 #include "Actor.h"
 #include "Projectile.h"
 #include "Enemy.h"
+#include "Animation.h"
+#include "ProjectileFactory.h"
 
 
 /// <summary>
@@ -15,10 +17,20 @@
 class Turret : public Actor
 {
 public:
+	/// <summary>
+	/// PURCHASED: Se acaba de comprar la torreta
+	/// BUILDING: Se esta colocando
+	/// BUILT: Ya se ha colocado
+	/// </summary>
+	enum class TurretState {
+		PURCHASED, BUILDING, BUILT
+	};
+
 	Turret(string filename, float x, float y, 
 		float width, float height, int cost, Game* game);
 	Projectile* shoot();
 	void update(list<Enemy*>& enemies);
+	void draw() override;
 
 	// Referencia al enemigo más cercano que es objetivo actual de disparo.
 	Enemy* currentTarget;
@@ -34,6 +46,11 @@ public:
 	int cost; // Coste de la torreta
 
 	bool enabled; // Indica si la torreta está activada
+	TurretState state; // Estado de la torreta
+	Animation* constructionAnimation; // Animación de construcción
+
+	ProjectileFactory* projectileFactory; // Factoría de proyectiles
+
 
 private:
 

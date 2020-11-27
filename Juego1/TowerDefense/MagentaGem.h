@@ -3,6 +3,6 @@
 class MagentaGem : public Gem
 {
 public:
-	MagentaGem(float x, float y, Game* game);
+	MagentaGem(float x, float y, int ticksAlive, Game* game);
 };
 

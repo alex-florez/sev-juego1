@@ -30,14 +30,6 @@ map<int, Tower*> MapManager::getTowers() {
 	return this->towers;
 }
 
-//map<int, Horde*> MapManager::getHordes() {
-//	// Cargar las hordas desde el fichero
-//	this->hordes[1] = new Horde(4, 70, 100);
-//	this->hordes[2] = new Horde(7, 50, 70);
-//	this->hordes[3] = new Horde(10, 40, 60);
-//	return this->hordes;
-//}
-
 queue<Horde*> MapManager::getHordes() {
 	return this->hordes;
 }

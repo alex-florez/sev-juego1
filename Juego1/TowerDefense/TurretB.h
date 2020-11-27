@@ -2,6 +2,7 @@
 
 #include "Turret.h"
 #include "Game.h"
+#include "LaserBeamFactory.h"
 
 
 class TurretB : public Turret

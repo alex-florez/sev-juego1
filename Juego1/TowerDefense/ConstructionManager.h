@@ -3,7 +3,6 @@
 #include <list>
 
 #include "Game.h"
-#include "Player.h"
 #include "Turret.h"
 #include "ConstructionTile.h"
 #include "ShopManager.h"
@@ -48,7 +47,6 @@ public:
 	
 	list<ConstructionTile*> constructionTiles; // Lista de tiles en los que se puede construir.
 	list<Turret*> turrets; // Torretas construidas hasta ahora.
-	Player* player;
 	Game* game;
 	ShopManager* shopManager; // Referencia a la tienda
 

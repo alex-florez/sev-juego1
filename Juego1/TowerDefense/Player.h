@@ -18,7 +18,6 @@ public:
 	void update();
 	void moveX(float axis);
 	void moveY(float axis);
-	Projectile* shoot();
 	void draw() override;
 	void jump(); // Saltar
 	void loseLife();

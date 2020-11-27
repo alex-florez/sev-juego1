@@ -13,7 +13,8 @@ Turret::Turret(string filename, float x, float y,
 	this->xDetectionRange = 8;
 	this->yDetectionRange = 8;
 	this->cost = cost;
-	this->enabled = false;
+	this->state = TurretState::PURCHASED;
+	this->constructionAnimation = new Animation("res/smokeAnim.png", 56, 56, 392, 56, 1, 7, false, game);
 }
 
 void Turret::update(list<Enemy*>& enemies) {
@@ -21,12 +22,21 @@ void Turret::update(list<Enemy*>& enemies) {
 		&& !isInArea(this->currentTarget)) { //  comprobar que no se haya salido del área de efecto
 		this->currentTarget = nullptr;
 	}
-	if (this->enabled) { // Si torreta activada...
+
+	if (this->state == TurretState::BUILT) { // Si la torreta ya está construida
 		// Escanear en busca de enemigos.
 		scan(enemies);
 		// Calcular el ángulo que debe rotar la torreta.
 		this->angle = this->calculateAngleOfRotation();
 	}
+	else if (this->state == TurretState::BUILDING) { // Si la torreta se está construyendo
+		bool finished = this->constructionAnimation->update();
+		if (finished) {
+			this->state = TurretState::BUILT;
+		}
+			
+	}
+	
 }
 
 
@@ -35,9 +45,12 @@ Projectile* Turret::shoot() {
 	this->ticksUntilNextShoot--;
 	Projectile* p = nullptr;
 	if (this->ticksUntilNextShoot <= 0) { // Se puede disparar
-		//scan(enemies); // Escaneamos los enemigos para obtener el más cercano dentro del árera de efecto.
 		if (this->currentTarget != nullptr) { // Obtener la posición del objetivo actual
-			p = new Projectile(x, y, game);
+			//p = new Projectile("res/laser_beam1.png", 20, 4, 16, 30, x, y, game);
+			p = this->projectileFactory->createProjectile();
+			p->x = x;
+			p->y = y;
+			p->angle = this->angle;
 			float targetX = this->currentTarget->x;
 			float targetY = this->currentTarget->y;
 			p->moveTo(targetX, targetY);
@@ -92,4 +105,11 @@ bool Turret::isInArea(Enemy* enemy) {
 
 	return eLeft <= thisRight && eRight >= thisLeft
 		&& eBottom >= thisTop && eTop <= thisBottom;
+}
+
+void Turret::draw() {
+	if (this->state == TurretState::BUILDING) {
+		this->constructionAnimation->draw(x, y);
+	}
+	Actor::draw();
 }

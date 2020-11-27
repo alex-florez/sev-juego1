@@ -3,9 +3,7 @@
 Actor::Actor(string filename, float x, float y, int width, int height, Game* game) {
 	this->game = game;
 	// Creamos la textura: la buscamos en la cache de texturas
-	surface = IMG_Load(filename.c_str());
-	texture = SDL_CreateTextureFromSurface(game->renderer, surface);
-	//texture = game->getTexture(filename);
+	texture = game->getTexture(filename);
 	this->x = x;
 	this->y = y;
 	// Lo que mide el fichero
@@ -17,13 +15,12 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 	// Control del ratón
 	clicked = false;
 	this->filename = filename;
-	//this->lastPoint = nullptr;
 	this->angle = 0;
 }
 
 
 Actor::~Actor() {
-	//SDL_DestroyTexture(texture); // No podemos destruir la textura, porque está cacheada.
+	
 }
 
 

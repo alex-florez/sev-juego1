@@ -6,6 +6,13 @@
 #include "MagentaGem.h"
 
 
+#define GEM_MIN_SPAWN_FREQ 200
+#define GEM_MAX_SPAWN_FREQ 350
+
+#define GEM_MIN_ALIVE_TICKS 90
+#define GEM_MAX_ALIVE_TICKS 120
+
+
 /// <summary>
 /// Clase que representa un generador de diferentes
 /// gemas collecionables.
@@ -23,7 +30,7 @@ private:
 	int ticksUntilNextGem;
 	int spawnFreqRange[2]; // Rango de frecuencia de creación
 
-	int getRandomInt();
+	int getRandomInt(int a, int b);
 	float getRandomX();
 	float getRandomY();
 };

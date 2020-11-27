@@ -1,14 +1,14 @@
 #include "Projectile.h"
 
 
-Projectile::Projectile(float x, float y, Game* game)
-	: Actor("res/bullet1.png", x, y, 10, 10, game) {
+Projectile::Projectile(string filename, float width, float height, int speed, int damage, float x, float y, Game* game)
+	: Actor(filename, x, y, width, height, game) {
 	
 	vx = 16;
 	vy = 0;
 
-	speed = 16;
-	damage = 35;
+	this->speed = speed;
+	this->damage = damage;
 	this->impacted = false;
 }
 

@@ -57,9 +57,8 @@ public:
 
 	Game* game;
 	Player* player;
-	list<UITurretItem*> turretItems; // Lista con los items de la UI.
+	list<UITurretItem*> turretItems; // Lista con los items de compra de la UI.
 	Turret* purchasedTurret; // Almacena una referencia a una torreta que se ha comprado.
-	UIPurchasedTurret* uiPurchasedTurret; // Icono de la interfaz que muestra la torreta recién comprada disponible.
 
 private:
 	void init();

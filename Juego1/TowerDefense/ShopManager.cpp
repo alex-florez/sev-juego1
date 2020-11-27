@@ -17,7 +17,6 @@ void ShopManager::init() {
 						WIDTH * 0.53, HEIGHT* 0.92, game);
 	this->turretItems.push_back(i1);
 	this->turretItems.push_back(i2);
-	this->uiPurchasedTurret = new UIPurchasedTurret(0.3*WIDTH, 0.92 * HEIGHT, game);
 }
 
 
@@ -25,7 +24,6 @@ void ShopManager::draw() {
 	for (auto const& item : turretItems) {
 		item->draw();
 	}
-	this->uiPurchasedTurret->draw();
 }
 
 Turret* ShopManager::purchase(float x, float y) {

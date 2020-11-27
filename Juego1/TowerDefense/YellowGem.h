@@ -5,6 +5,6 @@
 class YellowGem : public Gem
 {
 public:
-	YellowGem(float x, float y, Game* game);
+	YellowGem(float x, float y, int ticksAlive, Game* game);
 };
 

@@ -8,7 +8,6 @@
 #include "Text.h"
 #include "Audio.h"
 #include "Tile.h"
-#include "Space.h"
 #include "Path.h"
 #include "PathManager.h"
 #include "MapManager.h"
@@ -22,10 +21,14 @@
 #include "RGB.h"
 #include "Gem.h"
 #include "GemGenerator.h"
+#include "UIPowerUp.h"
 
 #include <list>
 #include <map>
 #include <queue>
+#include "PowerUp.h"
+#include "PowerUpGenerator.h"
+#include "PowerUpInventory.h"
 
 
 #define ENEMY_SPAWN_TIME 110
@@ -50,15 +53,11 @@ public:
 	int mapWidth; // Ancho del mapa
 	int mapHeight; // Alto del mapa
 
-	// Motor de movimientos / físicas
-	Space* space;
-
 	// Motor de colisiones
 	CollisionEngine* collisionEngine;
 
 	Player* player;
 	Background* background;
-	Actor* backgroundPoints;
 
 	// Controles
 	bool controlShoot = false;
@@ -75,8 +74,11 @@ public:
 	bool mouseHold;
 	bool mouseReleased;
 
+	// Drag & Drop
 	// Torreta actualmente seleccionada
 	Turret* selectedTurret;
+	// PowerUp actualmente seleccionado
+	PowerUp* selectedPowerUp;
 
 	// Lista de enemigos
 	list<Enemy*> enemies;
@@ -85,13 +87,11 @@ public:
 
 	int newEnemyTime = 0;
 
-	// Puntuación
-	Text* textPoints;
-	int points;
-
 	 // Enemigos eliminados en la horda actual
 	int leftEnemies = 0; // enemigos de la horda actual que quedan vivos
 
+	// Mapas
+	queue<string> maps;
 
 	// Audio
 	Audio* audioBackground;
@@ -122,6 +122,7 @@ public:
 	// UI
 	UITextIcon* uiRecursos;
 	UITextIcon* uiLeftEnemies;
+	PowerUpInventory* powerUpInventory;
 
 	// Hordas de enemigos
 	Horde* currentHorde;
@@ -131,6 +132,10 @@ public:
 	list<Gem*> gems;
 	GemGenerator* gemGenerator;
 
+	// PowerUps
+	PowerUpGenerator* powerUpGenerator;
+	list<PowerUp*> powerUps;
+	
 
 
 
@@ -162,8 +167,30 @@ private:
 	/// <returns></returns>
 	Horde* getNextHorde();
 
-	void addNewEnemy();
+	/// <summary>
+	/// Comprueba si el jugador ha ganado. El jugador gana cuando se han superado
+	/// todas las hordas de enemigos y ya no queda ninguno.
+	/// </summary>
+	/// <returns></returns>
+	bool checkWin();
+
+	/// <summary>
+	/// Inicializa la cola FIFO con los strings
+	/// de los mapas
+	/// </summary>
+	void initMaps();
+
+	/// <summary>
+	/// Devuelve un string que representa el nombre del fichero
+	/// del siguiente mapa a cargar.
+	/// </summary>
+	/// <returns></returns>
+	string getNextMap();
+
+	// Métodos para destruir actores
 	void destroyEnemies();
 	void destroyProjectiles();
+	void destroyGems();
+	void destroyTowers();
 };
 

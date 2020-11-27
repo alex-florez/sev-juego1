@@ -6,6 +6,7 @@ void markProjectileForDelete(Projectile* projectile, list<Projectile*>& deleteLi
 void markTileForDelete(Tile* tile, list<Tile*>& deleteList);
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList);
 void markGemForDelete(Gem* gem, list<Gem*>& deleteList);
+void markPowerUpForDelete(PowerUp* powerUp, list<PowerUp*>& deleteList);
 
 
 GameLayer::GameLayer(Game* game)
@@ -14,23 +15,17 @@ GameLayer::GameLayer(Game* game)
 	pause = false;
 	message = new Actor("res/mensaje_como_jugar.png", WIDTH*0.5, HEIGHT*0.5,
 		WIDTH, HEIGHT, game);
-
 	init();
 }
 
 void GameLayer::init() {
-	// Puntuación
-	points = 0;
-	//textPoints = new Text("hola", WIDTH * 0.92, HEIGHT * 0.05, game);
-	//textPoints->content = to_string(points);
-	backgroundPoints = new Actor("res/icono_puntos.png", WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
-
-	space = new Space(0); // Instanciamos el motor de físicas con gravedad.
 
 	// Destruir posibles objetos existentes
 	delete player;
 	destroyEnemies();
 	destroyProjectiles();
+	destroyGems();
+	destroyTowers();
 
 	background = new Background("res/grass.jpg", WIDTH * 0.5, HEIGHT * 0.5, game);
 
@@ -46,8 +41,8 @@ void GameLayer::init() {
 	// Proyectiles
 	projectiles.clear();
 
-	// Torretas
-	//turrets.clear();
+	// Gemas
+	gems.clear();
 
 	// Torres
 	towers.clear();
@@ -71,7 +66,7 @@ void GameLayer::init() {
 	//buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
 	RGB* color1 = new RGB(255, 255, 23);
-	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 29, 41, 50, color1, "res/gemsIcon.png", "", game);
+	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 29, 41, 50, color1, "res/gemsIcon.png", to_string(PLAYER_INITIAL_RESOURCES), game);
 	uiLeftEnemies = new UITextIcon(0.75 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, "res/leftEnemiesIcon.png", "0", game);
 
 	player = new Player(0, 0, game);
@@ -79,7 +74,8 @@ void GameLayer::init() {
 	// Gestor de compra
 	this->shopManager = new ShopManager(player, game);
 
-	mapManager->loadMap("res/mapa-2.txt");
+	// Carga del siguiente mapa
+	mapManager->loadMap(getNextMap());
 	loadEntities();
 
 	// inicializar el motor de colisiones
@@ -95,7 +91,8 @@ void GameLayer::init() {
 	this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
 
 	this->gemGenerator = new GemGenerator(game);
-
+	this->powerUpGenerator = new PowerUpGenerator(game);
+	this->powerUpInventory = new PowerUpInventory(game);
 
 }
 
@@ -109,25 +106,25 @@ void GameLayer::update() {
 	list<Projectile*> deleteProjectiles; // Proyectiles a eliminar
 	list<Tower*> deleteTowers; // Torres a eliminar
 	list<Gem*> deleteGems; // Gemas recolectables a eliminar
+	list<PowerUp*> deletePowerUps; // PowerUps a eliminar
 
 	if (pause) {
 		return;
 	}
 
-	//// Comprobamos si el jugador colisiona con el elemento de final de nivel
-	//if (cup->isOverlap(player)) {
-	//	game->currentLevel++;
-	//	if (game->currentLevel > game->finalLevel) {
-	//		game->currentLevel = 0;
-	//	}
-	//	message = new Actor("res/mensaje_ganar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
-	//	pause = true;
-	//	init();
-	//	return;
-	//}
+	// Si se han superado todas las rondas
+	if (checkWin()) {
+		message = new Actor("res/mensaje_ganar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
+		pause = true;
+		return;
+	}
 
-	// Actualizamos todos los actores dinámicos
-	//space->update();
+	if (this->towers.empty()) { //  Todas las torres destruidas
+		message = new Actor("res/mensaje_perder.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
+		pause = true;
+		this->init();
+		return;
+	}
 
 	// Actualizar el motor de colisiones
 	collisionEngine->update();
@@ -137,7 +134,6 @@ void GameLayer::update() {
 	if (newEnemy != nullptr) enemies.push_back(newEnemy);
 	
 
-	//player->update();
 	// Actualizamos los enemigos
 	for (auto const& enemy : enemies) {
 		pathManager->update(enemy); // Actualizar trayectoria del enemigo
@@ -149,22 +145,7 @@ void GameLayer::update() {
 		else if (enemy->state == Enemy::EnemyState::DEAD) { // Enemigo está muerto -> eliminarlo
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
-		//} else if (player->isOverlap(enemy)) { // Colisión con el jugador
-		//	// Comprobamos si el player ha saltado encima del enemigo
-		//	if (player->isOver(enemy)) {
-		//		player->audioJumpOverEnemy->play(); // Reproducir sonido de aplastamiento
-		//		markEnemyForDelete(enemy, deleteEnemies);
-		//	}
-		//	else {
-		//		player->loseLife();
-		//		if (player->lifes <= 0) { // Jugador sin vidas
-		//			init();
-		//			return; // Se reinicia el juego.
-		//		}
-		//	}
-		//}
 	}
-
 
 
 	// Actualizar las torretas
@@ -212,64 +193,33 @@ void GameLayer::update() {
 		}
 	}
 
-	// Recolectables
-	//this->addResourceCollectable();
-	
+	// Actualizar recolectables
 	Gem* newGem = this->gemGenerator->createGem();
 	if (newGem != nullptr)
 		gems.push_back(newGem);
 
-	// Eliminar recolectables ya recogidos
 	for (auto const& gem : gems) {
-		if (gem->collected)
+		gem->update();
+		if (gem->ticksAlive <= 0 // Se agotó su tiempo de vida
+			|| gem->collected) { // o ya ha sido recolectada
 			markGemForDelete(gem, deleteGems);
+		}
 	}
 
-	// Actualizamos los proyectiles
-	//for (auto const& projectile : projectiles) {
-	//	projectile->update();
-	//	// Proyectil a la derecha de la pantalla o proyectil sin velocidad (impacto con algún elemnto estático)
-	//	if (!projectile->isInRender(scrollX, scrollY) || projectile->vx == 0) {
-	//		markProjectileForDelete(projectile, deleteProjectiles);
-	//	}
+	// Actualizar generador de powerUps
+	PowerUp* pwu = this->powerUpGenerator->createPowerUp();
+	if (pwu != nullptr) this->powerUps.push_back(pwu);
 
-	//	// Comprobamos colisiones de proyectiles con tiles 
-	//	for (auto const& tile : tiles) {
-	//		if (tile->isOverlap(projectile)) {
-	//			if (tile->isDestroyable()) {// Si el tile es destruible, se elimina
-	//				markTileForDelete(tile, deleteTiles);
-	//				markProjectileForDelete(projectile, deleteProjectiles);
-	//			}	
-	//		}
-	//	}
-	//}
-
-	// Colisiones entre enemigos y proyectiles
-	//for (auto const& enemy : enemies) {
-	//	for (auto const& projectile : projectiles) {
-	//		if (enemy->isOverlap(projectile)) {
-	//			// Incrementar el nº de enemigos eliminados
-	//			killedEnemies++;
-	//			// Incrementar puntuación
-	//			points++;
-	//			textPoints->content = to_string(points);
-	//			markProjectileForDelete(projectile, deleteProjectiles);
-	//			//markEnemyForDelete(enemy, deleteEnemies);
-	//			enemy->impacted();
-	//		}
-	//	}
-	//}
-
+	for (auto const& powerUp : powerUps) {
+		powerUp->update();
+		if (powerUp->collected || powerUp->ticksAlive <= 0)
+			markPowerUpForDelete(powerUp, deletePowerUps);
+	}
 
 	// Actualizar UI
 	this->uiRecursos->text->content = to_string(this->player->availableResources);
 	this->uiLeftEnemies->text->content = to_string(this->leftEnemies);
 
-	for (auto const& enemy : enemies) { // Marcamos para eliminar aquellos enemigos en el estado muerto.
-		//if (enemy->state == game->stateDead) {
-		//	markEnemyForDelete(enemy, deleteEnemies);
-		//}
-	}
 
 	// Eliminar torres destruidas
 	for (auto const& tower : deleteTowers) {
@@ -281,14 +231,12 @@ void GameLayer::update() {
 	// Eliminamos los proyectiles y enemigos necesarios
 	for (auto const& delEnemy : deleteEnemies) {
 		enemies.remove(delEnemy);
-		space->removeDynamicActor(delEnemy); // Eliminamos al enemigo del motor de físicas.
 		delete delEnemy; // Se destruye el enemigo.
 	}
 	deleteEnemies.clear();
 
 	for (auto const& delProjectile : deleteProjectiles) {
 		projectiles.remove(delProjectile);
-		space->removeDynamicActor(delProjectile);
 		delete delProjectile; // Se destruye el proyectil.
 	}
 	deleteProjectiles.clear();
@@ -298,6 +246,12 @@ void GameLayer::update() {
 		delete delGem;
 	}
 	deleteGems.clear();
+
+	for (auto const& delPowerUp : deletePowerUps) {
+		powerUps.remove(delPowerUp);
+		delete delPowerUp;
+	}
+	deletePowerUps.clear();
 }
 
 
@@ -333,28 +287,68 @@ void GameLayer::processControls() {
 		controlContinue = false;
 	}
 
-	// Drag & drop
+	// Eventos de ratón
 	if (mouseClick) {
 		cout << "Mouse clicked!" << endl;
+		// Si el juego estaba en pausa, continuar
+		if (pause) {
+			this->init();
+			pause = false;
+		}
+
+		// Coger un powerUp del inventario de powerUps
+		UIPowerUp* slot = this->powerUpInventory->getSlot(mouseX, mouseY);
+		if (slot != nullptr && !slot->empty()) {
+			this->selectedPowerUp = slot->powerUp;
+			slot->clear();
+		}
+
 		// Comprobar la compra de torretas
 		this->selectedTurret = this->shopManager->purchase(mouseX, mouseY);
-
-		// Comprobar la recolección de items
+		
+		// Comprobar la recolección de gemas
 		for (auto const& gem : gems) {
 			if (gem->containsPoint(xClick, yClick)) {
 				gem->collected = true;
 				player->availableResources += gem->value;
 			}
 		}
+
+		// Comprobar la recolección de powerUps
+		for (auto const& pwu : powerUps) {
+			if (pwu->containsPoint(xClick, yClick) && !this->powerUpInventory->isFull()) {
+				pwu->collected = true;
+				this->powerUpInventory->addPowerUp(pwu->clone()); // Crear un clone del powerUp y añadirlo al inventario
+			}
+		}
+
+		// Comprobar la recolección de powerups
 		mouseClick = false;
 	}
 		
 
 	if (mouseReleased) {
 		cout << "Mouse released!" << endl;
+		// Torreta
 		this->constructionManager->construct(mouseX, mouseY, this->selectedTurret);
 		this->selectedTurret = nullptr;
 		this->shopManager->clearPurchase();
+
+		// PowerUp
+		// Comprobar si se suelta encima de alguna torre
+		if (this->selectedPowerUp != nullptr) {
+			for (auto const& pair : towers) {
+				if (pair.second->containsPoint(mouseX, mouseY)) {
+					this->selectedPowerUp->effect(pair.second);
+				}
+			}
+			if (!this->selectedPowerUp->used) { // Si no se ha soltado encima de una torre, devolverlo al slot
+				this->powerUpInventory->addPowerUp(this->selectedPowerUp);
+			}
+			this->selectedPowerUp = nullptr;
+		}
+		
+
 		mouseReleased = false;
 	}
 		
@@ -363,6 +357,11 @@ void GameLayer::processControls() {
 		if (this->selectedTurret != nullptr) {
 			this->selectedTurret->x = this->mouseX;
 			this->selectedTurret->y = this->mouseY;
+		}
+
+		if (this->selectedPowerUp != nullptr) {
+			this->selectedPowerUp->x = this->mouseX;
+			this->selectedPowerUp->y = this->mouseY;
 		}
 	}
 		
@@ -383,13 +382,12 @@ void GameLayer::processControls() {
 	//}
 
 	// Disparar
-	if (controlShoot) {
-		Projectile* newProjectile = player->shoot();
-		if (newProjectile != nullptr) {
-			projectiles.push_back(newProjectile);
-			space->addDynamicActor(newProjectile);
-		}
-	}
+	//if (controlShoot) {
+	//	Projectile* newProjectile = player->shoot();
+	//	if (newProjectile != nullptr) {
+	//		projectiles.push_back(newProjectile);
+	//	}
+	//}
 	// Eje X
 	if (controlMoveX > 0) {
 		player->moveX(1);
@@ -539,72 +537,80 @@ void GameLayer::mouseToControls(SDL_Event event) {
 
 void GameLayer::draw() {
 
-	background->draw();
+	if (!pause) {
+		background->draw();
+
+		for (auto const& pathTile : pathTiles) {
+			pathTile->draw();
+		}
+
+		// Dibujamos al jugador
+		//player->draw(scrollX, scrollY);
+
+		// Dibujamos los enemigos
+		for (auto const& enemy : enemies) {
+			enemy->draw();
+		}
 
 
-	for (auto const& pathTile : pathTiles) {
-		pathTile->draw();
+		// Dibujamos los proyectiles
+		for (auto const& projectile : projectiles) {
+			projectile->draw();
+		}
+
+		// Dibujamos las torres
+		for (auto const& pair : towers) {
+			pair.second->draw();
+		}
+
+		// Dibujar construction tiles
+		for (auto const& ct : this->constructionManager->constructionTiles) {
+			ct->draw();
+		}
+
+
+		// Dibujamos las torretas
+		for (auto const& turret : this->constructionManager->turrets) {
+			turret->draw();
+		}
+
+		// Dibujar recolectables
+		for (auto const& gem : gems) {
+			gem->draw();
+		}
+
+		for (auto const& powerUp : powerUps) {
+			powerUp->draw();
+		}
+		
+
+		// Dibujar UI con los items de las torretas
+		this->shopManager->draw();
+		this->uiRecursos->draw();
+		this->uiLeftEnemies->draw();
+		this->powerUpInventory->draw();
+
+		// Torreta seleccionada con el mouse
+		if (this->selectedTurret != nullptr)
+			this->selectedTurret->draw();
+		// PowerUp seleccionado con el mouse
+		if (this->selectedPowerUp != nullptr) {
+			this->selectedPowerUp->draw();
+		}
+
+		//textPoints->draw();
+		//backgroundPoints->draw();
+		// HUD
+		if (game->input == GameInputType::MOUSE) { // Dibujar el HUD solo si el tipo de entrada es el mouse
+			//buttonJump->draw(); // NO TIENEN SCROLL, POSISICIÓN FIJA
+			//buttonShoot->draw();
+		}
 	}
-
-	// Dibujamos al jugador
-	//player->draw(scrollX, scrollY);
-
-	// Dibujamos los enemigos
-	for (auto const& enemy : enemies) {
-		enemy->draw();
-	}
-
-
-	// Dibujamos los proyectiles
-	for (auto const& projectile : projectiles) {
-		projectile->draw();
-	}
-
-	// Dibujamos las torres
-	for (auto const& pair : towers) {
-		pair.second->draw();
-	}
-
-	// Dibujar construction tiles
-	for (auto const& ct : this->constructionManager->constructionTiles) {
-		ct->draw();
-	}
-
-
-	// Dibujamos las torretas
-	for (auto const& turret : this->constructionManager->turrets) {
-		turret->draw();
-	}
-
-	// Dibujar recolectables
-	for (auto const& gem : gems) {
-		gem->draw();
-	}
-
-	// Dibujar UI con los items de las torretas
-	this->shopManager->draw();
-
-	this->uiRecursos->draw();
-	this->uiLeftEnemies->draw();
-
-	// Torreta seleccionada con el mouse
-	if (this->selectedTurret != nullptr)
-		this->selectedTurret->draw();
-
-
-	//textPoints->draw();
-	//backgroundPoints->draw();
-	// HUD
-	if (game->input == GameInputType::MOUSE) { // Dibujar el HUD solo si el tipo de entrada es el mouse
-		//buttonJump->draw(); // NO TIENEN SCROLL, POSISICIÓN FIJA
-		//buttonShoot->draw();
-	}
-
-	if (pause) {
-		message->draw();
+	else {
+		this->message->draw();
 	}
 	
-
+	
 	SDL_RenderPresent(game->renderer); // Renderiza el juego
 }
 
@@ -612,23 +618,6 @@ void GameLayer::draw() {
 
 // Métodos privados
 // **********************************************************************************
-
-
-//void GameLayer::constructTurret(ConstructionTile* ct) {
-//	if (!ct->occupied) { // Ocupada?
-//		int x = (int)(ct->x / TILE_WIDTH) * TILE_WIDTH + TILE_WIDTH / 2;
-//		int y = (int)(ct->y / TILE_HEIGHT) * TILE_HEIGHT + TILE_HEIGHT / 2;
-//		Turret* newTurret = new Turret("res/cannon1.png", x, y, 55, 14, game);
-//		this->turrets.push_back(newTurret);
-//
-//		cout << "Nueva torreta en x: " << x << " y: " << y << endl;
-//		ct->occupied = true;
-//
-//	}
-//	else {
-//		cout << "Ya hay una torreta construida en ese lugar" << endl;
-//	}
-//}
 
 
 void GameLayer::loadEntities() {
@@ -650,18 +639,6 @@ bool GameLayer::hordeHasFinished() {
 			(this->enemyGenerator->allGenerated && this->enemies.empty()));
 }
 
-//
-//void GameLayer::addResourceCollectable() {
-//	this->ticksUntilNextResourcesSpawn--;
-//
-//	if (this->ticksUntilNextResourcesSpawn <= 0) {
-//		float rX = rand() % (770 - 30 + 1) + 30;
-//		float rY = rand() % (570 - 30 + 1) + 30;
-//		this->randomResources.push_back(new Resources(rX, rY, game));
-//		this->ticksUntilNextResourcesSpawn = RESOURCES_SPAWN_FREQUENCY;
-//	}
-//}
-
 Horde* GameLayer::getNextHorde() {
 	if (!this->hordes.empty()) {
 		Horde* next = this->hordes.front();
@@ -671,6 +648,10 @@ Horde* GameLayer::getNextHorde() {
 	return nullptr;
 }
 
+
+bool GameLayer::checkWin() {
+	return this->hordes.empty() && this->leftEnemies == 0;
+}
 
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList) {
 	bool inList = std::find(deleteList.begin(),
@@ -718,21 +699,23 @@ void markGemForDelete(Gem* gem, list<Gem*>& deleteList) {
 	}
 }
 
+void markPowerUpForDelete(PowerUp* powerUp, list<PowerUp*>& deleteList) {
+	bool inList = std::find(deleteList.begin(),
+		deleteList.end(),
+		powerUp) != deleteList.end();
+	if (!inList) {
+		deleteList.push_back(powerUp);
+	}
+}
 
-//
-//void GameLayer::addNewEnemy() {
-//	newEnemyTime--;
-//	if (newEnemyTime <= 0) {
-//		for (int i = 0; i < (killedEnemies / ENEMY_SPAWN_FREQUENCY) + 1; i++) {
-//			cout << "New enemy spawned" << endl;
-//			// Random position
-//			int rX = (rand() % (600 - 500)) + 1 + 500;
-//			int rY = (rand() % (300 - 60)) + 1 + 60;
-//			enemies.push_back(new Enemy(rX, rY, 2, game));
-//		}
-//		newEnemyTime = ENEMY_SPAWN_TIME;
-//	}
-//}
+string GameLayer::getNextMap()
+{
+	if (maps.empty())
+		initMaps();
+	string nextMap = maps.front();
+	maps.pop();
+	return nextMap;
+}
 
 void GameLayer::destroyEnemies() {
 	for (auto const& enemy : enemies) {
@@ -746,3 +729,22 @@ void GameLayer::destroyProjectiles() {
 	}
 }
 
+void GameLayer::destroyGems()
+{
+	for (auto const& gem : gems) {
+		delete gem;
+	}
+}
+
+void GameLayer::destroyTowers()
+{
+	for (auto const& tower : towers) {
+		delete tower.second;
+	}
+}
+
+
+void GameLayer::initMaps() {
+	this->maps.push("res/mapa-1.txt");
+	this->maps.push("res/mapa-2.txt");
+}

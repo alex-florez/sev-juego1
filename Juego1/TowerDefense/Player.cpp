@@ -121,20 +121,20 @@ void Player::jump() {
 	}
 }
 
-Projectile* Player::shoot() {
-	if (shootTime == 0) {
-		audioShoot->play(); // Efecto de sonido del disparo.
-		shootTime = shootCadence;
-		state = game->stateShooting;
-		Projectile* projectile = new Projectile(x + width/2, y, game);
-		
-		if (orientation == game->orientationLeft)
-			projectile->vx = projectile->vx * -1; // Invertir velocidad del proyectil
-		
-		return projectile;
-	}
-	return NULL;
-}
+//Projectile* Player::shoot() {
+//	if (shootTime == 0) {
+//		audioShoot->play(); // Efecto de sonido del disparo.
+//		shootTime = shootCadence;
+//		state = game->stateShooting;
+//		Projectile* projectile = new Projectile(x + width/2, y, game);
+//		
+//		if (orientation == game->orientationLeft)
+//			projectile->vx = projectile->vx * -1; // Invertir velocidad del proyectil
+//		
+//		return projectile;
+//	}
+//	return NULL;
+//}
 
 void Player::draw() {
 	if(invulnerableTime == 0)

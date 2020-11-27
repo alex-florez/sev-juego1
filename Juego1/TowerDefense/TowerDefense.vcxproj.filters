@@ -37,6 +37,30 @@
     <Filter Include="Archivos de origen\Enemigos">
       <UniqueIdentifier>{0d894913-77d7-4d5d-a226-e0131554307d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\Generators">
+      <UniqueIdentifier>{88a40f66-8c25-4a3a-b0d3-7aecc5857d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Generator">
+      <UniqueIdentifier>{35c8d54d-a0ae-43dd-a6a1-62115f0a7949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\UI">
+      <UniqueIdentifier>{e7da0251-ad1a-4897-bc9e-e8f37412f70c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\UI">
+      <UniqueIdentifier>{8ca66422-892a-4912-a342-986a0bccd3ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Projectiles">
+      <UniqueIdentifier>{d4ca8163-9d81-495d-ad74-25d1dbfad3d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Projectiles">
+      <UniqueIdentifier>{53a70ecc-e1cc-448e-95b3-286f4a14de99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Mejoras">
+      <UniqueIdentifier>{32471019-7c1a-4c60-b514-682344cf4c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Mejoras">
+      <UniqueIdentifier>{4ea182bc-d4fc-4228-8ced-80ee00cf6582}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -60,15 +84,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Space.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -76,9 +91,6 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Point.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGenerator.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Tower.cpp">
@@ -132,19 +144,7 @@
     <ClCompile Include="TurretFactory.cpp">
       <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
-    <ClCompile Include="UITextIcon.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="UIPurchasedTurret.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="UITurretItem.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="Horde.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="RGB.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
@@ -183,7 +183,58 @@
     <ClCompile Include="MagentaGem.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyGenerator.cpp">
+      <Filter>Archivos de origen\Generators</Filter>
+    </ClCompile>
     <ClCompile Include="GemGenerator.cpp">
+      <Filter>Archivos de origen\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="RGB.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPurchasedTurret.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITextIcon.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITurretItem.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="RoundProjectile.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserBeam.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileFactory.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserBeamFactory.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="RoundProjectileFactory.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUp.cpp">
+      <Filter>Archivos de origen\Mejoras</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUpGenerator.cpp">
+      <Filter>Archivos de origen\Mejoras</Filter>
+    </ClCompile>
+    <ClCompile Include="MedKit.cpp">
+      <Filter>Archivos de origen\Mejoras</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPowerUp.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUpInventory.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,15 +257,6 @@
     <ClInclude Include="Player.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Space.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -222,9 +264,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
@@ -278,19 +317,7 @@
     <ClInclude Include="TurretFactory.h">
       <Filter>Archivos de encabezado\Torretas</Filter>
     </ClInclude>
-    <ClInclude Include="UITextIcon.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="UIPurchasedTurret.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="UITurretItem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Horde.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="RGB.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
@@ -330,6 +357,57 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="GemGenerator.h">
+      <Filter>Archivos de encabezado\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGenerator.h">
+      <Filter>Archivos de encabezado\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="RGB.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPurchasedTurret.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UITextIcon.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UITurretItem.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="RoundProjectile.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserBeam.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileFactory.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserBeamFactory.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="RoundProjectileFactory.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Archivos de encabezado\Mejoras</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpGenerator.h">
+      <Filter>Archivos de encabezado\Mejoras</Filter>
+    </ClInclude>
+    <ClInclude Include="MedKit.h">
+      <Filter>Archivos de encabezado\Mejoras</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPowerUp.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpInventory.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
