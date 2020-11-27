@@ -9,8 +9,8 @@
 #define GEM_MIN_SPAWN_FREQ 200
 #define GEM_MAX_SPAWN_FREQ 350
 
-#define GEM_MIN_ALIVE_TICKS 90
-#define GEM_MAX_ALIVE_TICKS 120
+#define GEM_MIN_ALIVE_TICKS 130
+#define GEM_MAX_ALIVE_TICKS 160
 
 
 /// <summary>

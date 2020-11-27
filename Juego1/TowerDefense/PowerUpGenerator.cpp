@@ -4,6 +4,8 @@ PowerUpGenerator::PowerUpGenerator(Game* game)
 {
 	this->game = game;
 	this->ticksUntilNextPowerUp = randomInt(POWER_UP_MIN_SPAWN_FREQ, POWER_UP_MAX_SPAWN_FREQ);
+	this->types[0] = 'M'; // MedKit
+	this->types[1] = 'T'; // Toolkit
 }
 
 PowerUp* PowerUpGenerator::createPowerUp() {
@@ -14,7 +16,16 @@ PowerUp* PowerUpGenerator::createPowerUp() {
 		int rX = rand() % (WIDTH - 50 - 50) + 50;
 		int rY = rand() % (HEIGHT - 50 - 50) + 50;
 		int randomAliveTicks = randomInt(POWER_UP_MIN_ALIVE_TICKS, POWER_UP_MAX_ALIVE_TICKS);
-		pwu = new MedKit(rX, rY, randomAliveTicks, game);
+		switch (randomType())
+		{
+		case 'M':
+			pwu = new MedKit(rX, rY, randomAliveTicks, game);
+			break;
+		case 'T':
+			pwu = new ToolKit(rX, rY, randomAliveTicks, game);
+			break;
+		}
+
 		this->ticksUntilNextPowerUp = randomInt(POWER_UP_MIN_SPAWN_FREQ, POWER_UP_MAX_SPAWN_FREQ);
 	}
 	
@@ -24,4 +35,9 @@ PowerUp* PowerUpGenerator::createPowerUp() {
 int PowerUpGenerator::randomInt(int a, int b)
 {
 	return rand() % (b - a + 1) + a;
+}
+
+char PowerUpGenerator::randomType() {
+	int pos = rand() % 2;
+	return this->types[pos];
 }

@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "Tower.h"
 
+
 /// <summary>
 /// Representa la clase base para los power-ups o mejoras
 /// que irán apareciendo en el mapa, y que podrán ser recogidas
@@ -10,6 +11,7 @@
 class PowerUp : public Actor
 {
 public:
+
 
 	PowerUp(string filename, float width, float height, int ticksAlive, float x, float y, Game* game);
 
@@ -26,12 +28,16 @@ public:
 	/// <returns></returns>
 	virtual PowerUp* clone() = 0;
 
+	
+	void draw() override;
 	void update();
 
-
+	
 	bool collected; // Indica si el powerUp se ha recogido o no
 	bool used; // Indica si el powerUp se ha usado o no
+	bool blink; // Indica si el powerUp debe empezar a parpadear
 	int ticksAlive; // Ticks durante los que está vivo este powerUp
+	Animation* glowAnimation; // Animación de brillo
 
 };
 

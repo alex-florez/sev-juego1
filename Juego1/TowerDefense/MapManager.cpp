@@ -4,6 +4,7 @@
 MapManager::MapManager(Game* game) {
 	this->game = game;
 	this->pathManager = new PathManager();
+	this->towerManager = new TowerManager(game);
 	this->constructionManager = new ConstructionManager(game, nullptr);
 	this->enemyGenerator = new EnemyGenerator(game);
 }
@@ -22,13 +23,15 @@ PathManager* MapManager::getPathManager() {
 	return this->pathManager;
 }
 
+TowerManager* MapManager::getTowerManager()
+{
+	return this->towerManager;
+}
+
 EnemyGenerator* MapManager::getEnemyGenerator() {
 	return this->enemyGenerator;
 }
 
-map<int, Tower*> MapManager::getTowers() {
-	return this->towers;
-}
 
 queue<Horde*> MapManager::getHordes() {
 	return this->hordes;
@@ -101,7 +104,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		}
 		case 'E': {
 			int pathId = map[i][j - 1] - '0'; // Obtenemos el id de la trayectoria que seguirán los enemigos de este generador
-			this->enemyGenerator->spawnPoints[pathId] = new Point(j, i);
+			this->enemyGenerator->addSpawnPoint(pathId, new Point(j, i));
 			break;
 		}
 		case 'C': {
@@ -115,7 +118,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 			tower->y = tower->y - tower->height / 2;
 			int id = map[i][j + 1] - '0';
 			tower->pathId = id;
-			towers[id] = tower;
+			this->towerManager->add(id, tower);
 			break;
 		}
 	}

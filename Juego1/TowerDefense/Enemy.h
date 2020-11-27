@@ -34,8 +34,10 @@ public:
 	Animation* animation; // Referencia a la animación actual.
 
 	int attackFrequency; // Frecuencia de ataque del enemigo
+	int attackPower; // Poder de ataque
 	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
 	int health; // Variable que almacena la salud de este enemigo.
+
 
 	EnemyState state; // Estado del enemigo.
 };

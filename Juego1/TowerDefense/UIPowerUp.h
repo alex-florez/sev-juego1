@@ -16,6 +16,7 @@ public:
 	void clear();
 	void setPowerUp(PowerUp* powerUp);
 
+
 	PowerUp* powerUp; // Referencia al powerUp almacenado en este slot.
 
 };

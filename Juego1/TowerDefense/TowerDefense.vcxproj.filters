@@ -40,9 +40,6 @@
     <Filter Include="Archivos de origen\Generators">
       <UniqueIdentifier>{88a40f66-8c25-4a3a-b0d3-7aecc5857d12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Generator">
-      <UniqueIdentifier>{35c8d54d-a0ae-43dd-a6a1-62115f0a7949}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de origen\UI">
       <UniqueIdentifier>{e7da0251-ad1a-4897-bc9e-e8f37412f70c}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,9 @@
     </Filter>
     <Filter Include="Archivos de origen\Mejoras">
       <UniqueIdentifier>{4ea182bc-d4fc-4228-8ced-80ee00cf6582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Generators">
+      <UniqueIdentifier>{35c8d54d-a0ae-43dd-a6a1-62115f0a7949}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -225,9 +225,6 @@
     <ClCompile Include="PowerUp.cpp">
       <Filter>Archivos de origen\Mejoras</Filter>
     </ClCompile>
-    <ClCompile Include="PowerUpGenerator.cpp">
-      <Filter>Archivos de origen\Mejoras</Filter>
-    </ClCompile>
     <ClCompile Include="MedKit.cpp">
       <Filter>Archivos de origen\Mejoras</Filter>
     </ClCompile>
@@ -236,6 +233,18 @@
     </ClCompile>
     <ClCompile Include="PowerUpInventory.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRepairIcon.cpp">
+      <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolKit.cpp">
+      <Filter>Archivos de origen\Mejoras</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUpGenerator.cpp">
+      <Filter>Archivos de origen\Generators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -357,10 +366,10 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="GemGenerator.h">
-      <Filter>Archivos de encabezado\Generator</Filter>
+      <Filter>Archivos de encabezado\Generators</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGenerator.h">
-      <Filter>Archivos de encabezado\Generator</Filter>
+      <Filter>Archivos de encabezado\Generators</Filter>
     </ClInclude>
     <ClInclude Include="RGB.h">
       <Filter>Archivos de encabezado\UI</Filter>
@@ -398,9 +407,6 @@
     <ClInclude Include="PowerUp.h">
       <Filter>Archivos de encabezado\Mejoras</Filter>
     </ClInclude>
-    <ClInclude Include="PowerUpGenerator.h">
-      <Filter>Archivos de encabezado\Mejoras</Filter>
-    </ClInclude>
     <ClInclude Include="MedKit.h">
       <Filter>Archivos de encabezado\Mejoras</Filter>
     </ClInclude>
@@ -409,6 +415,18 @@
     </ClInclude>
     <ClInclude Include="PowerUpInventory.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TowerManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRepairIcon.h">
+      <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolKit.h">
+      <Filter>Archivos de encabezado\Mejoras</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpGenerator.h">
+      <Filter>Archivos de encabezado\Generators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

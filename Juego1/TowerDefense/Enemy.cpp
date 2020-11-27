@@ -17,6 +17,7 @@ Enemy::Enemy(string filename, float width, float height, float x, float y, float
 	this->state = EnemyState::MOVING;
 	//this->speed = speed;
 
+	this->attackPower = 25;
 	this->attackFrequency = 20;
 	this->ticksUntilNextAttack = 0;
 
@@ -53,38 +54,11 @@ void Enemy::update() {
 		this->stopFollowing = true;
 	}
 
-	//if (state == game->stateDying) { // Muriendo
-	//	animation = aDying;
-	//	vx = 0; // Hacemos que pare
-	//}
-
-	//if (state != game->stateDying) { // Si no se está muriendo...
-	//	// Y se ha quedado parado
-	//	if (vx == 0) {
-	//		
-	//		//vx = vxIntelligence;
-	//	}
-	//	if (outRight) {
-	//		// Mover hacia la izquierda
-	//		//vx = vxIntelligence;
-	//	}
-	//	if (outLeft) {
-	//		// Mover hacia la derecha
-	//		//vx = vxIntelligence;
-	//	}
-	//}
-		this->x += this->vx;
-		this->y += this->vy;
+	this->x += this->vx;
+	this->y += this->vy;
 	
 }
 
-//bool Enemy::checkInsideCell(Point* cellCenter, float error) {
-//	int xCenter = cellCenter->getX() * 40 + 20;
-//	int yCenter = cellCenter->getY() * 40 - 20;
-//
-//	return x >= xCenter - error && x <= xCenter + error
-//		&& y >= yCenter - error && y <= yCenter + error;
-//}
 
 
 void Enemy::draw() {
@@ -108,7 +82,7 @@ void Enemy::attack(Tower* tower) {
 	}
 
 	if (this->ticksUntilNextAttack <= 0) {
-		tower->health -= 30;
+		tower->health -= this->attackPower;
 		this->ticksUntilNextAttack = this->attackFrequency;
 		if (tower->health <= 0) { // Si tras este último ataque la torre se destruye...
 			this->state = EnemyState::MOVING; // El enemigo vuelve al estado MOVING
@@ -118,8 +92,6 @@ void Enemy::attack(Tower* tower) {
 
 void Enemy::impactedBy(Projectile* projectile, Player* player) {
 	this->health -= projectile->damage;
-	// Incrementar recursos del jugador por haber impactado a un enemigo
-	player->availableResources += PLAYER_HIT_RESOURCES; 
 	if (this->health <= 0 && this->state != EnemyState::DYING) {
 		this->state = EnemyState::DYING;
 		// Incrementar recursos del jugador por haber eliminado al enemigo.

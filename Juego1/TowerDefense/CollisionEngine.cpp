@@ -36,12 +36,10 @@ void CollisionEngine::update() {
 
 	// Colisiones entre enemigos y torres
 	for (auto const& enemy : *enemies) {
-		//enemy->isCollisioning = false;
 		for (auto const& pair : *towers) {
 			Tower* tower = pair.second;
 			if (enemy->isOverlap(tower) && 
-				tower->state != Tower::TowerState::EXPLODING) { // Enemigo colisiona con la torre si esta no se está destruyendo...
-				//enemy->isCollisioning = true;
+				tower->state == Tower::TowerState::ALIVE) { // Enemigo colisiona con la torre que está viva
 				enemy->attack(tower); // Hacer que ese enemigo ataque a esa torre.
 			}
 		}

@@ -25,7 +25,7 @@ void GameLayer::init() {
 	destroyEnemies();
 	destroyProjectiles();
 	destroyGems();
-	destroyTowers();
+	destroyPowerUps();
 
 	background = new Background("res/grass.jpg", WIDTH * 0.5, HEIGHT * 0.5, game);
 
@@ -44,9 +44,8 @@ void GameLayer::init() {
 	// Gemas
 	gems.clear();
 
-	// Torres
-	towers.clear();
-
+	// PowerUps
+	powerUps.clear();
 
 	// Semilla aleatoria para generar números aleatorios
 	srand(SDL_GetTicks());
@@ -79,7 +78,7 @@ void GameLayer::init() {
 	loadEntities();
 
 	// inicializar el motor de colisiones
-	this->collisionEngine->addTowers(&this->towers);
+	this->collisionEngine->addTowers(&this->towerManager->towers);
 	this->collisionEngine->addEnemies(&this->enemies);
 	this->collisionEngine->addProjectiles(&this->projectiles);
 	this->collisionEngine->addPlayer(player);
@@ -119,7 +118,7 @@ void GameLayer::update() {
 		return;
 	}
 
-	if (this->towers.empty()) { //  Todas las torres destruidas
+	if (this->towerManager->allDestroyed()) { //  Todas las torres destruidas
 		message = new Actor("res/mensaje_perder.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
 		pause = true;
 		this->init();
@@ -169,11 +168,12 @@ void GameLayer::update() {
 	}
 
 	// Actualizar torres
-	for (auto const& pair : towers) {
+	for (auto const& pair : this->towerManager->towers) {
 		pair.second->update();
-		// Si la torre está destruida entonces se elimina
+		// Si la torre está destruida entonces se elimina y Eliminar del generador de enemigos el punto de aparición de esta trayectoria
 		if (pair.second->state == Tower::TowerState::DESTROYED) {
-			markTowerForDelete(pair.second, deleteTowers);
+			//markTowerForDelete(pair.second, deleteTowers);
+			this->enemyGenerator->removeSpawnPoint(pair.second->pathId); 
 		}
 	}
 
@@ -220,10 +220,9 @@ void GameLayer::update() {
 	this->uiRecursos->text->content = to_string(this->player->availableResources);
 	this->uiLeftEnemies->text->content = to_string(this->leftEnemies);
 
-
 	// Eliminar torres destruidas
 	for (auto const& tower : deleteTowers) {
-		towers.erase(tower->pathId);
+		this->towerManager->remove(tower->pathId);
 		delete tower;
 	}
 	deleteTowers.clear();
@@ -296,6 +295,16 @@ void GameLayer::processControls() {
 			pause = false;
 		}
 
+		// Reparar una torre
+		Tower* clickedTower = this->towerManager->getTower(mouseX, mouseY);
+		if (clickedTower != nullptr && clickedTower->state == Tower::TowerState::DESTROYED) {
+			// Comprobar si hay recursos
+			if (player->availableResources >= TOWER_REPAIR_COST) {
+				this->player->availableResources -= TOWER_REPAIR_COST;
+				clickedTower->repair(); // Reparar una torre
+			}
+		}
+
 		// Coger un powerUp del inventario de powerUps
 		UIPowerUp* slot = this->powerUpInventory->getSlot(mouseX, mouseY);
 		if (slot != nullptr && !slot->empty()) {
@@ -334,21 +343,15 @@ void GameLayer::processControls() {
 		this->selectedTurret = nullptr;
 		this->shopManager->clearPurchase();
 
-		// PowerUp
-		// Comprobar si se suelta encima de alguna torre
+		// Aplicar un powerUp a una torre
 		if (this->selectedPowerUp != nullptr) {
-			for (auto const& pair : towers) {
-				if (pair.second->containsPoint(mouseX, mouseY)) {
-					this->selectedPowerUp->effect(pair.second);
-				}
-			}
-			if (!this->selectedPowerUp->used) { // Si no se ha soltado encima de una torre, devolverlo al slot
+			Tower* affectedTower = this->towerManager->getTower(mouseX, mouseY);
+			if (affectedTower != nullptr) this->selectedPowerUp->effect(affectedTower);
+			else // Si no se ha soltado encima de una torre, devolverlo al slot
 				this->powerUpInventory->addPowerUp(this->selectedPowerUp);
-			}
-			this->selectedPowerUp = nullptr;
-		}
-		
-
+		}	
+		this->selectedPowerUp = nullptr;
+	
 		mouseReleased = false;
 	}
 		
@@ -547,6 +550,9 @@ void GameLayer::draw() {
 		// Dibujamos al jugador
 		//player->draw(scrollX, scrollY);
 
+		// Dibujamos las torres
+		this->towerManager->draw();
+
 		// Dibujamos los enemigos
 		for (auto const& enemy : enemies) {
 			enemy->draw();
@@ -558,10 +564,7 @@ void GameLayer::draw() {
 			projectile->draw();
 		}
 
-		// Dibujamos las torres
-		for (auto const& pair : towers) {
-			pair.second->draw();
-		}
+		
 
 		// Dibujar construction tiles
 		for (auto const& ct : this->constructionManager->constructionTiles) {
@@ -628,7 +631,7 @@ void GameLayer::loadEntities() {
 	this->mapHeight = mapManager->getMapHeight();
 	this->mapWidth = mapManager->getMapWidht();
 	this->enemyGenerator = mapManager->getEnemyGenerator();
-	this->towers = mapManager->getTowers();
+	this->towerManager = mapManager->getTowerManager();
 	this->hordes = mapManager->getHordes();
 }
 
@@ -717,6 +720,7 @@ string GameLayer::getNextMap()
 	return nextMap;
 }
 
+
 void GameLayer::destroyEnemies() {
 	for (auto const& enemy : enemies) {
 		delete enemy;
@@ -738,8 +742,14 @@ void GameLayer::destroyGems()
 
 void GameLayer::destroyTowers()
 {
-	for (auto const& tower : towers) {
+	for (auto const& tower : this->towerManager->towers) {
 		delete tower.second;
+	}
+}
+
+void GameLayer::destroyPowerUps() {
+	for (auto const& powerUp: powerUps) {
+		delete powerUp;
 	}
 }
 

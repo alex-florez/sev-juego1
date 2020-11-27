@@ -29,3 +29,4 @@ void UIPowerUp::setPowerUp(PowerUp* powerUp)
 	this->powerUp->x = x;
 	this->powerUp->y = y;
 }
+

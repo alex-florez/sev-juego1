@@ -7,6 +7,7 @@ EnemyGenerator::EnemyGenerator(Game* game) {
 	this->factories['B'] = new EnemyBFactory(game);
 	this->factories['C'] = new EnemyCFactory(game);
 	this->allGenerated = false;
+
 }
 
 
@@ -17,7 +18,7 @@ Enemy* EnemyGenerator::createEnemy() {
 	if (this->ticksUntilNextSpawn <= 0 &&
 		this->actualHorde != nullptr && this->generatedEnemies < this->actualHorde->totalNumberOfEnemies) {
 		// Id de path aleatorio
-		int randomPathId = rand() % spawnPoints.size() + 1;
+		int randomPathId = randomPath();
 		Point* startingPoint = this->spawnPoints[randomPathId];
 		e = this->factories[this->actualHorde->next()]->createEnemy();
 		e->x = startingPoint->getX() * TILE_WIDTH + TILE_WIDTH / 2;
@@ -43,6 +44,36 @@ void EnemyGenerator::setNextHorde(Horde* horde, int delay)
 	this->allGenerated = false;
 }
 
+void EnemyGenerator::addSpawnPoint(int key, Point* p)
+{
+	this->spawnPoints[key] = p;
+}
+
+void EnemyGenerator::removeSpawnPoint(int key)
+{
+	this->spawnPoints.erase(key);
+}
+
 int EnemyGenerator::randomInt(int a, int b) {
 	return rand() % (b - a + 1) + a;
+}
+
+int EnemyGenerator::randomPath()
+{
+	// Obtener las keys
+	list<int> keys;
+	for (auto const& pair : this->spawnPoints) {
+		keys.push_back(pair.first);
+	}
+	int randomPos = rand() % keys.size();
+	int i = 0;
+	int pathId = 1;
+	for (auto const& key : keys) {
+		if (i == randomPos) {
+			pathId = key;
+			break;
+		}
+		i++;
+	}
+	return pathId;
 }

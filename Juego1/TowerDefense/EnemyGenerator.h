@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <list>
 
 #include "Point.h"
 #include "Enemy.h"
@@ -30,6 +31,20 @@ public:
 	/// <param name="delay"></param>
 	void setNextHorde(Horde* horde, int delay);
 
+	/// <summary>
+	/// Añade un nuevo punto de aparición al generador de enemigos.
+	/// </summary>
+	/// <param name="key"></param>
+	/// <param name="p"></param>
+	void addSpawnPoint(int key, Point* p);
+
+	/// <summary>
+	///  Elimina del map el spawn point de clave pasada
+	/// como parámetro.
+	/// </summary>
+	/// <param name="key"></param>
+	void removeSpawnPoint(int key);
+
 	// Puntos de Spawn (int: id del camino, Point: punto de spawn)
 	map<int, Point*> spawnPoints;
 	// Factorías para construir los distintos tipos de enemigos.
@@ -44,7 +59,6 @@ private:
 	int ticksUntilNextSpawn; // Vble de control 
 	int generatedEnemies; // Almacena el nº de enemigos generados hasta el momento.
 	
-	
 
 private:
 	/// <summary>
@@ -54,6 +68,12 @@ private:
 	/// </summary>
 	/// <returns></returns>
 	int randomInt(int a, int b);
+
+	/// <summary>
+	/// Genera un pathId aleatorio de entre los disponibles.
+	/// </summary>
+	/// <returns></returns>
+	int randomPath();
 
 };
 

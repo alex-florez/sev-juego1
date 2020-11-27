@@ -65,7 +65,9 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="MedKit.cpp" />
+    <ClCompile Include="ToolKit.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="TowerManager.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TurretA.cpp" />
     <ClCompile Include="TurretAFactory.cpp" />
@@ -73,6 +75,7 @@
     <ClCompile Include="TurretBFactory.cpp" />
     <ClCompile Include="TurretFactory.cpp" />
     <ClCompile Include="UIPowerUp.cpp" />
+    <ClCompile Include="UIRepairIcon.cpp" />
     <ClCompile Include="UITurretItem.cpp" />
     <ClCompile Include="UIPurchasedTurret.cpp" />
     <ClCompile Include="UITextIcon.cpp" />
@@ -124,7 +127,9 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="MedKit.h" />
+    <ClInclude Include="ToolKit.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="TowerManager.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="TurretA.h" />
     <ClInclude Include="TurretAFactory.h" />
@@ -132,6 +137,7 @@
     <ClInclude Include="TurretBFactory.h" />
     <ClInclude Include="TurretFactory.h" />
     <ClInclude Include="UIPowerUp.h" />
+    <ClInclude Include="UIRepairIcon.h" />
     <ClInclude Include="UITurretItem.h" />
     <ClInclude Include="UIPurchasedTurret.h" />
     <ClInclude Include="UITextIcon.h" />

@@ -22,6 +22,7 @@
 #include "Gem.h"
 #include "GemGenerator.h"
 #include "UIPowerUp.h"
+#include "TowerManager.h"
 
 #include <list>
 #include <map>
@@ -111,7 +112,7 @@ public:
 	EnemyGenerator* enemyGenerator;
 
 	// Torres
-	map<int, Tower*> towers;
+	TowerManager* towerManager;
 
 	// Gestor de construcción
 	ConstructionManager* constructionManager;
@@ -187,10 +188,12 @@ private:
 	/// <returns></returns>
 	string getNextMap();
 
+
 	// Métodos para destruir actores
 	void destroyEnemies();
 	void destroyProjectiles();
 	void destroyGems();
 	void destroyTowers();
+	void destroyPowerUps();
 };
 

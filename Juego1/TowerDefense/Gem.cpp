@@ -7,20 +7,27 @@ Gem::Gem(string filename, int value, int ticksAlive, float width, float height, 
 	this->value = value;
 	this->collected = false;
 	this->ticksAlive = ticksAlive;
-	this->blink = true;
+	this->blink = false;
 	this->glowAnimation = new Animation("res/blue_glow.png", 70, 70, 1330, 70, 1, 19, true, game);
 }
 
 void Gem::update() {
 	this->ticksAlive--;
-	this->blink = ticksAlive > 40 || ticksAlive % 8 == 0;
+	this->blink = ticksAlive < 50;
 }
 
 void Gem::draw() {
-	if(blink){
+	bool mustDraw = true;
+	if (blink) {
+		if (!(this->ticksAlive % 10 >= 0 && this->ticksAlive % 10 <= 5)) {
+			mustDraw = false;
+		}
+	}
+
+	if (mustDraw) {
 		this->glowAnimation->update();
 		this->glowAnimation->draw(x, y);
-		Actor::draw();		
-	}	
+		Actor::draw();
+	}
 }
 

@@ -16,7 +16,7 @@
 #include "ConstructionTile.h"
 #include "ConstructionManager.h"
 #include "Horde.h"
-
+#include "TowerManager.h"
 
 using namespace std;
 
@@ -33,12 +33,11 @@ public:
 	MapManager(Game* game);
 	void loadMap(string filename);
 	PathManager* getPathManager();
+	TowerManager* getTowerManager();
 	ConstructionManager* getConstructionManager();
-	list<Enemy*> getEnemies();
 	list<Tile*> getPathTiles();
 	EnemyGenerator* getEnemyGenerator();
 	map<int, Tower*> getTowers();
-	//map<int, Horde*> getHordes();
 	queue<Horde*> getHordes();
 	int getMapHeight();
 	int getMapWidht();
@@ -47,8 +46,7 @@ public:
 private:
 	Game* game;
 	EnemyGenerator* enemyGenerator; // Generador de enemigos.
-	map<int, Tower*> towers; // Torres para defender
-	//map<int, Horde*> hordes; // Hordas de enemigos
+	TowerManager* towerManager; // gestor de torres;
 	char map[FILE_ROWS][FILE_COLS]; // matriz con los caracteres del mapa.
 	PathManager* pathManager; // Gestor de trayectorias
 	ConstructionManager* constructionManager; // Gestor de construcción.
