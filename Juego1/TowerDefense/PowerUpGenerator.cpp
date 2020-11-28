@@ -38,6 +38,12 @@ int PowerUpGenerator::randomInt(int a, int b)
 }
 
 char PowerUpGenerator::randomType() {
-	int pos = rand() % 2;
+	double rDouble = (double)rand() / RAND_MAX;
+	int pos = 0;
+
+	if (rDouble < TOOLKIT_PROB)
+		pos = 1; // Toolkit
+	else
+		pos = 0; // MedKit
 	return this->types[pos];
 }

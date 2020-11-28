@@ -38,6 +38,6 @@ public:
 	Point* nextPoint; // Siguiente punto al que debe dirigirse el pawn.
 	Point* lastPoint; // Último punto del que proviene el pawn.
 	bool stopFollowing; // Flag para indicar si el pawn debe dejar de seguir la trayectoria.
-	int speed; // Velocidad del pawn.
+	float speed; // Velocidad del pawn.
 };
 

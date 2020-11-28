@@ -11,6 +11,9 @@
 #define POWER_UP_MIN_ALIVE_TICKS 120
 #define POWER_UP_MAX_ALIVE_TICKS 150
 
+#define MEDKIT_PROB 0.7
+#define	TOOLKIT_PROB 0.3
+
 /// <summary>
 /// Generador de powerups
 /// </summary>

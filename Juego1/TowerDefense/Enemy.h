@@ -23,20 +23,40 @@ public:
 	/// </summary>
 	enum class EnemyState { MOVING, ATTACKING, DYING, DEAD };
 
+	/// <summary>
+	/// Enumerado con las posibles orientacioenes del actor
+	/// </summary>
+	enum class Orientation {LEFT, RIGHT, TOP, BOTTOM};
+
 	Enemy(string filename, float width, float height, float x, float y, float speed, Game* game);
 	void update();
 	void draw() override;
 	void impactedBy(Projectile* projectile, Player* player); // Enemigo recibe un impacto
 	void attack(Tower* tower); // El enemigo ataca a una torre.
 
-	Animation* aMoving; 
-	Animation* aDying; 
+	// Animaciones
+
+	Animation* aMovingLeft;
+	Animation* aMovingRight;
+
+	Animation* aDyingLeft;
+	Animation* aDyingRight;
+
+	Animation* aHurtRight;
+	Animation* aHurtLeft;
+
+	Animation* aAttackingLeft;
+	Animation* aAttackingRight;
+
+
 	Animation* animation; // Referencia a la animación actual.
+	Orientation orientation; // Orientación actual.
 
 	int attackFrequency; // Frecuencia de ataque del enemigo
 	int attackPower; // Poder de ataque
 	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
 	int health; // Variable que almacena la salud de este enemigo.
+	bool hit; // Indica si ha recibido un impacto
 
 
 	EnemyState state; // Estado del enemigo.
