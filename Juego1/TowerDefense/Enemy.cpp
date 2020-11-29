@@ -6,9 +6,6 @@ Enemy::Enemy(string filename, float width, float height, float x, float y, float
 	vx = 0;
 	vy = 0;
 
-	/*aMoving = new Animation("res/enemy3/run/run_left.png", 35, 40, 210, 40, 3, 6, true, game);
-	aDying = new Animation("res/enemy3/death/death-left.png", 35, 40, 210, 40, 3, 6, false, game);
-	aAttacking = new Animation("res/enemy3/attack/attack_left.png", 35, 40, 210, 40, 2, 6, true, game);*/
 	animation = aMovingLeft;
 	orientation = Orientation::LEFT;
 
@@ -20,6 +17,7 @@ Enemy::Enemy(string filename, float width, float height, float x, float y, float
 
 	this->health = 100;
 	this->hit = false;
+	this->targetTower = nullptr;
 }
 
 
@@ -45,6 +43,7 @@ void Enemy::update() {
 
 		this->stopFollowing = false;
 		this->ticksUntilNextAttack = 0;
+		this->targetTower = nullptr;
 	}
 	else if (state == EnemyState::DYING) {
 		if (orientation == Orientation::LEFT)
@@ -52,6 +51,7 @@ void Enemy::update() {
 		else if (orientation == Orientation::RIGHT)
 			animation = aDyingRight;
 		this->stopFollowing = true;
+		this->targetTower = nullptr;
 	}
 	else if (state == EnemyState::ATTACKING) {
 		if (orientation == Orientation::LEFT)
@@ -74,6 +74,9 @@ void Enemy::update() {
 				state = EnemyState::MOVING;
 				this->hit = false;
 			}
+			else if (state == EnemyState::ATTACKING) { // Terminó la animación de ataque
+				this->targetTower->hit(this->attackPower); // Decrementar la salud de la torre.
+			}
 		}
 
 	}
@@ -88,7 +91,6 @@ void Enemy::update() {
 
 void Enemy::draw() {
 	animation->draw(x, y);
-	//Actor::draw();
 }
 
 /// <summary>
@@ -97,25 +99,18 @@ void Enemy::draw() {
 /// </summary>
 /// <param name="tower">Torre que está siendo atacada.</param>
 void Enemy::attack(Tower* tower) {
-	this->state = EnemyState::ATTACKING;
-
-	if (ticksUntilNextAttack <= 0) { // Si le toca atacar...
-		tower->health -= this->attackPower;
-		ticksUntilNextAttack = this->attackFrequency;
-	}
+	if(this->state != EnemyState::DYING && this->state != EnemyState::DEAD)
+		this->state = EnemyState::ATTACKING;
+	this->targetTower = tower;
 }
 
 void Enemy::impactedBy(Projectile* projectile, Player* player) {
 	this->health -= projectile->damage;
-	//
-	//if (this->state != EnemyState::DYING && this->state != EnemyState::DEAD) {
-	//	this->hit = true;
-	//}
-
+	
 	if (this->health <= 0 && this->state != EnemyState::DYING) {
 		this->state = EnemyState::DYING;
 		// Incrementar recursos del jugador por haber eliminado al enemigo.
-		player->availableResources += PLAYER_KILL_RESOURCES;
+		player->addResources(PLAYER_KILL_RESOURCES);
 		player->killedEnemiesInActualHorde++;
 	}
 }

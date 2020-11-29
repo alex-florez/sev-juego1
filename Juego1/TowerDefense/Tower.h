@@ -19,6 +19,7 @@ public:
 	void draw() override;
 	void update();
 	void repair();
+	void hit(float damage);
 
 	int health;
 	int pathId;

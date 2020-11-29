@@ -67,6 +67,11 @@ bool Actor::isInRender()
 	return false;
 }
 
+void Actor::updateTexture(string filename)
+{
+	this->texture = game->getTexture(filename);
+}
+
 bool Actor::containsPoint(int pointX, int pointY) {
 	if (pointY >= y - height / 2 &&
 		pointY <= y + height / 2 &&

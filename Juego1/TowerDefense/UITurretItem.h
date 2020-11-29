@@ -13,6 +13,11 @@ class UITurretItem : public Actor
 public:
 	UITurretItem(string filename, TurretFactory* turretFactory, float x, float y, Game* game);
 	void draw() override;
+	/// <summary>
+	/// Cambia el slot para que pase a ser de color rojo
+	/// indicando que no hay suficientes recursos para comprar esa torreta.
+	/// </summary>
+	void disable(bool enabled);
 
 	TurretFactory* turretFactory;
 	Actor* turretIcon; // Icono que representa a este tipo de torreta.

@@ -2,7 +2,7 @@
 
 
 UITurretItem::UITurretItem(string filename, TurretFactory* turretFactory, float x, float y, Game* game)
-	: Actor(filename, x, y, 50, 50, game) {
+	: Actor(filename, x, y, 50, 54, game) {
 
 	this->turretFactory = turretFactory;
 	this->turretIcon = turretFactory->getIcon();
@@ -17,4 +17,14 @@ void UITurretItem::draw(){
 	Actor::draw();
 	this->turretIcon->draw();
 	this->txtCost->draw();
+}
+
+void UITurretItem::disable(bool disable)
+{
+	if (disable) {
+		this->updateTexture("res/redSlot.png");
+	}
+	else {
+		this->updateTexture("res/whiteSlot.png");
+	}
 }

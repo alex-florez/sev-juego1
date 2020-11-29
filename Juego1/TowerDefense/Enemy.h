@@ -57,7 +57,7 @@ public:
 	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
 	int health; // Variable que almacena la salud de este enemigo.
 	bool hit; // Indica si ha recibido un impacto
-
+	Tower* targetTower; // Referencia a la torre a la que está atacando este enemigo.
 
 	EnemyState state; // Estado del enemigo.
 };

@@ -67,6 +67,7 @@ void GameLayer::init() {
 	RGB* color1 = new RGB(255, 255, 23);
 	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 29, 41, 50, color1, "res/gemsIcon.png", to_string(PLAYER_INITIAL_RESOURCES), game);
 	uiLeftEnemies = new UITextIcon(0.75 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, "res/leftEnemiesIcon.png", "0", game);
+	uiHordeCounter = new UIHordeCounter(0.5 * WIDTH, 0.04 * HEIGHT, game);
 
 	player = new Player(0, 0, game);
 
@@ -221,8 +222,11 @@ void GameLayer::update() {
 	}
 
 	// Actualizar UI
-	this->uiRecursos->text->content = to_string(this->player->availableResources);
-	this->uiLeftEnemies->text->content = to_string(this->leftEnemies);
+	this->uiRecursos->text->content = to_string(this->player->availableResources); // Recursos
+	this->uiLeftEnemies->text->content = to_string(this->leftEnemies); // Enemigos restantes
+	if(this->currentHorde != nullptr)
+		this->uiHordeCounter->hordeNumberTxt->content = to_string(this->currentHorde->id); // Horda actual
+	this->shopManager->updateTurretItems(player->availableResources);
 
 	// Eliminar torres destruidas
 	for (auto const& tower : deleteTowers) {
@@ -596,6 +600,7 @@ void GameLayer::draw() {
 		this->shopManager->draw();
 		this->uiRecursos->draw();
 		this->uiLeftEnemies->draw();
+		this->uiHordeCounter->draw();
 		this->powerUpInventory->draw();
 
 		// Torreta seleccionada con el mouse
@@ -606,8 +611,6 @@ void GameLayer::draw() {
 			this->selectedPowerUp->draw();
 		}
 
-		//textPoints->draw();
-		//backgroundPoints->draw();
 		// HUD
 		if (game->input == GameInputType::MOUSE) { // Dibujar el HUD solo si el tipo de entrada es el mouse
 			//buttonJump->draw(); // NO TIENEN SCROLL, POSISICIÓN FIJA

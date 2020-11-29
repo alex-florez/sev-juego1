@@ -11,9 +11,9 @@ ShopManager::ShopManager(Player* player, Game* game) {
 
 
 void ShopManager::init() {
-	UITurretItem * i1 = new UITurretItem("res/itemSlot.png", new TurretAFactory(game),
+	UITurretItem * i1 = new UITurretItem("res/whiteSlot.png", new TurretAFactory(game),
 						WIDTH * 0.45, HEIGHT * 0.92, game);
-	UITurretItem* i2 = new UITurretItem("res/itemSlot.png", new TurretBFactory(game),
+	UITurretItem* i2 = new UITurretItem("res/whiteSlot.png", new TurretBFactory(game),
 						WIDTH * 0.53, HEIGHT* 0.92, game);
 	this->turretItems.push_back(i1);
 	this->turretItems.push_back(i2);
@@ -56,6 +56,19 @@ void ShopManager::clearPurchase()
 Turret* ShopManager::getPurchasedTurret()
 {
 	return this->purchasedTurret;
+}
+
+void ShopManager::updateTurretItems(int availableResources)
+{
+	for (auto const& slot : this->turretItems) {
+		TurretFactory* factory = slot->turretFactory;
+		if (availableResources >= factory->getCost()) { // Disponible
+			slot->disable(false);
+		}
+		else { // No disponible
+			slot->disable(true);
+		}
+	}
 }
 
 

@@ -12,6 +12,7 @@ public:
 	virtual void draw();
 	bool isOverlap(Actor* actor);
 	bool isInRender();
+	void updateTexture(string filename);
 
 
 	// Control con el ratón

@@ -22,6 +22,7 @@ public:
 	void jump(); // Saltar
 	void loseLife();
 	bool isOver(Actor* actor);
+	void addResources(int resources);
 
 	bool onAir; // indica si el jugador está en el aire.
 

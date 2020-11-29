@@ -175,3 +175,8 @@ bool Player::isOver(Actor* actor) {
 	}
 	return false;
 }
+
+void Player::addResources(int resources)
+{
+	this->availableResources += resources;
+}

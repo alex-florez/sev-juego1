@@ -23,6 +23,7 @@
 #include "GemGenerator.h"
 #include "UIPowerUp.h"
 #include "TowerManager.h"
+#include "UIHordeCounter.h"
 
 #include <list>
 #include <map>
@@ -124,6 +125,7 @@ public:
 	UITextIcon* uiRecursos;
 	UITextIcon* uiLeftEnemies;
 	PowerUpInventory* powerUpInventory;
+	UIHordeCounter* uiHordeCounter;
 
 	// Hordas de enemigos
 	Horde* currentHorde;

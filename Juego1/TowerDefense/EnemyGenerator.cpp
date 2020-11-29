@@ -3,10 +3,14 @@
 EnemyGenerator::EnemyGenerator(Game* game) {
 	this->game = game;
 	// Inicializar factorías de enemigos
-	this->factories['A'] = new EnemyAFactory(game);
-	this->factories['B'] = new EnemyBFactory(game);
-	this->factories['C'] = new EnemyCFactory(game);
+	this->factories['A'] = new MummyFactory(game);
+	this->factories['B'] = new OrcFactory(game);
+	this->factories['C'] = new ExecutionerFactory(game);
 	this->allGenerated = false;
+
+	this->generatedEnemies = 0;
+	this->actualHorde = nullptr;
+	this->ticksUntilNextSpawn = 0;
 
 }
 

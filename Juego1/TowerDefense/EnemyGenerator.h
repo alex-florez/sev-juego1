@@ -7,9 +7,9 @@
 #include "Enemy.h"
 #include "Horde.h"
 #include "EnemyFactory.h"
-#include "EnemyAFactory.h"
-#include "EnemyBFactory.h"
-#include "EnemyCFactory.h"
+#include "MummyFactory.h"
+#include "OrcFactory.h"
+#include "ExecutionerFactory.h"
 
 /// <summary>
 /// Clase que representa un generador de enemigos que crea

@@ -150,25 +150,7 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Archivos de origen\Enemigos</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyA.cpp">
-      <Filter>Archivos de origen\Enemigos</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyB.cpp">
-      <Filter>Archivos de origen\Enemigos</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyFactory.cpp">
-      <Filter>Archivos de origen\Enemigos</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAFactory.cpp">
-      <Filter>Archivos de origen\Enemigos</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBFactory.cpp">
-      <Filter>Archivos de origen\Enemigos</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyC.cpp">
-      <Filter>Archivos de origen\Enemigos</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCFactory.cpp">
       <Filter>Archivos de origen\Enemigos</Filter>
     </ClCompile>
     <ClCompile Include="Gem.cpp">
@@ -245,6 +227,27 @@
     </ClCompile>
     <ClCompile Include="PowerUpGenerator.cpp">
       <Filter>Archivos de origen\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Mummy.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="MummyFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Orc.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="OrcFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="Executioner.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutionerFactory.cpp">
+      <Filter>Archivos de origen\Enemigos</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHordeCounter.cpp">
+      <Filter>Archivos de origen\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,25 +335,7 @@
     <ClInclude Include="Enemy.h">
       <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyA.h">
-      <Filter>Archivos de encabezado\Enemigos</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyB.h">
-      <Filter>Archivos de encabezado\Enemigos</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyFactory.h">
-      <Filter>Archivos de encabezado\Enemigos</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAFactory.h">
-      <Filter>Archivos de encabezado\Enemigos</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBFactory.h">
-      <Filter>Archivos de encabezado\Enemigos</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyC.h">
-      <Filter>Archivos de encabezado\Enemigos</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCFactory.h">
       <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
     <ClInclude Include="Gem.h">
@@ -427,6 +412,27 @@
     </ClInclude>
     <ClInclude Include="PowerUpGenerator.h">
       <Filter>Archivos de encabezado\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Mummy.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="MummyFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="Orc.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="OrcFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="Executioner.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="ExecutionerFactory.h">
+      <Filter>Archivos de encabezado\Enemigos</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHordeCounter.h">
+      <Filter>Archivos de encabezado\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

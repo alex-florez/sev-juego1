@@ -56,3 +56,8 @@ void Tower::repair() {
 	this->state = TowerState::REPAIRED;
 	this->health = TOWER_INITIAL_HEALTH;
 }
+
+void Tower::hit(float damage)
+{
+	this->health -= damage;
+}

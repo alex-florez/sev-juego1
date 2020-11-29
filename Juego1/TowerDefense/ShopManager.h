@@ -55,6 +55,14 @@ public:
 	/// <returns></returns>
 	Turret* getPurchasedTurret();
 
+	/// <summary>
+	/// Recibe como parámetro el nº de recursos disponibles del jugador,
+	/// y actualiza la textura de los item slots para mostrar en rojo aquellas
+	/// torretas que no se pueden comprar.
+	/// </summary>
+	/// <param name="availableResources"></param>
+	void updateTurretItems(int availableResources);
+
 	Game* game;
 	Player* player;
 	list<UITurretItem*> turretItems; // Lista con los items de compra de la UI.
