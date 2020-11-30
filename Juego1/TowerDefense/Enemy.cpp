@@ -11,11 +11,10 @@ Enemy::Enemy(string filename, float width, float height, float x, float y, float
 
 	this->state = EnemyState::MOVING;
 	
-	this->attackPower = 25;
+	
 	this->attackFrequency = 20;
 	this->ticksUntilNextAttack = 0;
 
-	this->health = 100;
 	this->hit = false;
 	this->targetTower = nullptr;
 }
@@ -105,6 +104,7 @@ void Enemy::attack(Tower* tower) {
 }
 
 void Enemy::impactedBy(Projectile* projectile, Player* player) {
+	
 	this->health -= projectile->damage;
 	
 	if (this->health <= 0 && this->state != EnemyState::DYING) {

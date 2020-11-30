@@ -163,7 +163,7 @@ void GameLayer::update() {
 		if (!projectile->isInRender()) { // Proyectil fuera del render
 			markProjectileForDelete(projectile, deleteProjectiles);
 		}
-		else if (projectile->impacted) { // Proyectiles que ya han impactado.
+		else if (projectile->destroyed) { // Marcar para eliminar los proyectiles destruidos.
 			markProjectileForDelete(projectile, deleteProjectiles);
 		}
 	}
@@ -763,6 +763,6 @@ void GameLayer::destroyPowerUps() {
 
 
 void GameLayer::initMaps() {
-	this->maps.push("res/mapa-1.txt");
-	this->maps.push("res/mapa-2.txt");
+	this->maps.push("res/levels/mapa-1.txt");
+	this->maps.push("res/levels/mapa-2.txt");
 }

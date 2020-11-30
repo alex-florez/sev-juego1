@@ -10,6 +10,7 @@ Audio::Audio(string filename, bool loop) {
 	}
 	else {
 		// Uso de SDL audio standard
+
 		SDL_LoadWAV(filename.c_str(), &wavSpec, &wavBuffer, &wavLength);
 		deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 	}

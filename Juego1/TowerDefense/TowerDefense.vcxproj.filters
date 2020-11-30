@@ -129,18 +129,6 @@
     <ClCompile Include="Turret.cpp">
       <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
-    <ClCompile Include="TurretA.cpp">
-      <Filter>Archivos de origen\Torretas</Filter>
-    </ClCompile>
-    <ClCompile Include="TurretAFactory.cpp">
-      <Filter>Archivos de origen\Torretas</Filter>
-    </ClCompile>
-    <ClCompile Include="TurretB.cpp">
-      <Filter>Archivos de origen\Torretas</Filter>
-    </ClCompile>
-    <ClCompile Include="TurretBFactory.cpp">
-      <Filter>Archivos de origen\Torretas</Filter>
-    </ClCompile>
     <ClCompile Include="TurretFactory.cpp">
       <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
@@ -189,20 +177,8 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Archivos de origen\Projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="RoundProjectile.cpp">
-      <Filter>Archivos de origen\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="LaserBeam.cpp">
-      <Filter>Archivos de origen\Projectiles</Filter>
-    </ClCompile>
     <ClCompile Include="ProjectileFactory.cpp">
       <Filter>Archivos de origen\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="LaserBeamFactory.cpp">
-      <Filter>Archivos de origen\Projectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="RoundProjectileFactory.cpp">
-      <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="PowerUp.cpp">
       <Filter>Archivos de origen\Mejoras</Filter>
@@ -248,6 +224,42 @@
     </ClCompile>
     <ClCompile Include="UIHordeCounter.cpp">
       <Filter>Archivos de origen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="MG.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonFactory.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="MGFactory.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletProjectile.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletProjectileFactory.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MGBullet.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MGBulletFactory.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileLauncher.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileFactory.cpp">
+      <Filter>Archivos de origen\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileLauncherFactory.cpp">
+      <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,18 +326,6 @@
     <ClInclude Include="Turret.h">
       <Filter>Archivos de encabezado\Torretas</Filter>
     </ClInclude>
-    <ClInclude Include="TurretA.h">
-      <Filter>Archivos de encabezado\Torretas</Filter>
-    </ClInclude>
-    <ClInclude Include="TurretB.h">
-      <Filter>Archivos de encabezado\Torretas</Filter>
-    </ClInclude>
-    <ClInclude Include="TurretAFactory.h">
-      <Filter>Archivos de encabezado\Torretas</Filter>
-    </ClInclude>
-    <ClInclude Include="TurretBFactory.h">
-      <Filter>Archivos de encabezado\Torretas</Filter>
-    </ClInclude>
     <ClInclude Include="TurretFactory.h">
       <Filter>Archivos de encabezado\Torretas</Filter>
     </ClInclude>
@@ -374,20 +374,8 @@
     <ClInclude Include="Projectile.h">
       <Filter>Archivos de encabezado\Projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="RoundProjectile.h">
-      <Filter>Archivos de encabezado\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="LaserBeam.h">
-      <Filter>Archivos de encabezado\Projectiles</Filter>
-    </ClInclude>
     <ClInclude Include="ProjectileFactory.h">
       <Filter>Archivos de encabezado\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="LaserBeamFactory.h">
-      <Filter>Archivos de encabezado\Projectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="RoundProjectileFactory.h">
-      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="PowerUp.h">
       <Filter>Archivos de encabezado\Mejoras</Filter>
@@ -433,6 +421,42 @@
     </ClInclude>
     <ClInclude Include="UIHordeCounter.h">
       <Filter>Archivos de encabezado\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="MG.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonFactory.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="MGFactory.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletProjectile.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletProjectileFactory.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="MGBullet.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="MGBulletFactory.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileLauncher.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileFactory.h">
+      <Filter>Archivos de encabezado\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileLauncherFactory.h">
+      <Filter>Archivos de encabezado\Torretas</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

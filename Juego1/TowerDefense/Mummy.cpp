@@ -13,7 +13,11 @@ Mummy::Mummy(float x, float y, float speed, Game* game)
 	//this->aHurtLeft = new Animation("res/enemy3/hurt/hurt-left.png", 35, 40, 70, 40, 3, 2, false, game);
 	//this->aHurtRight = new Animation("res/enemy3/hurt/hurt-right.png", 35, 40, 70, 40, 3, 2, false, game);
 
-	this->aAttackingLeft = new Animation("res/mummy/attack/attack_left.png", 35, 40, 210, 40, 3, 6, false, game);
-	this->aAttackingRight = new Animation("res/mummy/attack/attack_right.png", 35, 40, 210, 40, 3, 6, false, game);
+	this->aAttackingLeft = new Animation("res/mummy/attack/attack_left.png", 35, 40, 210, 40, 2, 6, false, game);
+	this->aAttackingRight = new Animation("res/mummy/attack/attack_right.png", 35, 40, 210, 40, 2, 6, false, game);
+
+	// Características del enemigo
+	this->attackPower = 12;
+	this->health = 100;
 
 }

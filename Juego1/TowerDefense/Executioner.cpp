@@ -13,6 +13,10 @@ Executioner::Executioner(float x, float y, float speed, Game* game)
 	/*this->aHurtLeft = new Animation("res/enemy3/hurt/hurt-left.png", 35, 40, 70, 40, 3, 2, false, game);
 	this->aHurtRight = new Animation("res/enemy3/hurt/hurt-right.png", 35, 40, 70, 40, 3, 2, false, game);*/
 
-	this->aAttackingLeft = new Animation("res/executioner/attack/attack_left_1.png", 68, 78, 476, 78, 3, 7, false, game);
-	this->aAttackingRight = new Animation("res/executioner/attack/attack_right_1.png", 68, 78, 476, 78, 3, 7, false, game);
+	this->aAttackingLeft = new Animation("res/executioner/attack/attack_left_1.png", 68, 78, 476, 78, 2, 7, false, game);
+	this->aAttackingRight = new Animation("res/executioner/attack/attack_right_1.png", 68, 78, 476, 78, 2, 7, false, game);
+
+	// Características del enemigo
+	this->attackPower = 45;
+	this->health = 80;
 }

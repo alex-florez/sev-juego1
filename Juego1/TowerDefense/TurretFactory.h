@@ -2,8 +2,9 @@
 
 #include "Turret.h"
 
-#define TURRET_A_COST 200
-#define TURRET_B_COST 500
+#define CANNON_COST 0
+#define MG_COST 0
+#define MISSILE_LAUNCHER_COST 0
 
 
 /// <summary>

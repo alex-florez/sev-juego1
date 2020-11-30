@@ -7,5 +7,5 @@ MummyFactory::MummyFactory(Game* game)
 
 Enemy* MummyFactory::createEnemy()
 {
-	return new Mummy(0, 0, 1.4, game);
+	return new Mummy(0, 0, 1.8, game);
 }

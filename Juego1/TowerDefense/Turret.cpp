@@ -5,13 +5,8 @@ Turret::Turret(string filename, float x, float y,
 	float width, float height, int cost, Game* game)
 	: Actor(filename, x, y, width, height, game) {
 
-
-
-	this->shootCadency = 30;
 	this->ticksUntilNextShoot = this->shootCadency;
 
-	this->xDetectionRange = 8;
-	this->yDetectionRange = 8;
 	this->cost = cost;
 	this->state = TurretState::PURCHASED;
 	this->constructionAnimation = new Animation("res/smokeAnim.png", 56, 56, 392, 56, 1, 7, false, game);
@@ -46,7 +41,6 @@ Projectile* Turret::shoot() {
 	Projectile* p = nullptr;
 	if (this->ticksUntilNextShoot <= 0) { // Se puede disparar
 		if (this->currentTarget != nullptr) { // Obtener la posición del objetivo actual
-			//p = new Projectile("res/laser_beam1.png", 20, 4, 16, 30, x, y, game);
 			p = this->projectileFactory->createProjectile();
 			p->x = x;
 			p->y = y;

@@ -7,5 +7,5 @@ OrcFactory::OrcFactory(Game* game)
 
 Enemy* OrcFactory::createEnemy()
 {
-	return new Orc(0, 0, 1.6, game);
+	return new Orc(0, 0, 1.3, game);
 }

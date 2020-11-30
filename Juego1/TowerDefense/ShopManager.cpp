@@ -11,12 +11,15 @@ ShopManager::ShopManager(Player* player, Game* game) {
 
 
 void ShopManager::init() {
-	UITurretItem * i1 = new UITurretItem("res/whiteSlot.png", new TurretAFactory(game),
-						WIDTH * 0.45, HEIGHT * 0.92, game);
-	UITurretItem* i2 = new UITurretItem("res/whiteSlot.png", new TurretBFactory(game),
-						WIDTH * 0.53, HEIGHT* 0.92, game);
+	UITurretItem * i1 = new UITurretItem("res/whiteSlot.png", new CannonFactory(game),
+						WIDTH * 0.42, HEIGHT * 0.92, game);
+	UITurretItem* i2 = new UITurretItem("res/whiteSlot.png", new MGFactory(game),
+						WIDTH * 0.5, HEIGHT* 0.92, game);
+	UITurretItem* i3 = new UITurretItem("res/whiteSlot.png", new MissileLauncherFactory(game),
+						WIDTH * 0.58, HEIGHT * 0.92, game);
 	this->turretItems.push_back(i1);
 	this->turretItems.push_back(i2);
+	this->turretItems.push_back(i3);
 }
 
 

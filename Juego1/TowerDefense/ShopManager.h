@@ -4,8 +4,9 @@
 #include "Game.h"
 #include "UITurretItem.h"
 #include "Turret.h"
-#include "TurretAFactory.h"
-#include "TurretBFactory.h"
+#include "CannonFactory.h"
+#include "MGFactory.h"
+#include "MissileLauncherFactory.h"
 #include "Turret.h"
 #include "UIPurchasedTurret.h"
 
@@ -71,6 +72,6 @@ public:
 private:
 	void init();
 	UITurretItem* getClickedTurretItem(float x, float y);
-	
+
 };
 

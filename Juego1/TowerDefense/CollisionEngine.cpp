@@ -27,9 +27,10 @@ void CollisionEngine::update() {
 	// Colisiones entre enemigos y proyectiles
 	for (auto const& enemy : *enemies) {
 		for (auto const& projectile : *projectiles) {
-			if (enemy->isOverlap(projectile)) {
-				projectile->impacted = true;
+			if (enemy->isOverlap(projectile)
+				&& !projectile->impacted) { // Si el proyectil ya había impactado, entonces ya no debe tener efecto sobre el enemigo
 				enemy->impactedBy(projectile, player);
+				projectile->impacted = true;
 			}
 		}
 	}

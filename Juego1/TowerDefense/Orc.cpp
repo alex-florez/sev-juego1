@@ -13,7 +13,10 @@ Orc::Orc(float x, float y, float speed, Game* game)
 	/*this->aHurtLeft = new Animation("res/enemy3/hurt/hurt-left.png", 35, 40, 70, 40, 3, 2, false, game);
 	this->aHurtRight = new Animation("res/enemy3/hurt/hurt-right.png", 35, 40, 70, 40, 3, 2, false, game);*/
 
-	this->aAttackingLeft = new Animation("res/orc/attack/attack_left.png", 64, 54, 448, 54, 2, 7, false, game);
-	this->aAttackingRight = new Animation("res/orc/attack/attack_right.png", 64, 54, 448, 54, 2, 7, false, game);
+	this->aAttackingLeft = new Animation("res/orc/attack/attack_left.png", 64, 54, 448, 54, 3, 7, false, game);
+	this->aAttackingRight = new Animation("res/orc/attack/attack_right.png", 64, 54, 448, 54, 3, 7, false, game);
 
+	// Características del enemigo
+	this->attackPower = 50;
+	this->health = 200;
 }
