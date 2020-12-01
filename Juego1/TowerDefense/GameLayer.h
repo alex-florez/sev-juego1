@@ -95,9 +95,6 @@ public:
 	// Mapas
 	queue<string> maps;
 
-	// Audio
-	Audio* audioBackground;
-
 	// Pausa y mensajes
 	Actor* message;
 	bool pause;
@@ -139,6 +136,9 @@ public:
 	PowerUpGenerator* powerUpGenerator;
 	list<PowerUp*> powerUps;
 	
+	// Sonido
+	// Background music
+	Mix_Music* backgroundMusic;
 
 
 

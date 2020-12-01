@@ -17,6 +17,7 @@ Enemy::Enemy(string filename, float width, float height, float x, float y, float
 
 	this->hit = false;
 	this->targetTower = nullptr;
+
 }
 
 
@@ -75,6 +76,8 @@ void Enemy::update() {
 			}
 			else if (state == EnemyState::ATTACKING) { // Terminó la animación de ataque
 				this->targetTower->hit(this->attackPower); // Decrementar la salud de la torre.
+				// Reproducir sonido de golpe
+				this->hitSound->play();
 			}
 		}
 

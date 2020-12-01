@@ -8,4 +8,6 @@ MissileLauncher::MissileLauncher(string filename, float x, float y, float width,
 	this->shootCadency = 60;
 	this->xDetectionRange = 6;
 	this->yDetectionRange = 6;
+
+	this->shotSound = new SoundEffect("res/sounds/missile_launch.wav");
 }

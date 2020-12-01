@@ -66,6 +66,7 @@
     <ClCompile Include="BulletProjectile.cpp" />
     <ClCompile Include="BulletProjectileFactory.cpp" />
     <ClCompile Include="ShopManager.cpp" />
+    <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="MedKit.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="BulletProjectile.h" />
     <ClInclude Include="BulletProjectileFactory.h" />
     <ClInclude Include="ShopManager.h" />
+    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="MedKit.h" />

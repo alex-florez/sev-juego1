@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include "Tower.h"
+#include "SoundEffect.h"
 
 
 /// <summary>
@@ -38,6 +39,10 @@ public:
 	bool blink; // Indica si el powerUp debe empezar a parpadear
 	int ticksAlive; // Ticks durante los que está vivo este powerUp
 	Animation* glowAnimation; // Animación de brillo
+
+	// Sonidos
+	SoundEffect* pickUpSound;
+	SoundEffect* applySound;
 
 };
 

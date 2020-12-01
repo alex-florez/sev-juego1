@@ -6,7 +6,9 @@ MG::MG(string filename, float x, float y, float width, float height, int cost, G
 
 	this->projectileFactory = new MGBulletFactory(game);
 	// Características de la torreta
-	this->shootCadency = 7;
+	this->shootCadency = 5;
 	this->xDetectionRange = 2;
 	this->yDetectionRange = 2;
+
+	this->shotSound = new SoundEffect("res/sounds/mg_sound2.wav");
 }

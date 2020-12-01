@@ -17,6 +17,8 @@ Orc::Orc(float x, float y, float speed, Game* game)
 	this->aAttackingRight = new Animation("res/orc/attack/attack_right.png", 64, 54, 448, 54, 3, 7, false, game);
 
 	// Características del enemigo
-	this->attackPower = 50;
+	this->attackPower = 40;
 	this->health = 200;
+
+	this->hitSound = new SoundEffect("res/sounds/orchit.wav");
 }

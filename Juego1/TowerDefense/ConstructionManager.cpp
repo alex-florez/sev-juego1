@@ -4,6 +4,7 @@
 ConstructionManager::ConstructionManager(Game* game, ShopManager* shopManager) {
 	this->game = game;
 	this->shopManager = shopManager;
+	this->constructionSound = new SoundEffect("res/sounds/purchase.wav");
 }
 
 void ConstructionManager::construct(float x, float y, Turret* turret)
@@ -18,6 +19,7 @@ void ConstructionManager::construct(float x, float y, Turret* turret)
 		turret->state = Turret::TurretState::BUILDING; // Cambiar el estado de la torreta a en construcción
 		this->turrets.push_back(turret);
 		ct->occupied = true;
+		this->constructionSound->play(); // Reproducir sonido
 		// Notificar al Shop manager de que la torreta comprada ya ha sido colocada.
 		this->shopManager->notifyTurretConstruction();
 	}

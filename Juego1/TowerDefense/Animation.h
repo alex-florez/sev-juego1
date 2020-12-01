@@ -18,6 +18,7 @@ public:
 	int currentFrame;
 	int totalFrames;
 	bool loop;
+	float angle;
 	Game* game;
 
 	// Variables auxiliares

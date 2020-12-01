@@ -44,11 +44,13 @@ Projectile* Turret::shoot() {
 			p = this->projectileFactory->createProjectile();
 			p->x = x;
 			p->y = y;
-			p->angle = this->angle;
+			p->updateAngle(this->angle);
 			float targetX = this->currentTarget->x;
 			float targetY = this->currentTarget->y;
 			p->moveTo(targetX, targetY);
 			this->ticksUntilNextShoot = this->shootCadency;
+			// Reproducir sonido
+			shotSound->play();
 		}
 	}
 	return p;

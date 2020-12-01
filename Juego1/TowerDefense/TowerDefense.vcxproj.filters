@@ -261,6 +261,9 @@
     <ClCompile Include="MissileLauncherFactory.cpp">
       <Filter>Archivos de origen\Torretas</Filter>
     </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -457,6 +460,9 @@
     </ClInclude>
     <ClInclude Include="MissileLauncherFactory.h">
       <Filter>Archivos de encabezado\Torretas</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

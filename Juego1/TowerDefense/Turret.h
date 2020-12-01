@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "Animation.h"
 #include "ProjectileFactory.h"
+#include "SoundEffect.h"
 
 
 /// <summary>
@@ -50,6 +51,9 @@ public:
 	Animation* constructionAnimation; // Animación de construcción
 
 	ProjectileFactory* projectileFactory; // Factoría de proyectiles
+
+	// Sonidos
+	SoundEffect* shotSound;
 
 
 private:

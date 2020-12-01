@@ -19,6 +19,10 @@ GameLayer::GameLayer(Game* game)
 }
 
 void GameLayer::init() {
+	// Sonido
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096)) {
+		cout << "Error: " << Mix_GetError() << endl;
+	}
 
 	// Destruir posibles objetos existentes
 	delete player;
@@ -57,7 +61,8 @@ void GameLayer::init() {
 	this->selectedTurret = nullptr;
 
 	// Audio de fondo
-	audioBackground = new Audio("res/musica_ambiente.mp3", true);
+	backgroundMusic = Mix_LoadMUS("res/musica_ambiente.mp3");
+	//Mix_PlayMusic(backgroundMusic, -1);
 	//audioBackground->play();
 
 	// Botones de la interfaz
@@ -271,6 +276,7 @@ void GameLayer::processControls() {
 		{
 		case SDL_QUIT: // Se hace click en la X para cerrar la ventana
 			game->loopActive = false;
+			Mix_FreeMusic(backgroundMusic);
 			break;
 		case SDL_KEYDOWN:
 			game->input = GameInputType::KEYBOARD;
@@ -327,6 +333,7 @@ void GameLayer::processControls() {
 		for (auto const& gem : gems) {
 			if (gem->containsPoint(xClick, yClick)) {
 				gem->collected = true;
+				gem->pickUpSound->play();
 				player->availableResources += gem->value;
 			}
 		}
@@ -335,6 +342,7 @@ void GameLayer::processControls() {
 		for (auto const& pwu : powerUps) {
 			if (pwu->containsPoint(xClick, yClick) && !this->powerUpInventory->isFull()) {
 				pwu->collected = true;
+				pwu->pickUpSound->play();
 				this->powerUpInventory->addPowerUp(pwu->clone()); // Crear un clone del powerUp y añadirlo al inventario
 			}
 		}
@@ -568,18 +576,15 @@ void GameLayer::draw() {
 		}
 
 
-		// Dibujamos los proyectiles
-		for (auto const& projectile : projectiles) {
-			projectile->draw();
-		}
-
-		
-
 		// Dibujar construction tiles
 		for (auto const& ct : this->constructionManager->constructionTiles) {
 			ct->draw();
 		}
 
+		// Dibujamos los proyectiles
+		for (auto const& projectile : projectiles) {
+			projectile->draw();
+		}
 
 		// Dibujamos las torretas
 		for (auto const& turret : this->constructionManager->turrets) {

@@ -9,6 +9,7 @@ Gem::Gem(string filename, int value, int ticksAlive, float width, float height, 
 	this->ticksAlive = ticksAlive;
 	this->blink = false;
 	this->glowAnimation = new Animation("res/blue_glow.png", 70, 70, 1330, 70, 1, 19, true, game);
+	this->pickUpSound = new SoundEffect("res/sounds/gem_pickup.wav");
 }
 
 void Gem::update() {

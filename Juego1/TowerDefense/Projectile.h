@@ -2,6 +2,8 @@
 
 #include "Actor.h"
 #include "Animation.h"
+#include "SoundEffect.h"
+
 #include <math.h>
 
 /// <summary>
@@ -23,10 +25,26 @@ public:
 	void moveTo(float x, float y);
 
 
+	/// <summary>
+	/// Actualiza el ángulo del proyectil y también de sus animaciones
+	/// que lo necesiten.
+	/// </summary>
+	/// <param name="angle"></param>
+	virtual void updateAngle(float angle);
+
+	/// <summary>
+	/// Método invocado cuando el proyectil impacta contra
+	/// un enemigo.
+	/// </summary>
+	void impact();
+
 	int speed; // Velocidad del proyectil
 	int damage; // Daño causado por este proyectil
 	bool impacted; // Indica si este proyectil ha impactado ya o no
 	bool destroyed; // Indica si este proyectil está destruido.
 	Animation* impactAnimation; // Animación ejecutada cuando impacta el proyectil.
+
+	// Sonidos
+	SoundEffect* hitSound;
 };
 

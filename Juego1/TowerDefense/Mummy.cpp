@@ -20,4 +20,6 @@ Mummy::Mummy(float x, float y, float speed, Game* game)
 	this->attackPower = 12;
 	this->health = 100;
 
+	this->hitSound = new SoundEffect("res/sounds/crack07.wav");
+
 }

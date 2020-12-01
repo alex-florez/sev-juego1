@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include "Animation.h"
+#include "SoundEffect.h"
 
 
 /// <summary>
@@ -20,5 +21,8 @@ public:
 	bool blink; // Indica si se debe dibujar o no la gema
 	int ticksAlive; // nº de ticks hasta que esta gema desaparezca.
 	Animation* glowAnimation; // Animación de brillo
+	
+	// Sonidos
+	SoundEffect* pickUpSound;
 };
 

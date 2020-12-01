@@ -30,7 +30,7 @@ void CollisionEngine::update() {
 			if (enemy->isOverlap(projectile)
 				&& !projectile->impacted) { // Si el proyectil ya había impactado, entonces ya no debe tener efecto sobre el enemigo
 				enemy->impactedBy(projectile, player);
-				projectile->impacted = true;
+				projectile->impact();
 			}
 		}
 	}

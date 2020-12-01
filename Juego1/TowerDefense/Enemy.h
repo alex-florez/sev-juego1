@@ -8,6 +8,8 @@
 #include "Projectile.h"
 #include "Pawn.h"
 #include "Player.h"
+#include "SoundEffect.h"
+
 
 #define ENEMY_SPEED 2
 
@@ -60,5 +62,10 @@ public:
 	Tower* targetTower; // Referencia a la torre a la que está atacando este enemigo.
 
 	EnemyState state; // Estado del enemigo.
+
+	// Sonidos
+	SoundEffect* hitSound;
+
+
 };
 

@@ -4,8 +4,9 @@
 #include "Animation.h"
 #include "UITextIcon.h"
 #include "UIRepairIcon.h"
+#include "SoundEffect.h"
 
-#define TOWER_REPAIR_COST 600
+#define TOWER_REPAIR_COST 800
 #define TOWER_INITIAL_HEALTH 100
 
 /// <summary>
@@ -24,12 +25,20 @@ public:
 	int health;
 	int pathId;
 	bool applyingPowerUp;
+	bool isHealing; // Indica si la torre se está curando
 	UITextIcon* uiHealth; // Icono de la UI que muestra una etiqueta encima de la torre con su salud actual.
 	enum class TowerState {ALIVE, EXPLODING, DESTROYED, REPAIRED} state;
-	Animation* explotionAnim; // Animación de explosión
-	Animation* powerUpEffectAnimation; // Animación de aplicación de mejora
 	Actor* destroyedGround;
 	UIRepairIcon* repairIcon;
+
+	// Animaciones
+	Animation* explotionAnim; // Animación de explosión
+	Animation* powerUpEffectAnimation; // Animación de aplicación de mejora
+	Animation* healingAnimation; // Animaciónd de curación
+
+	// Sonidos
+	SoundEffect* hitSound;
+	SoundEffect* explosionSound;
 
 };
 

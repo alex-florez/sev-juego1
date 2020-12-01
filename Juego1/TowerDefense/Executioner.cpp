@@ -19,4 +19,6 @@ Executioner::Executioner(float x, float y, float speed, Game* game)
 	// Características del enemigo
 	this->attackPower = 45;
 	this->health = 80;
+
+	this->hitSound = new SoundEffect("res/sounds/sword.wav");
 }

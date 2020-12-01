@@ -10,9 +10,15 @@ Tower::Tower(string filename, float x, float y, Game* game)
 	this->state = TowerState::ALIVE;
 	this->explotionAnim = new Animation("res/tower_explosion.png", 60, 56, 480, 56, 2, 8, false, game);
 	this->powerUpEffectAnimation = new Animation("res/GreenSlash.png", 64, 64, 256, 64, 1, 4, false, game);
+	this->healingAnimation = new Animation("res/healing_anim.png", 70, 70, 350, 70, 2, 5, false, game);
+
 	this->destroyedGround = new Actor("res/destroyedGround.png", x, y - 20, 70, 50, game);
 	this->repairIcon = new UIRepairIcon(x, y-34, TOWER_REPAIR_COST, game);
 	this->applyingPowerUp = false;
+	this->isHealing = false;
+
+	this->hitSound = new SoundEffect("res/sounds/tower_hit.wav");
+	this->explosionSound = new SoundEffect("res/sounds/tower_explosion.wav");
 }
 
 
@@ -20,10 +26,17 @@ void Tower::update() {
 	if (applyingPowerUp) { // Se le está aplicando una mejora
 		applyingPowerUp = !this->powerUpEffectAnimation->update(); // Comprobar si termina la animación
 	}
+	if (isHealing) { // Si se está curando...
+		isHealing = !this->healingAnimation->update(); // Comprobar si ha terminado de curarse
+	}
 
 	if (health <= 0) {
-		if(this->state == TowerState::ALIVE)
+		if (this->state == TowerState::ALIVE) {
 			this->state = TowerState::EXPLODING;
+			// Sonido de explosión
+			this->explosionSound->play();
+		}
+			
 	}
 
 	if (this->state == TowerState::EXPLODING) {
@@ -43,6 +56,9 @@ void Tower::draw() {
 		if (this->applyingPowerUp) {
 			this->powerUpEffectAnimation->draw(x, y);
 		}
+		if (this->isHealing) {
+			this->healingAnimation->draw(x, y-20);
+		}
 	}
 	else if (state == TowerState::EXPLODING) {
 		explotionAnim->draw(x, y);
@@ -60,4 +76,5 @@ void Tower::repair() {
 void Tower::hit(float damage)
 {
 	this->health -= damage;
+	this->hitSound->play();
 }

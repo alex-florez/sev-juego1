@@ -9,4 +9,6 @@ Cannon::Cannon(string filename, float x, float y, float width, float height, int
 	this->shootCadency = 30;
 	this->xDetectionRange = 3;
 	this->yDetectionRange = 3;
+
+	this->shotSound = new SoundEffect("res/sounds/cannon_sound.wav");
 }

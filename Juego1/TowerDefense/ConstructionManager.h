@@ -6,6 +6,7 @@
 #include "Turret.h"
 #include "ConstructionTile.h"
 #include "ShopManager.h"
+#include "SoundEffect.h"
 
 /// <summary>
 /// Clase encargada de gestionar la compra y construcción
@@ -49,6 +50,9 @@ public:
 	list<Turret*> turrets; // Torretas construidas hasta ahora.
 	Game* game;
 	ShopManager* shopManager; // Referencia a la tienda
+
+	// Sonidos
+	SoundEffect* constructionSound;
 
 };
 

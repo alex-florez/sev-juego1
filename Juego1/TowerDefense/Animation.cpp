@@ -9,7 +9,7 @@ Animation::Animation(string filename, float actorWidth, float actorHeight,
 	//SDL_Surface* surface = IMG_Load(filename.c_str());
 	//texture = SDL_CreateTextureFromSurface(game->renderer, surface);
 	texture = game->getTexture(filename);
-
+	this->angle = 0.0;
 	this->actorWidth = actorWidth;
 	this->actorHeight = actorHeight;
 	this->fileWidth = fileWidth;
@@ -63,5 +63,5 @@ void Animation::draw(float x, float y) {
 	destination.h = actorHeight;
 	// Modificar para que la referencia sea el punto central
 
-	SDL_RenderCopyEx(game->renderer, texture, &source, &destination, 0, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(game->renderer, texture, &source, &destination, this->angle, NULL, SDL_FLIP_NONE);
 }
