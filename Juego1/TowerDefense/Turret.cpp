@@ -5,20 +5,32 @@ Turret::Turret(string filename, float x, float y,
 	float width, float height, int cost, Game* game)
 	: Actor(filename, x, y, width, height, game) {
 
+	this->id = -1;
 	this->ticksUntilNextShoot = this->shootCadency;
-
 	this->cost = cost;
+	this->killedEnemies = 0;
 	this->state = TurretState::PURCHASED;
+
 	this->constructionAnimation = new Animation("res/smokeAnim.png", 56, 56, 392, 56, 1, 7, false, game);
+	this->canBeUpgradedAnimation = new Animation("res/blue_glow.png", 70, 70, 1330, 70, 1, 19, true, game);
+
+	this->canBeUpgraded = false;
 }
 
 void Turret::update(list<Enemy*>& enemies) {
+
+	// Comprobar si la torreta se puede UPGRADEAR
+	if (this->killedEnemies >= this->killedEnemiesForUpgrade) {
+		this->canBeUpgraded = true;
+	}
+
 	if (this->currentTarget != nullptr // Si ya hay un enemigo objetivo,
 		&& !isInArea(this->currentTarget)) { //  comprobar que no se haya salido del área de efecto
 		this->currentTarget = nullptr;
 	}
 
-	if (this->state == TurretState::BUILT) { // Si la torreta ya está construida
+	if (this->state == TurretState::BUILT 
+		|| this->state == TurretState::UPGRADED) { // Si la torreta ya está construida o mejorada
 		// Escanear en busca de enemigos.
 		scan(enemies);
 		// Calcular el ángulo que debe rotar la torreta.
@@ -31,29 +43,68 @@ void Turret::update(list<Enemy*>& enemies) {
 		}
 			
 	}
+
+	// Si la torreta puede mejorarse y no está en estado UPGRADED...
+	// Actualizar la animación de upgrade.
+	if (canBeUpgraded && state != TurretState::UPGRADED) {
+		this->canBeUpgradedAnimation->update();
+	}
 	
 }
 
 
-
-Projectile* Turret::shoot() {
+list<Projectile*> Turret::shoot() {
 	this->ticksUntilNextShoot--;
-	Projectile* p = nullptr;
+	Projectile* p1 = nullptr;
+	Projectile* p2 = nullptr;
+
+	list<Projectile*> projectiles;
+
 	if (this->ticksUntilNextShoot <= 0) { // Se puede disparar
 		if (this->currentTarget != nullptr) { // Obtener la posición del objetivo actual
-			p = this->projectileFactory->createProjectile();
-			p->x = x;
-			p->y = y;
-			p->updateAngle(this->angle);
 			float targetX = this->currentTarget->x;
 			float targetY = this->currentTarget->y;
-			p->moveTo(targetX, targetY);
+
+			if (this->state == TurretState::UPGRADED) { // TORRETA UPGRADEADA CON DOS CAÑONES
+				p1 = this->projectileFactory->createProjectile();
+				p2 = this->projectileFactory->createProjectile();
+
+				p1->turretId = this->id; // Asignarle al proyectil el id de esta torreta
+				p2->turretId = this->id;
+
+				// Establecer la posición de los proyectiles en los cañones de la torreta
+				p1->x = x;
+				p1->y = y + this->upgradedYCannonOffsets[0];
+
+				p2->x = x;
+				p2->y = y + this->upgradedYCannonOffsets[1];
+
+				p1->updateAngle(this->angle);
+				p2->updateAngle(this->angle);
+
+				p1->moveTo(targetX, targetY);
+				p2->moveTo(targetX, targetY);
+
+				projectiles.push_back(p1);
+				projectiles.push_back(p2);
+			}
+			else { // TORRETA NORMAL CON UN SOLO CAÑÓN
+				p1 = this->projectileFactory->createProjectile();
+				p1->turretId = this->id;
+				p1->x = x;
+				p1->y = y + this->yCannonOffset;
+				p1->updateAngle(this->angle);
+				p1->moveTo(targetX, targetY);
+				
+				projectiles.push_back(p1);
+			}
+
 			this->ticksUntilNextShoot = this->shootCadency;
 			// Reproducir sonido
 			shotSound->play();
 		}
 	}
-	return p;
+	return projectiles;
 }
 
 
@@ -107,5 +158,13 @@ void Turret::draw() {
 	if (this->state == TurretState::BUILDING) {
 		this->constructionAnimation->draw(x, y);
 	}
+	// Animación de Upgrade
+	if (this->canBeUpgraded && this->state != TurretState::UPGRADED) {
+		this->canBeUpgradedAnimation->draw(x, y);
+	}
+
 	Actor::draw();
 }
+
+
+

@@ -6,7 +6,6 @@ EnemyGenerator::EnemyGenerator(Game* game) {
 	this->factories['A'] = new MummyFactory(game);
 	this->factories['B'] = new OrcFactory(game);
 	this->factories['C'] = new ExecutionerFactory(game);
-	this->allGenerated = false;
 
 	this->generatedEnemies = 0;
 	this->actualHorde = nullptr;
@@ -32,7 +31,6 @@ Enemy* EnemyGenerator::createEnemy() {
 		this->ticksUntilNextSpawn = this->randomInt(this->actualHorde->spawnFrequencyRange[0], 
 													this->actualHorde->spawnFrequencyRange[1]);
 		this->generatedEnemies++;
-		this->allGenerated = generatedEnemies == actualHorde->totalNumberOfEnemies;
 	}
 
 	
@@ -45,7 +43,6 @@ void EnemyGenerator::setNextHorde(Horde* horde, int delay)
 	this->ticksUntilNextSpawn = delay + this->randomInt(horde->spawnFrequencyRange[0],
 												horde->spawnFrequencyRange[1]);
 	this->generatedEnemies = 0;
-	this->allGenerated = false;
 }
 
 void EnemyGenerator::addSpawnPoint(int key, Point* p)
@@ -56,6 +53,11 @@ void EnemyGenerator::addSpawnPoint(int key, Point* p)
 void EnemyGenerator::removeSpawnPoint(int key)
 {
 	this->spawnPoints.erase(key);
+}
+
+bool EnemyGenerator::allGenerated()
+{
+	return this->generatedEnemies == this->actualHorde->totalNumberOfEnemies;
 }
 
 int EnemyGenerator::randomInt(int a, int b) {

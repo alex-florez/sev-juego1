@@ -4,11 +4,11 @@
 #include <math.h>
 
 #include "Actor.h"
-#include "Projectile.h"
 #include "Enemy.h"
 #include "Animation.h"
 #include "ProjectileFactory.h"
 #include "SoundEffect.h"
+
 
 
 /// <summary>
@@ -22,19 +22,33 @@ public:
 	/// PURCHASED: Se acaba de comprar la torreta
 	/// BUILDING: Se esta colocando
 	/// BUILT: Ya se ha colocado
+	/// UPGRADED: la torreta se ha mejorado
 	/// </summary>
 	enum class TurretState {
-		PURCHASED, BUILDING, BUILT
+		PURCHASED, BUILDING, BUILT, UPGRADED
 	};
 
 	Turret(string filename, float x, float y, 
 		float width, float height, int cost, Game* game);
-	Projectile* shoot();
+	list<Projectile*> shoot();
 	void update(list<Enemy*>& enemies);
 	void draw() override;
 
+
+	/// <summary>
+	/// Método encargado de UPGRADEAR esta torreta.
+	/// </summary>
+	virtual void upgrade() = 0;
+
 	// Referencia al enemigo más cercano que es objetivo actual de disparo.
 	Enemy* currentTarget;
+
+	// Id de la torreta
+	int id;
+
+	// nº de enemigos eliminados por esta torreta.
+	int killedEnemies;
+	int killedEnemiesForUpgrade; // Indica el nº de enemigos que debe eliminar esta torreta para poder ser mejorada.
 
 	// Cadencia de disparo
 	int shootCadency;
@@ -47,14 +61,22 @@ public:
 	int cost; // Coste de la torreta
 
 	bool enabled; // Indica si la torreta está activada
+	bool canBeUpgraded; // Indica si la torreta está lista para ser mejorada. 
 	TurretState state; // Estado de la torreta
+
+	// Animaciones
 	Animation* constructionAnimation; // Animación de construcción
+	Animation* canBeUpgradedAnimation; // Animación de que la torreta puede ser mejorada
 
 	ProjectileFactory* projectileFactory; // Factoría de proyectiles
 
 	// Sonidos
 	SoundEffect* shotSound;
 
+	// Valores offset de "y" de los dos cañones de la torreta si está mejorada
+	float upgradedYCannonOffsets[2];
+	// Offset en el eje "y" para situar los proyectiles en la punta del cañón.
+	float yCannonOffset;
 
 private:
 

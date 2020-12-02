@@ -12,6 +12,7 @@ Projectile::Projectile(string filename, float width, float height, int speed, in
 	this->impacted = false;
 	this->destroyed = false;
 	this->impactAnimation = new Animation("res/shard_anim.png", 48, 48, 480, 48, 1, 10, false, game);
+	this->turretId = -1;
 	
 }
 

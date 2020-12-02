@@ -45,11 +45,17 @@ public:
 	/// <param name="key"></param>
 	void removeSpawnPoint(int key);
 
+	/// <summary>
+	/// Devuelve true si se han generado todos los enemigos
+	/// de la horda actual.
+	/// </summary>
+	/// <returns></returns>
+	bool allGenerated();
+
 	// Puntos de Spawn (int: id del camino, Point: punto de spawn)
 	map<int, Point*> spawnPoints;
 	// Factorías para construir los distintos tipos de enemigos.
 	map<char, EnemyFactory*> factories;
-	bool allGenerated; // Toma el valor true cuando todos los enemigos han sido generados
 	
 private:
 	Game* game;

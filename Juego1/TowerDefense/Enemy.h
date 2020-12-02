@@ -33,7 +33,7 @@ public:
 	Enemy(string filename, float width, float height, float x, float y, float speed, Game* game);
 	void update();
 	void draw() override;
-	void impactedBy(Projectile* projectile, Player* player); // Enemigo recibe un impacto
+	bool impactedBy(Projectile* projectile); // Enemigo recibe un impacto
 	void attack(Tower* tower); // El enemigo ataca a una torre.
 
 	// Animaciones

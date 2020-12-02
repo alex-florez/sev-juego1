@@ -10,9 +10,6 @@ Executioner::Executioner(float x, float y, float speed, Game* game)
 	this->aDyingLeft = new Animation("res/executioner/death/death_left.png", 57, 70, 1026, 70, 1, 18, false, game);
 	this->aDyingRight = new Animation("res//death/death_right.png", 57, 70, 1026, 70, 1, 18, false, game);
 
-	/*this->aHurtLeft = new Animation("res/enemy3/hurt/hurt-left.png", 35, 40, 70, 40, 3, 2, false, game);
-	this->aHurtRight = new Animation("res/enemy3/hurt/hurt-right.png", 35, 40, 70, 40, 3, 2, false, game);*/
-
 	this->aAttackingLeft = new Animation("res/executioner/attack/attack_left_1.png", 68, 78, 476, 78, 2, 7, false, game);
 	this->aAttackingRight = new Animation("res/executioner/attack/attack_right_1.png", 68, 78, 476, 78, 2, 7, false, game);
 

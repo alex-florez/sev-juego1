@@ -98,7 +98,7 @@ public:
 	// Pausa y mensajes
 	Actor* message;
 	bool pause;
-	bool controlContinue;
+	bool reset; // Indica si se debe resetear el juego (por ejemplo cuando el jugador pierde, o gana)
 
 	// Gestor de Trayectorias
 	PathManager* pathManager;
@@ -121,12 +121,17 @@ public:
 	// UI
 	UITextIcon* uiRecursos;
 	UITextIcon* uiLeftEnemies;
+	UITextIcon* uiInfiltratedEnemies; // Indica el nº de enemigos que se han colado.
 	PowerUpInventory* powerUpInventory;
 	UIHordeCounter* uiHordeCounter;
 
 	// Hordas de enemigos
 	Horde* currentHorde;
 	queue<Horde*> hordes;
+
+	// Nº máximo de enemigos infiltrados
+	int maxInfiltratedEnemies;
+	int infiltratedEnemies; // Enemigos infiltrados hasta el momento en este nivel.
 	
 	// Gemas
 	list<Gem*> gems;
@@ -178,6 +183,14 @@ private:
 	bool checkWin();
 
 	/// <summary>
+	/// Devuelve true si el jugador ha perdido
+	/// la partida, bien porque se haya quedado sin torres, o porque
+	/// el nº de enemigos infiltrados supere al máximo permitido.
+	/// </summary>
+	/// <returns></returns>
+	bool checkLoose();
+
+	/// <summary>
 	/// Inicializa la cola FIFO con los strings
 	/// de los mapas
 	/// </summary>
@@ -190,6 +203,13 @@ private:
 	/// <returns></returns>
 	string getNextMap();
 
+
+	/// <summary>
+	/// Método invocado cada vez que se pulse
+	/// la tecla 'p', para pausar el juego y mostrar un mensaje
+	/// de cómo jugar.
+	/// </summary>
+	void pauseGame();
 
 	// Métodos para destruir actores
 	void destroyEnemies();

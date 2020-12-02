@@ -6,6 +6,8 @@
 
 #include <math.h>
 
+
+
 /// <summary>
 /// Clase base para los distintos tipos de proyectiles.
 /// </summary>
@@ -43,6 +45,7 @@ public:
 	bool impacted; // Indica si este proyectil ha impactado ya o no
 	bool destroyed; // Indica si este proyectil está destruido.
 	Animation* impactAnimation; // Animación ejecutada cuando impacta el proyectil.
+	int turretId; // Id que hace referencia a la torreta que disparó este proyectil.
 
 	// Sonidos
 	SoundEffect* hitSound;

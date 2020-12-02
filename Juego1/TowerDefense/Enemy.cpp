@@ -106,14 +106,14 @@ void Enemy::attack(Tower* tower) {
 	this->targetTower = tower;
 }
 
-void Enemy::impactedBy(Projectile* projectile, Player* player) {
-	
+bool Enemy::impactedBy(Projectile* projectile) {
+	bool dead = false;
 	this->health -= projectile->damage;
 	
 	if (this->health <= 0 && this->state != EnemyState::DYING) {
 		this->state = EnemyState::DYING;
-		// Incrementar recursos del jugador por haber eliminado al enemigo.
-		player->addResources(PLAYER_KILL_RESOURCES);
-		player->killedEnemiesInActualHorde++;
+		dead = true;
 	}
+
+	return dead;
 }

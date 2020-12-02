@@ -79,6 +79,11 @@ void MapManager::loadMap(string filename) {
 }
 
 
+int MapManager::getTotalNumberOfEnemies()
+{
+	return this->totalNumberOfEnemies;
+}
+
 void MapManager::parseObjects() {
 	for (int i = 0; i < FILE_ROWS; i++) {
 		for (int j = 0; j < FILE_COLS; j++) {
@@ -134,8 +139,9 @@ void MapManager::parseConfigLine(string line) {
 		queue<char> enemySequence = getCharQueue(d);
 		this->hordes.push(new Horde(index, enemySequence, enemySequence.size(), minSpawnFreq, maxSpawnFreq));
 		index++;
-		maxSpawnFreq -= 20;
-		minSpawnFreq -= 20;
+		maxSpawnFreq -= 25;
+		minSpawnFreq -= 25;
+		this->totalNumberOfEnemies += enemySequence.size();
 	}
 }
 

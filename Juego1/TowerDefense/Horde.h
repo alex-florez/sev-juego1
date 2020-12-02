@@ -14,6 +14,7 @@ public:
 	Horde(int totalEnemies, int minSpawnFreq, int maxSpawnFreq);
 	Horde(int id, queue<char> enemies, int totalEnemies, int minSpawnFreq, int maxSpawnFreq);
 	char next();
+	bool empty();
 
 	queue<char> enemies; // Cola FIFO de caracteres que representan los distintos tipos de enemigos de esta horda.
 	int id; // Id de la horda

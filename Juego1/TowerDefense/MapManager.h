@@ -42,6 +42,7 @@ public:
 	int getMapHeight();
 	int getMapWidht();
 	void show();
+	int getTotalNumberOfEnemies(); // Devuelve la suma total de enemigos entre todas las hordas que hay.
 
 private:
 	Game* game;
@@ -53,8 +54,11 @@ private:
 	list<Tile*> pathTiles; // Tiles que representan los distintos caminos
 	queue<Horde*> hordes; // Hordas de enemigos
 	
+	
 	int mapHeight; // Altura del mapa
 	int mapWidth; // Anchura del mapa
+
+	int totalNumberOfEnemies; // nº total de enemigos en este mapa.
 
 	void parseObjects();
 	/// <summary>

@@ -50,6 +50,7 @@ public:
 	list<Turret*> turrets; // Torretas construidas hasta ahora.
 	Game* game;
 	ShopManager* shopManager; // Referencia a la tienda
+	int numberOfTotalTurrets; // Nº total de torretas construidas.
 
 	// Sonidos
 	SoundEffect* constructionSound;

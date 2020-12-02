@@ -13,6 +13,7 @@ GameLayer::GameLayer(Game* game)
 	: Layer(game) { // Se hace una llamada al constructor del padre
 
 	pause = false;
+	reset = false;
 	message = new Actor("res/mensaje_como_jugar.png", WIDTH*0.5, HEIGHT*0.5,
 		WIDTH, HEIGHT, game);
 	init();
@@ -62,17 +63,6 @@ void GameLayer::init() {
 
 	// Audio de fondo
 	backgroundMusic = Mix_LoadMUS("res/musica_ambiente.mp3");
-	//Mix_PlayMusic(backgroundMusic, -1);
-	//audioBackground->play();
-
-	// Botones de la interfaz
-	//buttonJump = new Actor("res/boton_salto.png", WIDTH*0.9, HEIGHT * 0.55, 100, 100, game);
-	//buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
-
-	RGB* color1 = new RGB(255, 255, 23);
-	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 29, 41, 50, color1, "res/gemsIcon.png", to_string(PLAYER_INITIAL_RESOURCES), game);
-	uiLeftEnemies = new UITextIcon(0.75 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, "res/leftEnemiesIcon.png", "0", game);
-	uiHordeCounter = new UIHordeCounter(0.5 * WIDTH, 0.04 * HEIGHT, game);
 
 	player = new Player(0, 0, game);
 
@@ -83,11 +73,24 @@ void GameLayer::init() {
 	mapManager->loadMap(getNextMap());
 	loadEntities();
 
+	// nº máximo de enemigos que se pueden colar a la izquierda.
+	this->maxInfiltratedEnemies = (int) (mapManager->getTotalNumberOfEnemies() / 2);
+	this->infiltratedEnemies = 0;
+
+	// inicializar UI
+	RGB* color1 = new RGB(255, 255, 23);
+	uiRecursos = new UITextIcon(0.85 * WIDTH, 0.04 * HEIGHT, 29, 41, 50, color1, "res/gemsIcon.png", to_string(PLAYER_INITIAL_RESOURCES), game);
+	uiLeftEnemies = new UITextIcon(0.75 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, "res/leftEnemiesIcon.png", "0", game);
+	uiHordeCounter = new UIHordeCounter(0.5 * WIDTH, 0.04 * HEIGHT, game);
+	uiInfiltratedEnemies = new UITextIcon(0.04 * WIDTH, 0.04 * HEIGHT, 32, 32, 38, color1, 
+		"res/death.png", "0/" + to_string(this->maxInfiltratedEnemies), game);
+
 	// inicializar el motor de colisiones
 	this->collisionEngine->addTowers(&this->towerManager->towers);
 	this->collisionEngine->addEnemies(&this->enemies);
 	this->collisionEngine->addProjectiles(&this->projectiles);
 	this->collisionEngine->addPlayer(player);
+	this->collisionEngine->addTurrets(&this->constructionManager->turrets);
 
 	// Horda inicial
 	this->currentHorde = getNextHorde();
@@ -117,17 +120,20 @@ void GameLayer::update() {
 		return;
 	}
 
-	// Si se han superado todas las rondas
+	// Si se han superado todas las rondas, pasar al siguiente mapa.
 	if (checkWin()) {
+		this->maps.pop(); // Popear el mapa actual
 		message = new Actor("res/mensaje_ganar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
 		pause = true;
+		reset = true;
 		return;
 	}
 
-	if (this->towerManager->allDestroyed()) { //  Todas las torres destruidas
+	// Si se han destruido todas las torres o se han infiltrado demasiados enemigos... el jugador pierde
+	if (checkLoose()) { 
 		message = new Actor("res/mensaje_perder.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
 		pause = true;
-		this->init();
+		reset = true;
 		return;
 	}
 
@@ -143,8 +149,9 @@ void GameLayer::update() {
 	for (auto const& enemy : enemies) {
 		pathManager->update(enemy); // Actualizar trayectoria del enemigo
 		enemy->update(); // Actualizar estado del enemigo.
-		// Enemigo a la izquierda de la pantalla
+		// Enemigo a la izquierda de la pantalla (infiltrado)
 		if (enemy->x + enemy->width / 2 <= 0) {
+			this->infiltratedEnemies++;
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 		else if (enemy->state == Enemy::EnemyState::DEAD) { // Enemigo está muerto -> eliminarlo
@@ -156,8 +163,8 @@ void GameLayer::update() {
 	// Actualizar las torretas
 	for (auto const& turret : this->constructionManager->turrets) {
 		turret->update(this->enemies); // Escanear enemigos
-		Projectile* p = turret->shoot(); // Realizar disparo
-		if (p != nullptr) {
+		list<Projectile*> tProjectiles = turret->shoot(); // Realizar disparo
+		for (auto const& p : tProjectiles) {
 			projectiles.push_back(p);
 		}
 	}
@@ -187,21 +194,19 @@ void GameLayer::update() {
 		}
 	}
 
-	// Enemigos restantes
-	if (this->currentHorde != nullptr) // Actualizar el nº de enemigos restantes
-		leftEnemies = this->currentHorde->totalNumberOfEnemies - this->player->killedEnemiesInActualHorde;
-
 	// Actualizar hordas
-	if (this->currentHorde != nullptr) { // Aún no se han terminado las hordas...
-		if (this->hordeHasFinished()) { // Horda finalizada
-			this->currentHorde = getNextHorde();
-			this->player->killedEnemiesInActualHorde = 0;
-			if (this->currentHorde != nullptr) {
-				this->enemyGenerator->setNextHorde(this->currentHorde, HORDE_DELAY);
-				this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
-			}
+	if (this->hordeHasFinished()) { // Horda finalizada
+		this->currentHorde = getNextHorde();
+		this->player->killedEnemiesInActualHorde = 0;
+		if (this->currentHorde != nullptr) {
+			this->enemyGenerator->setNextHorde(this->currentHorde, HORDE_DELAY);
 		}
 	}
+
+	// Actualizar enemigos restantes
+	if (this->currentHorde != nullptr) // Actualizar el nº de enemigos restantes
+		leftEnemies = this->currentHorde->totalNumberOfEnemies - this->player->killedEnemiesInActualHorde;
+	
 
 	// Actualizar recolectables
 	Gem* newGem = this->gemGenerator->createGem();
@@ -231,6 +236,7 @@ void GameLayer::update() {
 	this->uiLeftEnemies->text->content = to_string(this->leftEnemies); // Enemigos restantes
 	if(this->currentHorde != nullptr)
 		this->uiHordeCounter->hordeNumberTxt->content = to_string(this->currentHorde->id); // Horda actual
+	this->uiInfiltratedEnemies->text->content = to_string(this->infiltratedEnemies) + "/" + to_string(this->maxInfiltratedEnemies);
 	this->shopManager->updateTurretItems(player->availableResources);
 
 	// Eliminar torres destruidas
@@ -264,6 +270,7 @@ void GameLayer::update() {
 		delete delPowerUp;
 	}
 	deletePowerUps.clear();
+
 }
 
 
@@ -293,20 +300,25 @@ void GameLayer::processControls() {
 			mouseToControls(event);
 		}
 	}
-	// procesar controles
-	// Despausar el juego
-	if (controlContinue) {
-		pause = false;
-		controlContinue = false;
-	}
-
 	// Eventos de ratón
 	if (mouseClick) {
 		cout << "Mouse clicked!" << endl;
 		// Si el juego estaba en pausa, continuar
 		if (pause) {
-			this->init();
 			pause = false;
+			if (reset) { // Comprobar si hay que resetear
+				this->init();
+				reset = false;
+			}
+		}
+		
+		// Comprobar si se ha hecho click en alguna torreta que esté lista para
+		// ser UPGRADEDADA.
+		for (auto const& turret : this->constructionManager->turrets) {
+			if (turret->canBeUpgraded && turret->state != Turret::TurretState::UPGRADED
+				&& turret->containsPoint(mouseX, mouseY)) {
+				turret->upgrade();
+			}
 		}
 
 		// Reparar una torre
@@ -438,6 +450,9 @@ void GameLayer::keysToControls(SDL_Event event) {
 		case SDLK_ESCAPE: // Tecla Esc
 			game->loopActive = false;
 			break;
+		case SDLK_p: // Tecla P
+			this->pauseGame();
+			break;
 		case SDLK_1: // Tecla 1
 			game->scale();
 			break;
@@ -564,17 +579,9 @@ void GameLayer::draw() {
 			pathTile->draw();
 		}
 
-		// Dibujamos al jugador
-		//player->draw(scrollX, scrollY);
-
+		
 		// Dibujamos las torres
 		this->towerManager->draw();
-
-		// Dibujamos los enemigos
-		for (auto const& enemy : enemies) {
-			enemy->draw();
-		}
-
 
 		// Dibujar construction tiles
 		for (auto const& ct : this->constructionManager->constructionTiles) {
@@ -589,6 +596,11 @@ void GameLayer::draw() {
 		// Dibujamos las torretas
 		for (auto const& turret : this->constructionManager->turrets) {
 			turret->draw();
+		}
+
+		// Dibujamos los enemigos
+		for (auto const& enemy : enemies) {
+			enemy->draw();
 		}
 
 		// Dibujar recolectables
@@ -606,6 +618,7 @@ void GameLayer::draw() {
 		this->uiRecursos->draw();
 		this->uiLeftEnemies->draw();
 		this->uiHordeCounter->draw();
+		this->uiInfiltratedEnemies->draw();
 		this->powerUpInventory->draw();
 
 		// Torreta seleccionada con el mouse
@@ -649,10 +662,12 @@ void GameLayer::loadEntities() {
 }
 
 bool GameLayer::hordeHasFinished() {
-	return this->currentHorde != nullptr &&
+	return this->enemyGenerator->allGenerated()
+		&& this->enemies.empty();
+	/*return this->currentHorde != nullptr &&
 		(this->currentHorde->totalNumberOfEnemies == player->killedEnemiesInActualHorde
 			|| 
-			(this->enemyGenerator->allGenerated && this->enemies.empty()));
+			(this->enemyGenerator->allGenerated && this->enemies.empty()));*/
 }
 
 Horde* GameLayer::getNextHorde() {
@@ -666,7 +681,11 @@ Horde* GameLayer::getNextHorde() {
 
 
 bool GameLayer::checkWin() {
-	return this->hordes.empty() && this->leftEnemies == 0;
+	return !this->towerManager->allDestroyed() // Alguna torre viva...
+		&& this->enemyGenerator->allGenerated() // Todos los enemigos de la horda actual generados...
+		&& this->enemies.empty() // No hay enemigos en el render...
+		&& this->hordes.empty() // Ya no hay más hordas.
+		&& this->infiltratedEnemies < this->maxInfiltratedEnemies; // Se han infiltrado menos enemigos que el máximo permitido.
 }
 
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList) {
@@ -728,11 +747,18 @@ string GameLayer::getNextMap()
 {
 	if (maps.empty())
 		initMaps();
-	string nextMap = maps.front();
-	maps.pop();
-	return nextMap;
+	return maps.front();
 }
 
+
+void GameLayer::pauseGame()
+{
+	if (this->pause) this->pause = false;
+	else {
+		this->pause = true;
+		this->message = new Actor("res/mensaje_como_jugar.png", WIDTH * 0.5, HEIGHT * 0.5, WIDTH, HEIGHT, game);
+	}
+}
 
 void GameLayer::destroyEnemies() {
 	for (auto const& enemy : enemies) {
@@ -766,6 +792,12 @@ void GameLayer::destroyPowerUps() {
 	}
 }
 
+
+bool GameLayer::checkLoose()
+{
+	return this->towerManager->allDestroyed()
+		|| this->infiltratedEnemies >= this->maxInfiltratedEnemies;
+}
 
 void GameLayer::initMaps() {
 	this->maps.push("res/levels/mapa-1.txt");

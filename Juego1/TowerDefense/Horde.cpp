@@ -21,3 +21,8 @@ char Horde::next() {
 	enemies.pop();
 	return next;
 }
+
+bool Horde::empty()
+{
+	return this->enemies.empty();
+}

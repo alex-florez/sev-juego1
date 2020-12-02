@@ -17,6 +17,7 @@ public:
 	SoundEffect(string filename);
 	~SoundEffect();
 	void play();
+	void free();
 
 	Mix_Chunk* chunk;
 };
