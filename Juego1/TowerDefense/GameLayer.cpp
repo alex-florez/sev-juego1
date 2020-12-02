@@ -3,7 +3,6 @@
 
 void markEnemyForDelete(Enemy* enemy, list<Enemy*>& deleteList);
 void markProjectileForDelete(Projectile* projectile, list<Projectile*>& deleteList);
-void markTileForDelete(Tile* tile, list<Tile*>& deleteList);
 void markTowerForDelete(Tower* tower, list<Tower*>& deleteList);
 void markGemForDelete(Gem* gem, list<Gem*>& deleteList);
 void markPowerUpForDelete(PowerUp* powerUp, list<PowerUp*>& deleteList);
@@ -14,8 +13,7 @@ GameLayer::GameLayer(Game* game)
 
 	pause = false;
 	reset = false;
-	message = new Actor("res/mensaje_como_jugar.png", WIDTH*0.5, HEIGHT*0.5,
-		WIDTH, HEIGHT, game);
+	message = new Actor("res/mensaje_como_jugar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
 	init();
 }
 
@@ -32,42 +30,26 @@ void GameLayer::init() {
 	destroyGems();
 	destroyPowerUps();
 
-	background = new Background("res/grass.jpg", WIDTH * 0.5, HEIGHT * 0.5, game);
+	background = new Background("res/grass.jpg", WIDTH * 0.5, HEIGHT * 0.5, game); // Fondo										  
+	mapManager = new MapManager(game);  // Map Manager
+	collisionEngine = new CollisionEngine(); // Collision engine
+	enemies.clear(); // Enemigos
+	projectiles.clear(); // Proyectiles
+	gems.clear(); // Gemas
+	powerUps.clear(); // PowerUps
+	srand(SDL_GetTicks()); // Semilla aleatoria para generar números aleatorios
 
-	// Map Manager
-	mapManager = new MapManager(game);
-
-	// Collision engine
-	collisionEngine = new CollisionEngine();
-
-	// Enemigos
-	enemies.clear(); // Vaciar la lista de enemigos, por si se reinicia el juego
-
-	// Proyectiles
-	projectiles.clear();
-
-	// Gemas
-	gems.clear();
-
-	// PowerUps
-	powerUps.clear();
-
-	// Semilla aleatoria para generar números aleatorios
-	srand(SDL_GetTicks());
-
+	// Eventos de ratón
 	this->mouseClick = false;
 	this->mouseHold = false;
 	this->mouseReleased = false;
 
-	this->selectedTurret = nullptr;
+	this->selectedTurret = nullptr; // Torreta seleccionada con el ratón
+	backgroundMusic = Mix_LoadMUS("res/musica_ambiente.mp3"); // Audio de fondo
+	upgradeSound = new SoundEffect("res/sounds/upgrade.wav");
 
-	// Audio de fondo
-	backgroundMusic = Mix_LoadMUS("res/musica_ambiente.mp3");
-
-	player = new Player(0, 0, game);
-
-	// Gestor de compra
-	this->shopManager = new ShopManager(player, game);
+	player = new Player(0, 0, game); // Jugador
+	this->shopManager = new ShopManager(player, game); 	// Gestor de compra
 
 	// Carga del siguiente mapa
 	mapManager->loadMap(getNextMap());
@@ -94,13 +76,12 @@ void GameLayer::init() {
 
 	// Horda inicial
 	this->currentHorde = getNextHorde();
-	// Establecer la ronda inicial al generador de enemigos
-	this->enemyGenerator->setNextHorde(this->currentHorde, 0);
-	this->leftEnemies = this->currentHorde->totalNumberOfEnemies;
+	this->enemyGenerator->setNextHorde(this->currentHorde, 0); // Establecer la ronda inicial al generador de enemigos
+	this->leftEnemies = this->currentHorde->totalNumberOfEnemies; // Enemigos restantes
 
-	this->gemGenerator = new GemGenerator(game);
-	this->powerUpGenerator = new PowerUpGenerator(game);
-	this->powerUpInventory = new PowerUpInventory(game);
+	this->gemGenerator = new GemGenerator(game); // Generador de gemas
+	this->powerUpGenerator = new PowerUpGenerator(game); // Generador de PowerUps
+	this->powerUpInventory = new PowerUpInventory(game); // Inventario de PowerUps
 
 }
 
@@ -149,8 +130,7 @@ void GameLayer::update() {
 	for (auto const& enemy : enemies) {
 		pathManager->update(enemy); // Actualizar trayectoria del enemigo
 		enemy->update(); // Actualizar estado del enemigo.
-		// Enemigo a la izquierda de la pantalla (infiltrado)
-		if (enemy->x + enemy->width / 2 <= 0) {
+		if (enemy->infiltrated()) { // Enemigo a la izquierda de la pantalla (infiltrado)
 			this->infiltratedEnemies++;
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
@@ -158,7 +138,6 @@ void GameLayer::update() {
 			markEnemyForDelete(enemy, deleteEnemies);
 		}
 	}
-
 
 	// Actualizar las torretas
 	for (auto const& turret : this->constructionManager->turrets) {
@@ -172,10 +151,7 @@ void GameLayer::update() {
 	// Actualizar los proyectiles
 	for (auto const& projectile : projectiles) {
 		projectile->update();
-		if (!projectile->isInRender()) { // Proyectil fuera del render
-			markProjectileForDelete(projectile, deleteProjectiles);
-		}
-		else if (projectile->destroyed) { // Marcar para eliminar los proyectiles destruidos.
+		if (!projectile->isInRender() || projectile->destroyed) { // Proyectil fuera del render o destruido
 			markProjectileForDelete(projectile, deleteProjectiles);
 		}
 	}
@@ -210,8 +186,7 @@ void GameLayer::update() {
 
 	// Actualizar recolectables
 	Gem* newGem = this->gemGenerator->createGem();
-	if (newGem != nullptr)
-		gems.push_back(newGem);
+	if (newGem != nullptr) gems.push_back(newGem);
 
 	for (auto const& gem : gems) {
 		gem->update();
@@ -301,10 +276,12 @@ void GameLayer::processControls() {
 		}
 	}
 	// Eventos de ratón
+	// ****************
+
+	// Botón izquierdo del ratón pulsado
 	if (mouseClick) {
 		cout << "Mouse clicked!" << endl;
-		// Si el juego estaba en pausa, continuar
-		if (pause) {
+		if (pause) { // Si el juego estaba en pausa, continuar
 			pause = false;
 			if (reset) { // Comprobar si hay que resetear
 				this->init();
@@ -317,7 +294,12 @@ void GameLayer::processControls() {
 		for (auto const& turret : this->constructionManager->turrets) {
 			if (turret->canBeUpgraded && turret->state != Turret::TurretState::UPGRADED
 				&& turret->containsPoint(mouseX, mouseY)) {
-				turret->upgrade();
+				// Comprobar recursos del usuario
+				if (player->availableResources >= turret->upgradeCost) {
+					player->availableResources -= turret->upgradeCost;
+					turret->upgrade();
+					this->upgradeSound->play();
+				}	
 			}
 		}
 
@@ -336,6 +318,7 @@ void GameLayer::processControls() {
 		if (slot != nullptr && !slot->empty()) {
 			this->selectedPowerUp = slot->powerUp;
 			slot->clear();
+			slot->clickSound->play();
 		}
 
 		// Comprobar la compra de torretas
@@ -343,7 +326,7 @@ void GameLayer::processControls() {
 		
 		// Comprobar la recolección de gemas
 		for (auto const& gem : gems) {
-			if (gem->containsPoint(xClick, yClick)) {
+			if (gem->containsPoint(mouseX, mouseY)) {
 				gem->collected = true;
 				gem->pickUpSound->play();
 				player->availableResources += gem->value;
@@ -352,7 +335,7 @@ void GameLayer::processControls() {
 
 		// Comprobar la recolección de powerUps
 		for (auto const& pwu : powerUps) {
-			if (pwu->containsPoint(xClick, yClick) && !this->powerUpInventory->isFull()) {
+			if (pwu->containsPoint(mouseX, mouseY) && !this->powerUpInventory->isFull()) {
 				pwu->collected = true;
 				pwu->pickUpSound->play();
 				this->powerUpInventory->addPowerUp(pwu->clone()); // Crear un clone del powerUp y añadirlo al inventario
@@ -363,7 +346,7 @@ void GameLayer::processControls() {
 		mouseClick = false;
 	}
 		
-
+	// Botón izquierdo del ratón suelto
 	if (mouseReleased) {
 		cout << "Mouse released!" << endl;
 		// Torreta
@@ -383,7 +366,8 @@ void GameLayer::processControls() {
 	
 		mouseReleased = false;
 	}
-		
+	
+	// Botón izquierdo del ratón presionado
 	if (mouseHold) {
 		cout << "Mouse hold!" << endl;
 		if (this->selectedTurret != nullptr) {
@@ -396,51 +380,7 @@ void GameLayer::processControls() {
 			this->selectedPowerUp->y = this->mouseY;
 		}
 	}
-		
 
-	// Se ha hecho click con el ratón
-	//if (mouseClick) {
-	//	// Delegar a los managers el control del click
-	//	this->constructionManager->construct(xClick, yClick, this->shopManager->getPurchasedTurret()); // Construir torreta
-	//	this->shopManager->purchase(xClick, yClick); // Comprar torreta
-	//	// Click sobre alguna gema
-	//	for (auto const& gem : gems) {
-	//		if (gem->containsPoint(xClick, yClick)) {
-	//			gem->collected = true;
-	//			player->availableResources += gem->value;
-	//		}
-	//	}
-	//	mouseClick = false;
-	//}
-
-	// Disparar
-	//if (controlShoot) {
-	//	Projectile* newProjectile = player->shoot();
-	//	if (newProjectile != nullptr) {
-	//		projectiles.push_back(newProjectile);
-	//	}
-	//}
-	// Eje X
-	if (controlMoveX > 0) {
-		player->moveX(1);
-	}
-	else if (controlMoveX < 0) {
-		player->moveX(-1);
-	}
-	else {
-		player->moveX(0);
-	}
-
-	// Eje Y
-	if (controlMoveY > 0) {
-
-	}
-	else if (controlMoveY < 0) {
-		player->jump();
-	}
-	else {
-
-	}
 }
 
 void GameLayer::keysToControls(SDL_Event event) {
@@ -456,65 +396,16 @@ void GameLayer::keysToControls(SDL_Event event) {
 		case SDLK_1: // Tecla 1
 			game->scale();
 			break;
-		case SDLK_d: // derecha
-			controlMoveX = 1;
-			break;
-		case SDLK_a: // izquierda
-			controlMoveX = -1;
-			break;
-		case SDLK_w: // arriba
-			controlMoveY = -1;
-			break;
-		case SDLK_s: // abajo
-			controlMoveY = 1;
-			break;
-		case SDLK_SPACE: // disparar
-			controlShoot = true;
-			break;
-		}
-	}
-
-	if (event.type == SDL_KEYUP) { // Tecla levantada
-		int code = event.key.keysym.sym;
-		switch (code) {
-		case SDLK_d: // derecha
-			if (controlMoveX == 1) {
-				controlMoveX = 0;
-			}
-			break;
-		case SDLK_a: // izquierda
-			if (controlMoveX == -1) {
-				controlMoveX = 0;
-			}
-			break;
-		case SDLK_w: // arriba
-			if (controlMoveY == -1) {
-				controlMoveY = 0;
-			}
-			break;
-		case SDLK_s: // abajo
-			if (controlMoveY == 1) {
-				controlMoveY = 0;
-			}
-			break;
-		case SDLK_SPACE: // disparar
-			controlShoot = false;
-			break;
 		}
 	}
 
 }
 
 void GameLayer::mouseToControls(SDL_Event event) {
-	// Modificación de coordenadas por posible escalado
-	float motionX = event.motion.x / game->scaleLower;
-	float motionY = event.motion.y / game->scaleLower;
 
-	this->xClick = motionX;
-	this->yClick = motionY;
-
-	this->mouseX = motionX;
-	this->mouseY = motionY;
+	// Coordenadas del puntero del ratón
+	this->mouseX = event.motion.x / game->scaleLower;
+	this->mouseY = event.motion.y / game->scaleLower;
 
 	// Cada vez que el usuario hace click
 	if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -522,36 +413,12 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		this->mouseClick = true;
 		this->mouseReleased = false;
 		this->mouseHold = true;
-		/*for (auto const& ct : this->constructionTiles) {
-			if (ct->containsPoint(motionX, motionY)) {
-				this->controlConstruct = true;
-				this->clickedCT = ct;
-			}
-		}*/
-		
-		/*	if (buttonShoot->containsPoint(motionX, motionY)) {
-				controlShoot = true;
-			}
-			if (buttonJump->containsPoint(motionX, motionY)) {
-				controlMoveY = -1;
-			}*/
 	}
+
 	// Cada vez que se mueve
 	if (event.type == SDL_MOUSEMOTION) {
 		this->mouseClick = false;
 		this->mouseReleased = false;
-		/*for (auto const& ct : this->constructionTiles) {
-			if (ct->containsPoint(motionX, motionY)) {
-				this->controlConstruct = false;
-				this->clickedCT = nullptr;
-			}
-		}*/
-		//if (!buttonShoot->containsPoint(motionX, motionY)) { // Ratón se mueve fuera del botón de disparo
-		//	controlShoot = false;
-		//}
-		//if (!buttonJump->containsPoint(motionX, motionY)) {
-		//	controlMoveY = 0;
-		//}
 	}
 
 	// Cada vez que se levanta el click
@@ -559,12 +426,6 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		this->mouseClick = false;
 		this->mouseReleased = true;
 		this->mouseHold = false;
-		//if (buttonShoot->containsPoint(motionX, motionY)) {
-		//	controlShoot = false;
-		//}
-		//if (buttonJump->containsPoint(motionX, motionY)) {
-		//	controlMoveY = 0;
-		//}
 	}
 }
 
@@ -575,11 +436,11 @@ void GameLayer::draw() {
 	if (!pause) {
 		background->draw();
 
+		// Dibujamos cada una de las trayectorias
 		for (auto const& pathTile : pathTiles) {
 			pathTile->draw();
 		}
 
-		
 		// Dibujamos las torres
 		this->towerManager->draw();
 
@@ -598,17 +459,17 @@ void GameLayer::draw() {
 			turret->draw();
 		}
 
-		// Dibujamos los enemigos
+		// Dibujamos a los enemigos
 		for (auto const& enemy : enemies) {
 			enemy->draw();
 		}
 
 		// Dibujar recolectables
-		for (auto const& gem : gems) {
+		for (auto const& gem : gems) { // Gemas
 			gem->draw();
 		}
 
-		for (auto const& powerUp : powerUps) {
+		for (auto const& powerUp : powerUps) { // PowerUps
 			powerUp->draw();
 		}
 		
@@ -627,12 +488,6 @@ void GameLayer::draw() {
 		// PowerUp seleccionado con el mouse
 		if (this->selectedPowerUp != nullptr) {
 			this->selectedPowerUp->draw();
-		}
-
-		// HUD
-		if (game->input == GameInputType::MOUSE) { // Dibujar el HUD solo si el tipo de entrada es el mouse
-			//buttonJump->draw(); // NO TIENEN SCROLL, POSISICIÓN FIJA
-			//buttonShoot->draw();
 		}
 	}
 	else {
@@ -662,12 +517,7 @@ void GameLayer::loadEntities() {
 }
 
 bool GameLayer::hordeHasFinished() {
-	return this->enemyGenerator->allGenerated()
-		&& this->enemies.empty();
-	/*return this->currentHorde != nullptr &&
-		(this->currentHorde->totalNumberOfEnemies == player->killedEnemiesInActualHorde
-			|| 
-			(this->enemyGenerator->allGenerated && this->enemies.empty()));*/
+	return this->enemyGenerator->allGenerated() && this->enemies.empty();
 }
 
 Horde* GameLayer::getNextHorde() {
@@ -712,16 +562,6 @@ void markProjectileForDelete(Projectile* projectile, list<Projectile*>& deleteLi
 		projectile) != deleteList.end();
 	if (!inList) {
 		deleteList.push_back(projectile);
-	}
-}
-
-
-void markTileForDelete(Tile* tile, list<Tile*>& deleteList) {
-	bool inList = std::find(deleteList.begin(),
-		deleteList.end(),
-		tile) != deleteList.end();
-	if (!inList) {
-		deleteList.push_back(tile);
 	}
 }
 

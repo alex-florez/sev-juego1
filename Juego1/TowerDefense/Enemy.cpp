@@ -106,6 +106,11 @@ void Enemy::attack(Tower* tower) {
 	this->targetTower = tower;
 }
 
+bool Enemy::infiltrated()
+{
+	return this->x + this->width / 2 <= 0;
+}
+
 bool Enemy::impactedBy(Projectile* projectile) {
 	bool dead = false;
 	this->health -= projectile->damage;

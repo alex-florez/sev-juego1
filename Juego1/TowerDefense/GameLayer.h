@@ -58,38 +58,26 @@ public:
 	// Motor de colisiones
 	CollisionEngine* collisionEngine;
 
-	Player* player;
-	Background* background;
-
-	// Controles
-	bool controlShoot = false;
-	int controlMoveX = 0;
-	int controlMoveY = 0;
-
+	Player* player; // Jugador
+	Background* background; // Fondo
 	
-	// Eventos de ratón
+	// Coordenadas de ratón
 	float mouseX;
 	float mouseY;
+	// Eventos de ratón
 	bool mouseClick;
-	float xClick;
-	float yClick;
 	bool mouseHold;
 	bool mouseReleased;
 
 	// Drag & Drop
-	// Torreta actualmente seleccionada
-	Turret* selectedTurret;
-	// PowerUp actualmente seleccionado
-	PowerUp* selectedPowerUp;
+	Turret* selectedTurret; // Torreta actualmente seleccionada
+	PowerUp* selectedPowerUp; // PowerUp actualmente seleccionado
 
 	// Lista de enemigos
 	list<Enemy*> enemies;
 	// Lista de proyectiles
 	list<Projectile*> projectiles;
 
-	int newEnemyTime = 0;
-
-	 // Enemigos eliminados en la horda actual
 	int leftEnemies = 0; // enemigos de la horda actual que quedan vivos
 
 	// Mapas
@@ -144,6 +132,7 @@ public:
 	// Sonido
 	// Background music
 	Mix_Music* backgroundMusic;
+	SoundEffect* upgradeSound;
 
 
 

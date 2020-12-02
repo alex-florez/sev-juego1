@@ -8,6 +8,7 @@
 #include "Animation.h"
 #include "ProjectileFactory.h"
 #include "SoundEffect.h"
+#include "UITextIcon.h"
 
 
 
@@ -61,14 +62,20 @@ public:
 	int cost; // Coste de la torreta
 
 	bool enabled; // Indica si la torreta está activada
-	bool canBeUpgraded; // Indica si la torreta está lista para ser mejorada. 
+	bool canBeUpgraded; // Indica si la torreta está lista para ser mejorada.
+	bool upgradeHasFinished; // Indica si se ha terminado de Upgradear.
 	TurretState state; // Estado de la torreta
 
 	// Animaciones
 	Animation* constructionAnimation; // Animación de construcción
 	Animation* canBeUpgradedAnimation; // Animación de que la torreta puede ser mejorada
+	Animation* upgradeAnimation; // Animación de UPGRADE
 
 	ProjectileFactory* projectileFactory; // Factoría de proyectiles
+
+	// Icono de interfaz situado sobre la torreta indicando el precio de upgrade
+	UITextIcon* uiUpgradeCost;
+	int upgradeCost;
 
 	// Sonidos
 	SoundEffect* shotSound;

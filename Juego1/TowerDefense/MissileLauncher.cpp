@@ -17,6 +17,8 @@ MissileLauncher::MissileLauncher(string filename, float x, float y, float width,
 	// Valores "y" de los dos cañones
 	this->upgradedYCannonOffsets[0] = -10;
 	this->upgradedYCannonOffsets[1] = 10;
+
+	this->upgradeCost = 500; // Coste de Upgrade
 }
 
 void MissileLauncher::upgrade()

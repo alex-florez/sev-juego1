@@ -40,8 +40,12 @@ Turret* ShopManager::purchase(float x, float y) {
 			this->purchasedTurret = factory->createTurret();
 			this->purchasedTurret->x = x;
 			this->purchasedTurret->y = y;
+			item->clickSound->play(); // Reproducir sonido
 		}
-	}
+		else {
+			item->wrongSound->play();
+		}
+	} 
 	return this->purchasedTurret;
 }
 

@@ -19,6 +19,8 @@ MG::MG(string filename, float x, float y, float width, float height, int cost, G
 	// Valores "y" de los dos cañones
 	this->upgradedYCannonOffsets[0] = -7;
 	this->upgradedYCannonOffsets[1] = 7;
+
+	this->upgradeCost = 300; // Coste de Upgrade
 }
 
 void MG::upgrade()

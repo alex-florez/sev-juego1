@@ -35,6 +35,7 @@ public:
 	void draw() override;
 	bool impactedBy(Projectile* projectile); // Enemigo recibe un impacto
 	void attack(Tower* tower); // El enemigo ataca a una torre.
+	bool infiltrated(); // Devuelve true si este enemigo se ha infiltrado, es decir se encuentra a la izquierda del render.
 
 	// Animaciones
 

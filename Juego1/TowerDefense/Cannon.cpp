@@ -19,6 +19,8 @@ Cannon::Cannon(string filename, float x, float y, float width, float height, int
 	// Valores "y" de los dos cañones
 	this->upgradedYCannonOffsets[0] = -10;
 	this->upgradedYCannonOffsets[1] = 10;
+
+	this->upgradeCost = 200; // Coste de Upgrade
 }
 
 void Cannon::upgrade()

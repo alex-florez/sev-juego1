@@ -13,8 +13,11 @@ Turret::Turret(string filename, float x, float y,
 
 	this->constructionAnimation = new Animation("res/smokeAnim.png", 56, 56, 392, 56, 1, 7, false, game);
 	this->canBeUpgradedAnimation = new Animation("res/blue_glow.png", 70, 70, 1330, 70, 1, 19, true, game);
+	this->upgradeAnimation = new Animation("res/pinkFlare.png", 100, 100, 2300, 100, 1, 23, false, game);
 
 	this->canBeUpgraded = false;
+	this->upgradeHasFinished = false;
+	this->uiUpgradeCost = new UITextIcon(x, y - this->height/2-10, 32, 30, 40, new RGB(0, 0, 0), "res/upgradeIcon.png", "", game);
 }
 
 void Turret::update(list<Enemy*>& enemies) {
@@ -41,7 +44,13 @@ void Turret::update(list<Enemy*>& enemies) {
 		if (finished) {
 			this->state = TurretState::BUILT;
 		}
-			
+	}
+	
+	// Actualizar animación de UPGRADE
+	if (this->state == TurretState::UPGRADED && !upgradeHasFinished) {
+		bool end = this->upgradeAnimation->update();
+		if (end)
+			this->upgradeHasFinished = true;
 	}
 
 	// Si la torreta puede mejorarse y no está en estado UPGRADED...
@@ -158,12 +167,24 @@ void Turret::draw() {
 	if (this->state == TurretState::BUILDING) {
 		this->constructionAnimation->draw(x, y);
 	}
-	// Animación de Upgrade
+
+	// Animación de Upgrade y UI label indicando el precio del UPGRADE
 	if (this->canBeUpgraded && this->state != TurretState::UPGRADED) {
 		this->canBeUpgradedAnimation->draw(x, y);
+		this->uiUpgradeCost->x = x - 20;
+		this->uiUpgradeCost->y = this->y - this->height / 2 - 30;
+		this->uiUpgradeCost->text->content = to_string(upgradeCost);
+		this->uiUpgradeCost->text->x = x + 20;
+		this->uiUpgradeCost->text->y = this->y - this->height / 2 - 30;
+		this->uiUpgradeCost->draw();
 	}
 
 	Actor::draw();
+
+	// Animación de Upgrade
+	if (this->state == TurretState::UPGRADED && !upgradeHasFinished) {
+		this->upgradeAnimation->draw(x, y);
+	}
 }
 
 

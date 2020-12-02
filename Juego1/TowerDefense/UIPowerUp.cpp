@@ -4,6 +4,8 @@ UIPowerUp::UIPowerUp(float x, float y, Game* game)
 	: Actor("res/slot.png", x, y, 50, 50, game)
 {
 	this->powerUp = nullptr;
+
+	this->clickSound = new SoundEffect("res/sounds/uiPickPowerup.wav");
 }
 
 void UIPowerUp::draw()

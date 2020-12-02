@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "TurretFactory.h"
 #include "Text.h"
+#include "SoundEffect.h"
 
 /// <summary>
 /// Clase que modela un icono de la interfaz de usuario
@@ -22,5 +23,10 @@ public:
 	TurretFactory* turretFactory;
 	Actor* turretIcon; // Icono que representa a este tipo de torreta.
 	Text* txtCost; // Elemento de texto que muesta el coste de este tipo de torretas.
+
+	// Sonidos
+	SoundEffect* validSound;
+	SoundEffect* wrongSound;
+	SoundEffect* clickSound;
 };
 

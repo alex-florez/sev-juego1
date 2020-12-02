@@ -2,6 +2,7 @@
 
 #include "Actor.h"
 #include "PowerUp.h"
+#include "SoundEffect.h"
 
 /// <summary>
 /// Clase que representa el slot de la UI que almacena
@@ -18,6 +19,9 @@ public:
 
 
 	PowerUp* powerUp; // Referencia al powerUp almacenado en este slot.
+
+	// Sonidos
+	SoundEffect* clickSound;
 
 };
 
