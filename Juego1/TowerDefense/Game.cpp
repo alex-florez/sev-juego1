@@ -20,9 +20,8 @@ Game::Game() {
 	gameLayer = new GameLayer(this);
 	menuLayer = new MenuLayer(this);
 
-	//layer = menuLayer; // Pantalla inicial MenuLayer
+	layer = menuLayer; // Pantalla inicial MenuLayer
 
-	layer = gameLayer;
 
 	// Fuentes de texto
 	TTF_Init();

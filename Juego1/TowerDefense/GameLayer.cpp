@@ -596,7 +596,7 @@ void GameLayer::pauseGame()
 	if (this->pause) this->pause = false;
 	else {
 		this->pause = true;
-		this->message = new Actor("res/mensaje_como_jugar.png", WIDTH * 0.5, HEIGHT * 0.5, WIDTH, HEIGHT, game);
+		this->message = new Actor("res/ComoJugar.png", WIDTH * 0.5, HEIGHT * 0.5, WIDTH, HEIGHT, game);
 	}
 }
 

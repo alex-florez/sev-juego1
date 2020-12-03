@@ -8,14 +8,28 @@ MenuLayer::MenuLayer(Game* game)
 }
 
 void MenuLayer::init() {
+	// Sonido
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096)) {
+		cout << "Error: " << Mix_GetError() << endl;
+	}
+
 	// Fondo normal sin velocidad
-	background = new Background("res/menu_fondo.png", WIDTH * 0.5, HEIGHT * 0.5, game);
-	button = new Actor("res/boton_jugar.png", WIDTH * 0.5, HEIGHT * 0.7, 232, 72, game);
+	background = new Background("res/TowerDefenseMenu.png", WIDTH * 0.5, HEIGHT * 0.5, game);
+	buttonJugar = new Actor("res/BotonJugar.png", WIDTH * 0.48, HEIGHT * 0.42, 150, 63, game);
+	buttonSalir = new Actor("res/BotonSalir.png", WIDTH * 0.48, HEIGHT * 0.54, 149, 62, game);
+	exit = false;
+	controlContinue = false;
+
+	// instanciar sonidos
+	this->jugarSound = new SoundEffect("res/sounds/menuJugarSound.wav");
+	this->exitSound = new SoundEffect("res/sounds/menuSalirSound.wav");
+
 }
 
 void MenuLayer::draw() {
 	background->draw();
-	button->draw();
+	buttonJugar->draw();
+	buttonSalir->draw();
 
 	SDL_RenderPresent(game->renderer);
 }
@@ -40,10 +54,16 @@ void MenuLayer::processControls() {
 		}
 
 		// Procesar controles
+		// Jugar
 		if (controlContinue) {
 			// Cambiar la capa
 			game->layer = game->gameLayer;
 			controlContinue = false;
+		}
+
+		// Salir del juego
+		if (exit) {
+			game->loopActive = false;
 		}
 	}
 }
@@ -74,8 +94,16 @@ void MenuLayer::mouseToControls(SDL_Event event) {
 
 	// Cada vez que hacen click
 	if (event.type == SDL_MOUSEBUTTONDOWN) {
-		if (button->containsPoint(motionX, motionY)) {
+		// Click sobre el botón de Jugar
+		if (buttonJugar->containsPoint(motionX, motionY)) {
 			controlContinue = true;
+			this->jugarSound->play();
+		}
+
+		// Click sobre el botón de Salir
+		if (buttonSalir->containsPoint(motionX, motionY)) {
+			exit = true;
+			this->exitSound->play();
 		}
 	}
 }
