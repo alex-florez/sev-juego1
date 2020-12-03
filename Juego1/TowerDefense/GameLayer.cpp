@@ -15,13 +15,11 @@ GameLayer::GameLayer(Game* game)
 	reset = false;
 	message = new Actor("res/mensaje_como_jugar.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
 	init();
+
+	backgroundMusic = Mix_LoadMUS("res/sounds/synthwave.mp3"); // Audio de fondo
 }
 
 void GameLayer::init() {
-	// Sonido
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096)) {
-		cout << "Error: " << Mix_GetError() << endl;
-	}
 
 	// Destruir posibles objetos existentes
 	delete player;
@@ -45,7 +43,7 @@ void GameLayer::init() {
 	this->mouseReleased = false;
 
 	this->selectedTurret = nullptr; // Torreta seleccionada con el ratón
-	backgroundMusic = Mix_LoadMUS("res/musica_ambiente.mp3"); // Audio de fondo
+
 	upgradeSound = new SoundEffect("res/sounds/upgrade.wav");
 
 	player = new Player(0, 0, game); // Jugador
@@ -56,7 +54,7 @@ void GameLayer::init() {
 	loadEntities();
 
 	// nº máximo de enemigos que se pueden colar a la izquierda.
-	this->maxInfiltratedEnemies = (int) (mapManager->getTotalNumberOfEnemies() / 2);
+	this->maxInfiltratedEnemies = (int) (mapManager->getTotalNumberOfEnemies() / 3);
 	this->infiltratedEnemies = 0;
 
 	// inicializar UI
@@ -76,7 +74,7 @@ void GameLayer::init() {
 
 	// Horda inicial
 	this->currentHorde = getNextHorde();
-	this->enemyGenerator->setNextHorde(this->currentHorde, 0); // Establecer la ronda inicial al generador de enemigos
+	this->enemyGenerator->setNextHorde(this->currentHorde, 20); // Establecer la ronda inicial al generador de enemigos
 	this->leftEnemies = this->currentHorde->totalNumberOfEnemies; // Enemigos restantes
 
 	this->gemGenerator = new GemGenerator(game); // Generador de gemas
@@ -381,6 +379,17 @@ void GameLayer::processControls() {
 		}
 	}
 
+
+	// Controles de música
+	if (toggleMusic) {
+		if (Mix_PausedMusic()) {
+			Mix_ResumeMusic();
+		}
+		else {
+			Mix_PauseMusic();
+		}
+		toggleMusic = false;
+	}
 }
 
 void GameLayer::keysToControls(SDL_Event event) {
@@ -395,6 +404,9 @@ void GameLayer::keysToControls(SDL_Event event) {
 			break;
 		case SDLK_1: // Tecla 1
 			game->scale();
+			break;
+		case SDLK_m: // Tecla 'm'
+			this->toggleMusic = true;
 			break;
 		}
 	}

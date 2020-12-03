@@ -2,8 +2,10 @@
 
 PowerUpInventory::PowerUpInventory(Game* game)
 {
-	slots.push_back(new UIPowerUp(0.1 * WIDTH, 0.92 * HEIGHT, game));
-	slots.push_back(new UIPowerUp(0.17 * WIDTH, 0.92 * HEIGHT, game));
+	slots.push_back(new UIPowerUp(0.06 * WIDTH, 0.92 * HEIGHT, game));
+	slots.push_back(new UIPowerUp(0.13 * WIDTH, 0.92 * HEIGHT, game));
+	slots.push_back(new UIPowerUp(0.20 * WIDTH, 0.92 * HEIGHT, game));
+
 }
 
 void PowerUpInventory::draw()

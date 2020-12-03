@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Audio.h"
 #include "Game.h"
 class Game;
 
@@ -12,6 +13,15 @@ public:
 	virtual void update() {};
 	virtual void draw() {};
 
+	/// <summary>
+	/// Reproduce la música de fondo asociada a este Layer
+	/// </summary>
+	virtual void playMusic();
+
 	Game* game;
+	// Background music
+	Mix_Music* backgroundMusic;
+	bool toggleMusic;
+
 };
 

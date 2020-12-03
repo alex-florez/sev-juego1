@@ -15,6 +15,7 @@ public:
 	void keysToControls(SDL_Event event);
 	void mouseToControls(SDL_Event event);
 
+
 	// Controles del menú
 	bool controlContinue;
 	bool exit;

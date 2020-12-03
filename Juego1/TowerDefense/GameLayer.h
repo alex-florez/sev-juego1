@@ -130,8 +130,6 @@ public:
 	list<PowerUp*> powerUps;
 	
 	// Sonido
-	// Background music
-	Mix_Music* backgroundMusic;
 	SoundEffect* upgradeSound;
 
 

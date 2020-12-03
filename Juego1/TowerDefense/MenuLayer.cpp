@@ -5,6 +5,8 @@ MenuLayer::MenuLayer(Game* game)
 	: Layer(game) {
 
 	init();
+	backgroundMusic = Mix_LoadMUS("res/sounds/menuSynthwave.mp3");
+	this->playMusic();
 }
 
 void MenuLayer::init() {
@@ -15,8 +17,8 @@ void MenuLayer::init() {
 
 	// Fondo normal sin velocidad
 	background = new Background("res/TowerDefenseMenu.png", WIDTH * 0.5, HEIGHT * 0.5, game);
-	buttonJugar = new Actor("res/BotonJugar.png", WIDTH * 0.48, HEIGHT * 0.42, 150, 63, game);
-	buttonSalir = new Actor("res/BotonSalir.png", WIDTH * 0.48, HEIGHT * 0.54, 149, 62, game);
+	buttonJugar = new Actor("res/BotonJugar.png", WIDTH * 0.49, HEIGHT * 0.38, 150, 63, game);
+	buttonSalir = new Actor("res/BotonSalir.png", WIDTH * 0.49, HEIGHT * 0.50, 149, 62, game);
 	exit = false;
 	controlContinue = false;
 
@@ -39,12 +41,16 @@ void MenuLayer::processControls() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		// Seleccionar tipo de entrada
+		if (event.type == SDL_QUIT)
+			this->exit = true;
+
 		if (event.type == SDL_KEYDOWN) {
 			game->input = GameInputType::KEYBOARD;
 		}
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
 			game->input = GameInputType::MOUSE;
 		}
+
 		// Procesar teclas
 		if (game->input == GameInputType::KEYBOARD) {
 			keysToControls(event);
@@ -58,12 +64,25 @@ void MenuLayer::processControls() {
 		if (controlContinue) {
 			// Cambiar la capa
 			game->layer = game->gameLayer;
+			Mix_HaltMusic();
+			game->layer->playMusic();
 			controlContinue = false;
 		}
 
 		// Salir del juego
 		if (exit) {
 			game->loopActive = false;
+		}
+
+		// Controles de música
+		if (toggleMusic) {
+			if (Mix_PausedMusic()) {
+				Mix_ResumeMusic();
+			}
+			else {
+				Mix_PauseMusic();
+			}
+			toggleMusic = false;
 		}
 	}
 }
@@ -83,7 +102,11 @@ void MenuLayer::keysToControls(SDL_Event event) {
 		case SDLK_SPACE:
 			controlContinue = true;
 			break;
+		case SDLK_m:
+			toggleMusic = true;
+			break;
 		}
+		
 	}
 }
 
