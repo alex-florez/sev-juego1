@@ -428,12 +428,6 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		this->mouseHold = true;
 	}
 
-	// Cada vez que se mueve
-	if (event.type == SDL_MOUSEMOTION) {
-		this->mouseClick = false;
-		this->mouseReleased = false;
-	}
-
 	// Cada vez que se levanta el click
 	if (event.type == SDL_MOUSEBUTTONUP) {
 		this->mouseClick = false;
