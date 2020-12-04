@@ -17,6 +17,8 @@ GameLayer::GameLayer(Game* game)
 	init();
 
 	backgroundMusic = Mix_LoadMUS("res/sounds/synthwave.mp3"); // Audio de fondo
+	
+	Mix_VolumeMusic(10); // Volumen de la música
 }
 
 void GameLayer::init() {
@@ -28,7 +30,7 @@ void GameLayer::init() {
 	destroyGems();
 	destroyPowerUps();
 
-	background = new Background("res/grass.jpg", WIDTH * 0.5, HEIGHT * 0.5, game); // Fondo										  
+	background = new Background("res/backgroundGrass.png", WIDTH * 0.5, HEIGHT * 0.5, game); // Fondo										  
 	mapManager = new MapManager(game);  // Map Manager
 	collisionEngine = new CollisionEngine(); // Collision engine
 	enemies.clear(); // Enemigos
@@ -110,7 +112,6 @@ void GameLayer::update() {
 
 	// Si se han destruido todas las torres o se han infiltrado demasiados enemigos... el jugador pierde
 	if (checkLoose()) { 
-		message = new Actor("res/mensaje_perder.png", WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT, game);
 		pause = true;
 		reset = true;
 		return;
@@ -647,8 +648,17 @@ void GameLayer::destroyPowerUps() {
 
 bool GameLayer::checkLoose()
 {
-	return this->towerManager->allDestroyed()
-		|| this->infiltratedEnemies >= this->maxInfiltratedEnemies;
+	bool loose = false;
+	if (this->towerManager->allDestroyed()) { // Todas las torres destruidas
+		loose = true;
+		this->message = new Actor("res/mensaje_perder_1.png", WIDTH * 0.5, HEIGHT * 0.5, WIDTH, HEIGHT, game);
+	}
+	else if (this->infiltratedEnemies >= this->maxInfiltratedEnemies) {
+		loose = true;
+		this->message = new Actor("res/mensaje_perder_2.png", WIDTH * 0.5, HEIGHT * 0.5, WIDTH, HEIGHT, game);
+	}
+	
+	return loose;
 }
 
 void GameLayer::initMaps() {

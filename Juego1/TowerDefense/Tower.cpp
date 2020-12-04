@@ -12,13 +12,13 @@ Tower::Tower(string filename, float x, float y, Game* game)
 	this->powerUpEffectAnimation = new Animation("res/GreenSlash.png", 64, 64, 256, 64, 1, 4, false, game);
 	this->healingAnimation = new Animation("res/healing_anim.png", 70, 70, 350, 70, 2, 5, false, game);
 
-	this->destroyedGround = new Actor("res/destroyedGround.png", x, y - 20, 70, 50, game);
+	this->destroyedGround = new Actor("res/destroyedGround.png", x, y - 20, 40, 40, game);
 	this->repairIcon = new UIRepairIcon(x, y-34, TOWER_REPAIR_COST, game);
 	this->applyingPowerUp = false;
 	this->isHealing = false;
 
-	this->hitSound = new SoundEffect("res/sounds/tower_hit.wav");
-	this->explosionSound = new SoundEffect("res/sounds/tower_explosion.wav");
+	// Instanciar el sonido de impacto, aunque realmente solo se reproduce el sonido de ataque de los enemigos.
+	this->hitSound = new SoundEffect("res/sounds/tower_hit.wav"); 
 }
 
 
@@ -76,5 +76,5 @@ void Tower::repair() {
 void Tower::hit(float damage)
 {
 	this->health -= damage;
-	this->hitSound->play();
+
 }

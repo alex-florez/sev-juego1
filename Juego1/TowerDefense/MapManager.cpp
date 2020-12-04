@@ -100,7 +100,7 @@ void MapManager::loadMapObject(char character, int i, int j) {
 		case '1':
 		case '2': 
 		case '3': {
-			Tile* tile = new Tile("res/caja_madera.png", x, y, game);
+			Tile* tile = new Tile("res/pathTile.png", x, y, game);
 			tile->y = tile->y - tile->height / 2;
 			pathTiles.push_back(tile);
 			int pathId = character - '0';

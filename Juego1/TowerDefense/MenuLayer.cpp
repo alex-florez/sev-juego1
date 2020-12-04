@@ -14,6 +14,8 @@ void MenuLayer::init() {
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096)) {
 		cout << "Error: " << Mix_GetError() << endl;
 	}
+	// Volumen
+	Mix_VolumeMusic(10);
 
 	// Fondo normal sin velocidad
 	background = new Background("res/TowerDefenseMenu.png", WIDTH * 0.5, HEIGHT * 0.5, game);

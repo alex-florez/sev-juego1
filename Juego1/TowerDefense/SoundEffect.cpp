@@ -3,6 +3,7 @@
 SoundEffect::SoundEffect(string filename)
 {
 	this->chunk = Mix_LoadWAV(filename.c_str());
+	Mix_Volume(-1, 25); // Volumen de los efectos
 }
 
 void SoundEffect::play()

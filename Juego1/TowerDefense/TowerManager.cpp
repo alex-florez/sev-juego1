@@ -3,6 +3,7 @@
 TowerManager::TowerManager(Game* game)
 {
 	this->game = game;
+	this->explosionSound = new SoundEffect("res/sounds/tower_explosion.wav");
 }
 
 void TowerManager::draw()
@@ -23,6 +24,7 @@ Tower* TowerManager::getTower(float x, float y)
 
 void TowerManager::add(int key, Tower* tower)
 {
+	tower->explosionSound = this->explosionSound;
 	this->towers[key] = tower;
 }
 

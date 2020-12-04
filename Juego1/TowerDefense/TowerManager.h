@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tower.h"
+#include "SoundEffect.h"
 
 #include <map>
 
@@ -19,5 +20,8 @@ public:
 
 	Game* game;
 	map<int, Tower*> towers;
+	
+	// Sonido de explosión de una torre compartido por todas las torres
+	SoundEffect* explosionSound;
 };
 
