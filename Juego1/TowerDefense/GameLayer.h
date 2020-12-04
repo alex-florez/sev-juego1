@@ -198,6 +198,14 @@ private:
 	/// </summary>
 	void pauseGame();
 
+
+	/// <summary>
+	/// Método invocado cuando se elimina a un enemigo, de forma
+	/// que existe una pequeña probabilidad de que suelte un powerup
+	/// o una gema.
+	/// </summary>
+	void createRandomItemAtEnemyDeath(float x, float y);
+
 	// Métodos para destruir actores
 	void destroyEnemies();
 	void destroyProjectiles();

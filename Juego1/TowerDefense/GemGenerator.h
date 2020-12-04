@@ -21,8 +21,23 @@ class GemGenerator
 {
 public:
 	GemGenerator(Game* game);
-	Gem* createGem();
 	
+	/// <summary>
+	/// Crea una gema de cualquier tipo, siempre que sea
+	/// el momento de crearla de acuerdo a los ticks.
+	/// </summary>
+	/// <returns></returns>
+	Gem* createGem();
+
+	/// <summary>
+	/// Crea una gema de cualquier tipo o no, en función
+	/// de una distribución aleatoria. Además la gema se crea en
+	/// la posición pasada como parámetro.
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
+	Gem* createRandomGemAt(float x, float y);
 
 private:
 	Game* game;
@@ -31,6 +46,7 @@ private:
 	int spawnFreqRange[2]; // Rango de frecuencia de creación
 
 	int getRandomInt(int a, int b);
+	Gem* createRandomGem();
 	float getRandomX();
 	float getRandomY();
 };

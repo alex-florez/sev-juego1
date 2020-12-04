@@ -22,6 +22,7 @@ class PowerUpGenerator
 public:
 	PowerUpGenerator(Game* game);
 	PowerUp* createPowerUp();
+	PowerUp* createRandomPowerUpAt(float x, float y);
 
 	int ticksUntilNextPowerUp;
 	Game* game;

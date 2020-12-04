@@ -135,6 +135,8 @@ void GameLayer::update() {
 		}
 		else if (enemy->state == Enemy::EnemyState::DEAD) { // Enemigo está muerto -> eliminarlo
 			markEnemyForDelete(enemy, deleteEnemies);
+			// Generar o no un powerup/gema
+			createRandomItemAtEnemyDeath(enemy->x, enemy->y);
 		}
 	}
 
@@ -605,6 +607,25 @@ void GameLayer::pauseGame()
 		this->pause = true;
 		this->message = new Actor("res/ComoJugar.png", WIDTH * 0.5, HEIGHT * 0.5, WIDTH, HEIGHT, game);
 	}
+}
+
+void GameLayer::createRandomItemAtEnemyDeath(float x, float y)
+{
+	
+	double rDouble = (double)rand() / RAND_MAX;
+
+	if (rDouble < 0.35) { // Probabilidad de que se genere un PowerUp: 35 %
+		PowerUp* pwu = this->powerUpGenerator->createRandomPowerUpAt(x, y);
+		if (pwu != nullptr) {
+			this->powerUps.push_back(pwu);
+		}
+	}
+	else { // Prob. de que se genere una gema: 65 %
+		Gem* gem = this->gemGenerator->createRandomGemAt(x, y);
+		if (gem != nullptr)
+			this->gems.push_back(gem);
+	}
+
 }
 
 void GameLayer::destroyEnemies() {

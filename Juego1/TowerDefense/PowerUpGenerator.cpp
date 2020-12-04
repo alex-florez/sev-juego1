@@ -32,6 +32,27 @@ PowerUp* PowerUpGenerator::createPowerUp() {
 	return pwu;
 }
 
+PowerUp* PowerUpGenerator::createRandomPowerUpAt(float x, float y)
+{
+	PowerUp* pwu = nullptr;
+	double rDouble = (double)rand() / RAND_MAX;
+
+	if (rDouble < 0.2) { // Distribución aleatoria: 20 % de probabilidades de que se genere un powerUp
+		int randomAliveTicks = randomInt(POWER_UP_MIN_ALIVE_TICKS, POWER_UP_MAX_ALIVE_TICKS);
+		switch (randomType())
+		{
+		case 'M':
+			pwu = new MedKit(x, y, randomAliveTicks, game);
+			break;
+		case 'T':
+			pwu = new ToolKit(x, y, randomAliveTicks, game);
+			break;
+		}
+	}
+
+	return pwu;
+}
+
 int PowerUpGenerator::randomInt(int a, int b)
 {
 	return rand() % (b - a + 1) + a;
