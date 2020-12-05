@@ -15,7 +15,7 @@ Orc::Orc(float x, float y, float speed, Game* game)
 
 	// Características del enemigo
 	this->attackPower = 40;
-	this->health = 240;
+	this->health = 230;
 
 	this->hitSound = new SoundEffect("res/sounds/orchit.wav");
 

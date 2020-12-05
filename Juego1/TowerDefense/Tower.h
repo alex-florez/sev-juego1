@@ -6,7 +6,7 @@
 #include "UIRepairIcon.h"
 #include "SoundEffect.h"
 
-#define TOWER_REPAIR_COST 800
+#define TOWER_REPAIR_COST 550
 #define TOWER_INITIAL_HEALTH 100
 
 /// <summary>

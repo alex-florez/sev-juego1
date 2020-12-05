@@ -15,7 +15,7 @@ void MenuLayer::init() {
 		cout << "Error: " << Mix_GetError() << endl;
 	}
 	// Volumen
-	Mix_VolumeMusic(10);
+	Mix_VolumeMusic(20);
 
 	// Fondo normal sin velocidad
 	background = new Background("res/TowerDefenseMenu.png", WIDTH * 0.5, HEIGHT * 0.5, game);

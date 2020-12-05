@@ -131,6 +131,7 @@ public:
 	
 	// Sonido
 	SoundEffect* upgradeSound;
+	SoundEffect* repairSound;
 
 
 

@@ -63,7 +63,7 @@ void Game::scale() {
 		SDL_DisplayMode PCdisplay;
 		SDL_GetCurrentDisplayMode(0, &PCdisplay);
 		float scaleX = (float)PCdisplay.w / (float)WIDTH;
-		float scaleY = (float)PCdisplay.h / (float)HEIGHT;
+		float scaleY = ((float)PCdisplay.h - 80)/ (float)HEIGHT; // Restamos 80 de la barra inferior, para que no tape al juego
 		// Nos quedamos con la menor  de las dos escalas para no deformar el juego.
 		scaleLower = scaleX;
 		if (scaleY < scaleX) {

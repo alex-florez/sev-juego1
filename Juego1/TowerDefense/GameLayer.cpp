@@ -46,7 +46,9 @@ void GameLayer::init() {
 
 	this->selectedTurret = nullptr; // Torreta seleccionada con el ratón
 
+	// Sonidos
 	upgradeSound = new SoundEffect("res/sounds/upgrade.wav");
+	repairSound = new SoundEffect("res/sounds/repair.wav");
 
 	player = new Player(0, 0, game); // Jugador
 	this->shopManager = new ShopManager(player, game); 	// Gestor de compra
@@ -311,6 +313,7 @@ void GameLayer::processControls() {
 			if (player->availableResources >= TOWER_REPAIR_COST) {
 				this->player->availableResources -= TOWER_REPAIR_COST;
 				clickedTower->repair(); // Reparar una torre
+				this->repairSound->play(); // Sonido de reparación
 			}
 		}
 
