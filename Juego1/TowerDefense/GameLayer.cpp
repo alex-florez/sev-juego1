@@ -283,7 +283,6 @@ void GameLayer::processControls() {
 
 	// Botón izquierdo del ratón pulsado
 	if (mouseClick) {
-		cout << "Mouse clicked!" << endl;
 		if (pause) { // Si el juego estaba en pausa, continuar
 			pause = false;
 			if (reset) { // Comprobar si hay que resetear
@@ -352,7 +351,6 @@ void GameLayer::processControls() {
 		
 	// Botón izquierdo del ratón suelto
 	if (mouseReleased) {
-		cout << "Mouse released!" << endl;
 		// Torreta
 		this->constructionManager->construct(mouseX, mouseY, this->selectedTurret);
 		this->selectedTurret = nullptr;
@@ -373,7 +371,6 @@ void GameLayer::processControls() {
 	
 	// Botón izquierdo del ratón presionado
 	if (mouseHold) {
-		cout << "Mouse hold!" << endl;
 		if (this->selectedTurret != nullptr) {
 			this->selectedTurret->x = this->mouseX;
 			this->selectedTurret->y = this->mouseY;
