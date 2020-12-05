@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "MGBulletFactory.h"
 
-#define MG_KILLED_ENEMIES_FOR_UPGRADE 2
+#define MG_KILLED_ENEMIES_FOR_UPGRADE 4
 
 /// <summary>
 /// Clase que representa una ametralladora ligera.

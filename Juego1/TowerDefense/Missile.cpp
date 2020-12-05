@@ -1,7 +1,7 @@
 #include "Missile.h"
 
 Missile::Missile(float x, float y, Game* game)
-	: Projectile("res/turrets/missileLauncher/Missile.png", 23, 13, 13, 55, x, y, game)
+	: Projectile("res/turrets/missileLauncher/Missile.png", 23, 13, 15, 55, x, y, game)
 {
 	this->flames = new Animation("res/rocket_effect.png", 50, 50, 500, 50, 1, 10, true, game);
 	this->hitSound = new SoundEffect("res/sounds/missile_explosion.wav");

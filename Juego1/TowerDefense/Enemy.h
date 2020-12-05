@@ -55,6 +55,9 @@ public:
 	Animation* animation; // Referencia a la animación actual.
 	Orientation orientation; // Orientación actual.
 
+	// Recursos obtenidos al matar a este enemigo.
+	int killResources;
+
 	int attackFrequency; // Frecuencia de ataque del enemigo
 	int attackPower; // Poder de ataque
 	int ticksUntilNextAttack; // Ticks hasta efectuar el siguiente ataque.
@@ -63,6 +66,8 @@ public:
 	Tower* targetTower; // Referencia a la torre a la que está atacando este enemigo.
 
 	EnemyState state; // Estado del enemigo.
+
+
 
 	// Sonidos
 	SoundEffect* hitSound;

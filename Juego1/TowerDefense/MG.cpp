@@ -6,7 +6,7 @@ MG::MG(string filename, float x, float y, float width, float height, int cost, G
 
 	this->projectileFactory = new MGBulletFactory(game);
 	// Características de la torreta
-	this->shootCadency = 7;
+	this->shootCadency = 6;
 	this->xDetectionRange = 2;
 	this->yDetectionRange = 2;
 	this->killedEnemiesForUpgrade = MG_KILLED_ENEMIES_FOR_UPGRADE;
@@ -20,7 +20,7 @@ MG::MG(string filename, float x, float y, float width, float height, int cost, G
 	this->upgradedYCannonOffsets[0] = -7;
 	this->upgradedYCannonOffsets[1] = 7;
 
-	this->upgradeCost = 300; // Coste de Upgrade
+	this->upgradeCost = 350; // Coste de Upgrade
 }
 
 void MG::upgrade()
@@ -30,6 +30,10 @@ void MG::upgrade()
 	this->height = 40;
 	this->fileWidth = 44;
 	this->fileHeight = 40;
+	// Mejorar cadencia y área de efecto
+	this->shootCadency -= 2;
+	this->xDetectionRange += 2;
+	this->yDetectionRange += 2;
 	// Cambiar el estado
 	this->state = TurretState::UPGRADED;
 }

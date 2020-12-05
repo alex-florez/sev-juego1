@@ -137,6 +137,10 @@ void MapManager::parseConfigLine(string line) {
 	int minSpawnFreq = 70;
 	for (auto const& d : data) {
 		queue<char> enemySequence = getCharQueue(d);
+		if (maxSpawnFreq <= 0 || minSpawnFreq <= 0) {
+			minSpawnFreq = 10;
+			maxSpawnFreq = 20;
+		}
 		this->hordes.push(new Horde(index, enemySequence, enemySequence.size(), minSpawnFreq, maxSpawnFreq));
 		index++;
 		maxSpawnFreq -= 25;

@@ -61,6 +61,12 @@
     <Filter Include="Archivos de encabezado\Generators">
       <UniqueIdentifier>{35c8d54d-a0ae-43dd-a6a1-62115f0a7949}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Gems">
+      <UniqueIdentifier>{1f924ed0-f1be-40d6-9df3-7ca764f21f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Gems">
+      <UniqueIdentifier>{dc1581e6-fec8-4443-a17e-8ec8eb07c325}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -141,18 +147,6 @@
     <ClCompile Include="EnemyFactory.cpp">
       <Filter>Archivos de origen\Enemigos</Filter>
     </ClCompile>
-    <ClCompile Include="Gem.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="BlueGem.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="YellowGem.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="MagentaGem.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyGenerator.cpp">
       <Filter>Archivos de origen\Generators</Filter>
     </ClCompile>
@@ -188,9 +182,6 @@
     </ClCompile>
     <ClCompile Include="UIPowerUp.cpp">
       <Filter>Archivos de origen\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerUpInventory.cpp">
-      <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="UIRepairIcon.cpp">
       <Filter>Archivos de origen\UI</Filter>
@@ -263,6 +254,21 @@
     </ClCompile>
     <ClCompile Include="TowerManager.cpp">
       <Filter>Archivos de origen\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUpInventory.cpp">
+      <Filter>Archivos de origen\Mejoras</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGem.cpp">
+      <Filter>Archivos de origen\Gems</Filter>
+    </ClCompile>
+    <ClCompile Include="Gem.cpp">
+      <Filter>Archivos de origen\Gems</Filter>
+    </ClCompile>
+    <ClCompile Include="MagentaGem.cpp">
+      <Filter>Archivos de origen\Gems</Filter>
+    </ClCompile>
+    <ClCompile Include="YellowGem.cpp">
+      <Filter>Archivos de origen\Gems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,18 +347,6 @@
     <ClInclude Include="EnemyFactory.h">
       <Filter>Archivos de encabezado\Enemigos</Filter>
     </ClInclude>
-    <ClInclude Include="Gem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueGem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="YellowGem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="MagentaGem.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="GemGenerator.h">
       <Filter>Archivos de encabezado\Generators</Filter>
     </ClInclude>
@@ -388,9 +382,6 @@
     </ClInclude>
     <ClInclude Include="UIPowerUp.h">
       <Filter>Archivos de encabezado\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUpInventory.h">
-      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="UIRepairIcon.h">
       <Filter>Archivos de encabezado\UI</Filter>
@@ -463,6 +454,21 @@
     </ClInclude>
     <ClInclude Include="TowerManager.h">
       <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Gem.h">
+      <Filter>Archivos de encabezado\Gems</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGem.h">
+      <Filter>Archivos de encabezado\Gems</Filter>
+    </ClInclude>
+    <ClInclude Include="MagentaGem.h">
+      <Filter>Archivos de encabezado\Gems</Filter>
+    </ClInclude>
+    <ClInclude Include="YellowGem.h">
+      <Filter>Archivos de encabezado\Gems</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpInventory.h">
+      <Filter>Archivos de encabezado\Mejoras</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

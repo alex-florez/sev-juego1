@@ -6,8 +6,8 @@ MissileLauncher::MissileLauncher(string filename, float x, float y, float width,
 	this->projectileFactory = new MissileFactory(game);
 	// Características de la torreta
 	this->shootCadency = 60;
-	this->xDetectionRange = 6;
-	this->yDetectionRange = 6;
+	this->xDetectionRange = 5;
+	this->yDetectionRange = 5;
 	this->killedEnemiesForUpgrade = MISSILE_LAUNCHER_KILLED_ENEMIES_FOR_UPGRADE;
 
 	this->shotSound = new SoundEffect("res/sounds/missile_launch.wav");
@@ -18,7 +18,7 @@ MissileLauncher::MissileLauncher(string filename, float x, float y, float width,
 	this->upgradedYCannonOffsets[0] = -10;
 	this->upgradedYCannonOffsets[1] = 10;
 
-	this->upgradeCost = 500; // Coste de Upgrade
+	this->upgradeCost = 450; // Coste de Upgrade
 }
 
 void MissileLauncher::upgrade()
@@ -28,6 +28,10 @@ void MissileLauncher::upgrade()
 	this->height = 44;
 	this->fileWidth = 44;
 	this->fileHeight = 44;
+	// Mejorar cadencia y área de efecto
+	this->shootCadency -= 15;
+	this->xDetectionRange++;
+	this->yDetectionRange++;
 	// Cambiar el estado
 	this->state = TurretState::UPGRADED;
 }

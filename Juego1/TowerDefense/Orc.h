@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemy.h"
 
+#define ORC_KILL_RESOURCES 100
+
 /// <summary>
 /// Enemigo que representa un Orco.
 /// </summary>

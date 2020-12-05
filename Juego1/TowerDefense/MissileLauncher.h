@@ -2,7 +2,7 @@
 #include "Turret.h"
 #include "MissileFactory.h"
 
-#define MISSILE_LAUNCHER_KILLED_ENEMIES_FOR_UPGRADE 2
+#define MISSILE_LAUNCHER_KILLED_ENEMIES_FOR_UPGRADE 6
 
 /// <summary>
 /// Clase que representa un lanzacohetes.

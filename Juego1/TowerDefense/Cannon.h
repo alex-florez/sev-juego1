@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "BulletProjectileFactory.h"
 
-#define CANNON_KILLED_ENEMIES_FOR_UPGRADE 2
+#define CANNON_KILLED_ENEMIES_FOR_UPGRADE 3
 
 /// <summary>
 /// Clase que representa un Cañón.

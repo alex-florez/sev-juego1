@@ -15,8 +15,9 @@ Mummy::Mummy(float x, float y, float speed, Game* game)
 
 	// Características del enemigo
 	this->attackPower = 12;
-	this->health = 100;
+	this->health = 120;
 
 	this->hitSound = new SoundEffect("res/sounds/crack07.wav");
 
+	this->killResources = MUMMY_KILL_RESOURCES;
 }

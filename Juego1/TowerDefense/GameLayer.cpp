@@ -18,7 +18,7 @@ GameLayer::GameLayer(Game* game)
 
 	backgroundMusic = Mix_LoadMUS("res/sounds/synthwave.mp3"); // Audio de fondo
 	
-	Mix_VolumeMusic(10); // Volumen de la música
+	Mix_VolumeMusic(20); // Volumen de la música
 }
 
 void GameLayer::init() {

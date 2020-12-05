@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemy.h"
 
+#define EXECUTIONER_KILL_RESOURCES 150
+
 class Executioner : public Enemy
 {
 public:

@@ -45,7 +45,7 @@ void CollisionEngine::update() {
 				&& !projectile->impacted) { // Si el proyectil ya había impactado, entonces ya no debe tener efecto sobre el enemigo
 				if (enemy->impactedBy(projectile)) {
 					// Si ha muerto el enemigo...
-					player->addResources(PLAYER_KILL_RESOURCES); // Incrementar recursos del jugador por haber eliminado al enemigo.
+					player->addResources(enemy->killResources); // Incrementar recursos del jugador por haber eliminado al enemigo.
 					player->killedEnemiesInActualHorde++;
 					Turret* parentTurret = getTurretById(projectile->turretId);
 					parentTurret->killedEnemies++; // Incrementar el nº de enemigos eliminados por la torreta que disparó el proyectil.
